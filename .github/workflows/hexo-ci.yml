@@ -1,5 +1,5 @@
 # workflow name
-name: Hexo Blog CI
+name: Hexo CI
 
 # master branch on push, auto run
 on: 
@@ -8,9 +8,9 @@ on:
       - hexo-source
       
 jobs:
-  build: 
-    runs-on: ubuntu-latest 
-        
+  build:
+    runs-on: ubuntu-latest
+    
     steps:
     # check it to your workflow can access it
     # from: https://github.com/actions/checkout
@@ -22,12 +22,12 @@ jobs:
       uses: actions/setup-node@master
       with:
         node-version: "12.x"
-    
+        
     - name: Setup Hexo Dependencies
       run: |
         npm install hexo-cli -g
-        npm install        
-    
+        npm install
+        
     - name: Setup Deploy Private Key
       env:
         HEXO_DEPLOY_PRIVATE_KEY: ${{ secrets.HEXO_DEPLOY_PRIVATE_KEY }}
@@ -36,11 +36,12 @@ jobs:
         echo "$HEXO_DEPLOY_PRIVATE_KEY" > ~/.ssh/id_rsa 
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
-                
+        
     - name: Setup Git Infomation
-      run: | 
+      run: |
         git config --global user.name 'jiesou' 
         git config --global user.email 'jiechushou@gmail.com'
+        
     - name: Deploy Hexo 
       run: |
         hexo clean
