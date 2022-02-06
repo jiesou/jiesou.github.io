@@ -15,6 +15,7 @@ Lua 只能获取单个文件大小，且常规获取文件夹属性、大小的�
 
 以下代码
 
+```lua
 import"java.io.File"--Java 文件接口库
 import "android.text.format.Formatter"-- 格式化大小库
 function FormatFileSize(size)--格式化文件大小
@@ -41,3 +42,4 @@ end
 
 --使用示例
 print(FormatFileSize(GetFolderSize('/sdcard/Download/')))
+```

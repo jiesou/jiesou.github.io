@@ -20,7 +20,7 @@ date: 2021-09-02 18:05:43
 自带写作风格分为普通、言情、纯爱和玄幻，其中普通又分为 0 号推进剧情模式和 1 号细节模式（大概就是平凡模式和激进模式）  
 之后好像还能定制模型
 
-[![](https://z3.ax1x.com/2021/09/02/hr5Dvd.png)](https://z3.ax1x.com/2021/09/02/hr5Dvd.png)
+![彩云小梦写的文章](https://z3.ax1x.com/2021/09/02/hr5Dvd.png)
 
 就目前这个彩云小梦比[夸克AI续写](https://spread.sm.cn/education/aiwriting/home#/)厉害的多。现在训练完自己的模型，之后大概是要收费的（我猜一年 500-800？）
 
@@ -28,24 +28,24 @@ date: 2021-09-02 18:05:43
 
 具体原理的话应该和 [Github Copilot](https://copilot.github.com) 一样都是 GPT-2 用了大量网文训练
 
-[![](https://z3.ax1x.com/2021/09/02/hr7zY6.png)](https://z3.ax1x.com/2021/09/02/hr7zY6.png)
+![彩云小梦写的文章](https://z3.ax1x.com/2021/09/02/hr7zY6.png)
 
 现在的能力大概就是整活了吧。也许对一些网文作者有一些帮助
 
 感觉连帮你水作文都不行，经常会写到一些毫不相干的东西
 
-[![](https://z3.ax1x.com/2021/09/02/hrxrYd.png)](https://z3.ax1x.com/2021/09/02/hrxrYd.png)
+![彩云小梦写的文章](https://z3.ax1x.com/2021/09/02/hrxrYd.png)
 
 经常写出无限粘贴
 
-[![](https://z3.ax1x.com/2021/09/02/hr5sKA.png)](https://z3.ax1x.com/2021/09/02/hr5sKA.png)
+![彩云小梦写的文章](https://z3.ax1x.com/2021/09/02/hr5sKA.png)
 
 并没有什么特别的
 
-[![](https://z3.ax1x.com/2021/09/02/hrxsfA.png)](https://z3.ax1x.com/2021/09/02/hrxsfA.png)
+![彩云小梦写的文章](https://z3.ax1x.com/2021/09/02/hrxsfA.png)
 
 叔叔是干什么了被这样迫害🥵
 
-[![](https://z3.ax1x.com/2021/09/02/hrx6SI.png)](https://z3.ax1x.com/2021/09/02/hrx6SI.png)
+![彩云小梦写的文章](https://z3.ax1x.com/2021/09/02/hrx6SI.png)
 
 ？？？？？？？

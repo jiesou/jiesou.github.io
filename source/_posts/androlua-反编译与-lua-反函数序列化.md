@@ -19,52 +19,52 @@ date: 2022-01-04 17:15:38
 
 先安装工具包内的 ExaGear ED302\_3.0.2.apk（ExaGear 能在安卓环境下运行 exe，需要存储权限）点击侧滑栏“环境管理”点击右上角的 + 新建一个环境（wine 环境）
 
-[![](https://s4.ax1x.com/2022/01/04/TLrZQg.jpg)](https://s4.ax1x.com/2022/01/04/TLrZQg.jpg)
+![新建环境](https://s4.ax1x.com/2022/01/04/TLrZQg.jpg)
 
 使用文件管理器打开 /sdcard（内部存储根目录）/ExaGear/ 文件夹，将工具包内 ExaGear 文件夹中的全部内容复制过去
 
-[![](https://s4.ax1x.com/2022/01/04/TLyVbj.jpg)](https://s4.ax1x.com/2022/01/04/TLyVbj.jpg)
+![复制 LuaTool.exe 和文件夹](https://s4.ax1x.com/2022/01/04/TLyVbj.jpg)
 
 然后将你需要反序列化的 lua 文件放到 src 文件夹下
 
-[![](https://s4.ax1x.com/2022/01/04/TLcEAs.jpg)](https://s4.ax1x.com/2022/01/04/TLcEAs.jpg)
+![放 lua 文件](https://s4.ax1x.com/2022/01/04/TLcEAs.jpg)
 
 本工具包已经内置了一个测试文件
 
 返回 ExaGear 应用，启动刚才创建的环境
 
-[![](https://s4.ax1x.com/2022/01/04/TLcVNn.jpg)](https://s4.ax1x.com/2022/01/04/TLcVNn.jpg)
+![启动环境](https://s4.ax1x.com/2022/01/04/TLcVNn.jpg)
 
 等待环境启动，双击打开 LuaTool.exe
 
-[![](https://s4.ax1x.com/2022/01/04/TLcn3V.jpg)](https://s4.ax1x.com/2022/01/04/TLcn3V.jpg)
+![运行 LuaTool.exe](https://s4.ax1x.com/2022/01/04/TLcn3V.jpg)
 
-可以双指手势缩放
+> 可以双指手势缩放
 
 弹出一个批处理窗口后会闪退，是正常现象
 
 查看 /sdcard/ExaGear/dst/ 文件夹，已经创建了与 src 文件夹同名的一个操作码文件，此时已经可以看见部分代码内容
 
-[![](https://s4.ax1x.com/2022/01/04/TLcucT.jpg)](https://s4.ax1x.com/2022/01/04/TLcucT.jpg)
+![操作码文件](https://s4.ax1x.com/2022/01/04/TLcucT.jpg)
 
 现在安装工具包中的 TDecompile\_1.3.apk（可以将操作码处理为可读的代码）点击右下角 + 选择文件
 
-[![](https://s4.ax1x.com/2022/01/04/TLcQuF.jpg)](https://s4.ax1x.com/2022/01/04/TLcQuF.jpg)
+![选择文件](https://s4.ax1x.com/2022/01/04/TLcQuF.jpg)
 
 选择刚才的操作码文件
 
-[![](https://s4.ax1x.com/2022/01/04/TLcKjU.jpg)](https://s4.ax1x.com/2022/01/04/TLcKjU.jpg)
+![选择](https://s4.ax1x.com/2022/01/04/TLcKjU.jpg)
 
 会提示“该脚本可能不是合法的的lua52脚本，是否继续？”点击“继续”即可
 
-[![](https://s4.ax1x.com/2022/01/04/TLc1HJ.jpg)](https://s4.ax1x.com/2022/01/04/TLc1HJ.jpg)
+![提示对话框](https://s4.ax1x.com/2022/01/04/TLc1HJ.jpg)
 
 默认会选中全部指令，点击右下角“反编译”即可
 
-[![](https://s4.ax1x.com/2022/01/04/TLc8E9.jpg)](https://s4.ax1x.com/2022/01/04/TLc8E9.jpg)
+![反编译](https://s4.ax1x.com/2022/01/04/TLc8E9.jpg)
 
 此时 /sdcard/ExaGear/dst/ 文件夹下，可以看到 \[反\]test.lua 代码文件，已经基本可读
 
-[![](https://s4.ax1x.com/2022/01/04/TLcGNR.jpg)](https://s4.ax1x.com/2022/01/04/TLcGNR.jpg)
+![反序列化后的源代码](https://s4.ax1x.com/2022/01/04/TLcGNR.jpg)
 
 通常除了局部变量名、Context以及注释，大部分代码都有着极高的可读性，基本可以直接运行。可读性与源代码相关，如果源代码使用了大量非 ASCII 变量、函数名、布局编写不规范等则可能需要一定程度的修复

@@ -24,6 +24,7 @@ CloudflareWorkers 有一个在线 IDE，操作很方便。以下是代码，只�
 
 > 怎么创建项目之类的问题自己百度
 
+```js
 addEventListener("fetch", (event) => {
   event.respondWith(
     handleRequest(event.request).catch(
@@ -31,7 +32,6 @@ addEventListener("fetch", (event) => {
     )
   );
 });
-
 
 
 /\*\*
@@ -69,3 +69,4 @@ async function handleRequest() {
 addEventListener("fetch", event => {
   return event.respondWith(handleRequest())
 })
+```

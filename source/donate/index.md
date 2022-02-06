@@ -8,15 +8,15 @@ comments: false
 date: 2000-01-01 08:00:00
 ---
 
-[![](https://www.jiecs.top/wp-content/uploads/2021/09/pay1306898834988211505.jpg)](https://www.jiecs.top/wp-content/uploads/2021/09/pay1306898834988211505.jpg)
+![扫码支付](https://www.jiecs.top/wp-content/uploads/2021/09/pay1306898834988211505.jpg)
 
-**支付宝扫码红包**
+### 支付宝扫码红包
 
 搜索 _712254276_ 或 点击 [链接](https://qr.alipay.com/11w12861oax89w30fn98p36) 或 扫码
 
 [![](https://www.jiecs.top/wp-content/uploads/2021/10/IMG_20211009_195507.png)](https://www.jiecs.top/wp-content/uploads/2021/10/IMG_20211009_195507.png)
 
-**以下推广优惠链接**
+## 推广优惠链接（AFF）
 
 **\[城通网盘-云存储服务\]**  
 [https://www.ctfile.com/linker/32856022](https://www.ctfile.com/linker/32856022)

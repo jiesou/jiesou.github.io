@@ -8,7 +8,7 @@ categories:
 date: 2021-08-28 09:04:21
 ---
 
-# 说明
+## 说明
 
 **版本：**  
 1.17.1、1.17、1.16.5
@@ -32,7 +32,7 @@ ComplementaryShaders 设置页无汉化-----光影设置使用频率又不高,OC
 开启F3时帧率可能有损失-----不要用F3看帧率  
 箱子没有打开关闭动画-----禁用箱子优化即可
 
-# 内容列表
+## 内容列表
 
 **提示：**  
 点击左上角三横杠查看目录，更清楚
@@ -497,7 +497,7 @@ ComplementaryShaders 4.1
 
 默认启用
 
-# 下载
+## 下载
 
 [城通网盘](http://ctpan.jiecs.top/f/32856022-509626474-886428) [OneDrive](https://jiecs-my.sharepoint.com/:u:/g/personal/i_jiecs_onmicrosoft_com/EbmDZRFVOYZBgQATcW2pw_cBbd0OqeZUSDdG0Y0M6whYDw?e=CcWyu1) 1.38G 包括了所有版本 正常网络,多线程速度不会差太多
 

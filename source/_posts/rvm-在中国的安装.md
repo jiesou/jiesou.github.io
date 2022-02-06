@@ -16,6 +16,7 @@ CentOS 7 服务器要用到 Rush，就装 [RVM](http://rvm.io)
 
 折腾了一天，终于在 Github 找到了 [Amberwudi/my\_rvm\_installer](https://github.com/Amberwudi/my_rvm_installer)
 
+```bash
 \[root@ ~\]# curl -sSL http://qiniu.forqian.cn/rvm-installer.txt  bash -s stable
 Downloading http://qiniu.forqian.cn/blue\_dream\_tools/my\_rvm\_installer/1.29.12.tar.gz
 Downloading http://qiniu.forqian.cn/blue\_dream\_tools/my\_rvm\_installer/1.29.12.tar.gz.asc
@@ -36,5 +37,6 @@ Thanks for installing RVM 🙏
 Please consider donating to our open collective to help us maintain RVM.
 
 👉  Donate: https://opencollective.com/rvm/donate
+```
 
 感谢这位 [Amberwudi](https://github.com/Amberwudi) ！！！

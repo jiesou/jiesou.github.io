@@ -19,6 +19,7 @@ AndroLua 很实用的代码，打包成了函数。可以用在 FusionApp 等 An
 
 例如 alpha(button,250,true) 就是将控件 ID 为 button 的控件通过 250 毫秒的透明度动画隐藏
 
+```lua
 import "android.animation.ObjectAnimator"
 
 function alpha(id,time,i)
@@ -34,3 +35,4 @@ function alpha(id,time,i)
     end)
   end
 end
+```

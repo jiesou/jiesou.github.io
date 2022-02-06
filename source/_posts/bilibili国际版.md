@@ -10,6 +10,6 @@ date: 2021-09-06 06:42:18
 
 这是个什么东西？
 
-https://play.google.com/store/apps/details?id=com.bstar.intl
+<https://play.google.com/store/apps/details?id=com.bstar.intl>
 
-![](https://z3.ax1x.com/2021/09/06/hfNdjP.jpg)
+![Bilibili Play 东南亚版](https://z3.ax1x.com/2021/09/06/hfNdjP.jpg)

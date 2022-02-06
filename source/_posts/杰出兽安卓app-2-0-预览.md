@@ -17,22 +17,22 @@ date: 2021-11-26 17:57:20
 
 首页文章列表等：
 
-[![](https://z3.ax1x.com/2021/11/26/oV6zw9.jpg)](https://z3.ax1x.com/2021/11/26/oV6zw9.jpg)
+![首页文章列表](https://z3.ax1x.com/2021/11/26/oV6zw9.jpg)
 
 菜单页：
 
-[![](https://z3.ax1x.com/2021/11/26/oV6XyF.jpg)](https://z3.ax1x.com/2021/11/26/oV6XyF.jpg)
+![菜单页](https://z3.ax1x.com/2021/11/26/oV6XyF.jpg)
 
-[![](https://z3.ax1x.com/2021/11/26/oV6OQU.jpg)](https://z3.ax1x.com/2021/11/26/oV6OQU.jpg)
+![](https://z3.ax1x.com/2021/11/26/oV6OQU.jpg)
 
 关于页：
 
-[![](https://z3.ax1x.com/2021/11/26/oV6bWV.jpg)](https://z3.ax1x.com/2021/11/26/oV6bWV.jpg)
+![菜单页 - 检查应用更新设置对话框](https://z3.ax1x.com/2021/11/26/oV6bWV.jpg)
 
 快开发完毕的功能：
 
-[![](https://z3.ax1x.com/2021/11/26/oV6HJ0.jpg)](https://z3.ax1x.com/2021/11/26/oV6HJ0.jpg)
+![关于页](https://z3.ax1x.com/2021/11/26/oV6HJ0.jpg)
 
-[![](https://z3.ax1x.com/2021/11/26/oV6qzT.jpg)](https://z3.ax1x.com/2021/11/26/oV6qzT.jpg)
+![网络热词查询](https://z3.ax1x.com/2021/11/26/oV6qzT.jpg)
 
-[![](https://z3.ax1x.com/2021/11/26/oV67iq.jpg)](https://z3.ax1x.com/2021/11/26/oV67iq.jpg)
+![随便看看（一言瀑布流）](https://z3.ax1x.com/2021/11/26/oV67iq.jpg)

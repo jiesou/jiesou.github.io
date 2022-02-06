@@ -48,9 +48,9 @@ webView.setWebViewClient(luajava.override(WebViewClient,{
 
 有几点需要注意：
 
-1.  可以根据自己的使用需求添加监听事件，还能添加如资源加载、页面渲染等事件
-2.  onReceivedError、shouldOverrideUrlLoading 等事件返回的 webResourceRequest 可以获取该请求信息。如 onReceivedError 中可以使用 webResourceRequest.getUrl() 获取URL链接，需要注意的是，这里是不是当前 webView 的URL，而是“错误的URL”例如页面中的一张图片加载错误则返回错误的图片链接
-3.  onReceivedError 等事件返回的 webResourceError 可以获取该请求的错误信息。如使用 webResourceError.getErrorCode() 获取错误码，错误码与 WebViewClient 的常量值对应。onReceivedSslError 中应使用 sslError.getPrimaryError() 获取 SSL 错误原因
-4.  页面上的任何错误事件都会返回 onReceivedError 和相关事件，如果你要对错误事件做处理需要先用上文方法获取错误的链接进行匹配。否则即使页面中的任意一张小图片发生错误，甚至 GoogleAnalytics 等加载失败，都会报错
-5.  shouldOverrideUrlLoading 即将加载事件可以通过返回 true 来阻止本次加载 retrue true
-6.  使用 luajava.override 进行转接，每个返回值前方会返回一个父 class 的信息，即上代码中的“a”如不需要可以使用下划线虚变量
+1. 可以根据自己的使用需求添加监听事件，还能添加如资源加载、页面渲染等事件
+2. onReceivedError、shouldOverrideUrlLoading 等事件返回的 webResourceRequest 可以获取该请求信息。如 onReceivedError 中可以使用 webResourceRequest.getUrl() 获取URL链接，需要注意的是，这里是不是当前 webView 的URL，而是“错误的URL”例如页面中的一张图片加载错误则返回错误的图片链接
+3. onReceivedError 等事件返回的 webResourceError 可以获取该请求的错误信息。如使用 webResourceError.getErrorCode() 获取错误码，错误码与 WebViewClient 的常量值对应。onReceivedSslError 中应使用 sslError.getPrimaryError() 获取 SSL 错误原因
+4. 页面上的任何错误事件都会返回 onReceivedError 和相关事件，如果你要对错误事件做处理需要先用上文方法获取错误的链接进行匹配。否则即使页面中的任意一张小图片发生错误，甚至 GoogleAnalytics 等加载失败，都会报错
+5. shouldOverrideUrlLoading 即将加载事件可以通过返回 true 来阻止本次加载 retrue true
+6. 使用 luajava.override 进行转接，每个返回值前方会返回一个父 class 的信息，即上代码中的“a”如不需要可以使用下划线虚变量
