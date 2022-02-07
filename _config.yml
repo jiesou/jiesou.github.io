@@ -104,6 +104,10 @@ search:
   field: post
   content: true
 
+skip_render:
+  - admin/*
+  - JiecsAndroidApp/*
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
