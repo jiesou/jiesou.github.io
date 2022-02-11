@@ -1,4 +1,5 @@
 ---
+index_img: https://cdn.jsdelivr.net/gh/jiesou/Images@main/Markor/2022/02/383-%E7%89%B9%E8%89%B2%E5%9B%BE%E7%89%87-MFWL%E5%85%8D%E8%B4%B9%E8%A7%A3%E9%94%81-Minecraft-for-Windows-%EF%BC%88MCBE%EF%BC%89%E4%B8%80%E9%94%AE%E8%84%9A%E6%9C%AC%E6%9B%B4%E6%96%B0.png
 title: "[MFWL]免费解锁 Minecraft for Windows （MCBE）一键脚本更新"
 date: 2022-01-26 11:54:54
 updated: 2022-01-26 11:54:54
