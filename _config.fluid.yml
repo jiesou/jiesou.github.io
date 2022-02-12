@@ -684,7 +684,7 @@ valine:
   lang: 'zh-CN'
   highlight: true
   recordIP: true
-  serverURLs: 'lamqhwen.api.lncldglobal.com'
+  serverURLs: 'https://lamqhwen.api.lncldglobal.com'
   emojiCDN:
   emojiMaps:
   enableQQ: false
