@@ -13,6 +13,6 @@ post:
   comments:
     enable: true
     type: valine
-  disqus:
-    appId: LamqhwENv3gAorIJaYbINjbn-MdYXbMMI
-    appKey: 4Wa1mdXXncEh980bfzREs1sz
+    disqus:
+      appId: LamqhwENv3gAorIJaYbINjbn-MdYXbMMI
+      appKey: 4Wa1mdXXncEh980bfzREs1sz
