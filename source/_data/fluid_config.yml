@@ -6,13 +6,3 @@ links:
     - title: 翼轸的小站
       link: https://eezhen.com
       avatar: https://pan.eezhen.com/OneDriveCN/%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9B%B8%E5%85%B3/favicon.png
-
-custom_html: '<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>'
-
-post:
-  comments:
-    enable: true
-    type: valine
-    disqus:
-      appId: LamqhwENv3gAorIJaYbINjbn-MdYXbMMI
-      appKey: 4Wa1mdXXncEh980bfzREs1sz
