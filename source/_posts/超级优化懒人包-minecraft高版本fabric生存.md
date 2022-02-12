@@ -2,7 +2,7 @@
 title: 超级优化懒人包-Minecraft高版本Fabric生存
 tags:
   - Minecraft
-id: '394'
+abbrlink: 394
 categories:
   - - 简单技术
 date: 2021-08-28 09:04:21

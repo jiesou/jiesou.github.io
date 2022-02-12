@@ -1,7 +1,7 @@
 ---
 title: 欢迎使用 Typecho
 tags: []
-id: '45'
+abbrlink: 45
 categories:
   - - uncategorized
 date: 2021-01-07 16:05:00

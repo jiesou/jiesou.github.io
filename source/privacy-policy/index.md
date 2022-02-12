@@ -1,6 +1,6 @@
 ---
 title: 隐私政策
-id: '3'
+abbrlink: 3
 tags: []
 categories:
   - - uncategorized

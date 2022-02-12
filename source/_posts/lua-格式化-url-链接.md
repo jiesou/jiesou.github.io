@@ -3,9 +3,10 @@ title: Lua 格式化 URL 链接
 tags:
   - Lua
   - 安卓
-id: '595'
+abbrlink: 595
 categories:
   - - 简单技术
+abbrlink: 348ea6b
 date: 2021-09-12 18:47:20
 ---
 

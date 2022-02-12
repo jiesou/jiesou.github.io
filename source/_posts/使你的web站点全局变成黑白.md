@@ -4,7 +4,7 @@ tags:
   - JS
   - 日常
   - 网站
-id: '701'
+abbrlink: 701
 categories:
   - - 这个网站
 date: 2021-12-13 10:43:23

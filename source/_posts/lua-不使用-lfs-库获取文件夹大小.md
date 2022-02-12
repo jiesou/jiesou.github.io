@@ -3,7 +3,7 @@ title: Lua 不使用 lfs 库获取文件夹大小
 tags:
   - Lua
   - 安卓
-id: '522'
+abbrlink: 522
 categories:
   - - 简单技术
 date: 2021-09-06 07:24:36

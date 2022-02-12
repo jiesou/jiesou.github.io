@@ -2,9 +2,10 @@
 title: Minecraft-Text-Sinicization
 tags:
   - Minecraft
-id: '366'
+abbrlink: 366
 categories:
   - - 动态
+abbrlink: '62301e01'
 date: 2021-08-24 09:07:50
 ---
 

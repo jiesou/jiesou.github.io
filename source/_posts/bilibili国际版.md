@@ -2,7 +2,7 @@
 title: BiliBili国际版
 tags:
   - 哔哩哔哩
-id: '519'
+abbrlink: 519
 categories:
   - - 动态
 date: 2021-09-06 06:42:18

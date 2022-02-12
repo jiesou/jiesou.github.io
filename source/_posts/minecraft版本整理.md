@@ -2,7 +2,7 @@
 title: Minecraft版本整理
 tags:
   - Minecraft
-id: '337'
+abbrlink: 337
 categories:
   - - 动态
 date: 2021-08-22 15:56:02

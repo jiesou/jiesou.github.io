@@ -2,7 +2,7 @@
 title: Lua语言真的优雅
 tags:
   - Lua
-id: '331'
+abbrlink: 331
 categories:
   - - 动态
 date: 2021-08-21 20:11:49

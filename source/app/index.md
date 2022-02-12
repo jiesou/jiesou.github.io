@@ -1,6 +1,6 @@
 ---
 title: 杰出兽安卓APP
-id: '39'
+abbrlink: 39
 tags: []
 categories:
   - - uncategorized

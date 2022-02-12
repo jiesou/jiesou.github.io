@@ -1,6 +1,6 @@
 ---
 title: 支持
-id: '27'
+abbrlink: 27
 tags: []
 categories:
   - - uncategorized

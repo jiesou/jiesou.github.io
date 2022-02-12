@@ -1,6 +1,6 @@
 ---
 title: 杰出兽的小宇宙更换域名
-id: '246'
+abbrlink: 246
 tags: []
 categories:
   - - uncategorized

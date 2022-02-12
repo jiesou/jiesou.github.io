@@ -2,7 +2,7 @@
 title: WinXP是20年前的系统了
 tags:
   - Windows
-id: '478'
+abbrlink: 478
 categories:
   - - 动态
 date: 2021-08-30 21:16:26

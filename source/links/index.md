@@ -1,6 +1,6 @@
 ---
 title: 友链
-id: '173'
+abbrlink: 173
 tags: []
 categories:
   - - uncategorized

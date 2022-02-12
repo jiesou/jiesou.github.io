@@ -5,7 +5,7 @@ tags:
   - Lua
   - 安卓
   - 程序
-id: '748'
+abbrlink: 748
 categories:
   - - 简单技术
 date: 2022-01-04 17:15:38

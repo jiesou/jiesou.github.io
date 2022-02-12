@@ -2,7 +2,7 @@
 title: B站支持杜比视界
 tags:
   - 哔哩哔哩
-id: '326'
+abbrlink: 326
 categories:
   - - 动态
 date: 2021-08-19 13:20:01

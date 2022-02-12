@@ -3,9 +3,10 @@ title: RVM 在中国的安装
 tags:
   - 日常
   - 程序
-id: '816'
+abbrlink: 816
 categories:
   - - 动态
+abbrlink: 61a4f10
 date: 2022-02-06 12:34:28
 ---
 

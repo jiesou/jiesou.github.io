@@ -2,7 +2,7 @@
 title: 头条极速版shortcuts
 tags:
   - 字节跳动
-id: '604'
+abbrlink: 604
 categories:
   - - 动态
 date: 2021-09-21 09:48:16
