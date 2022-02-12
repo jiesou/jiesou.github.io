@@ -107,7 +107,7 @@ search:
   content: true
 
 abbrlink:
-  start: 1000 # the first id, default 0
+  start: 0 # the first id, default 0
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
