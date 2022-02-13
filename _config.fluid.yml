@@ -216,10 +216,18 @@ custom_head: '<script src="https://identity.netlify.com/v1/netlify-identity-widg
 custom_html: '<style>
 /*设置 Waline 配色*/
 :root{
---waline-theme-color:#2196f3;
---waline-active-color:#64b5f6
---waline-disable-bgcolor: #f8f8f8;
---waline-disable-color: #bbb;
+  /* 主题色 */
+  --waline-theme-color:#2196f3;
+  --waline-active-color:#64b5f6;
+
+  /* 布局颜色 */
+  --waline-bgcolor-light: #fff;
+
+  /* 徽章 */
+  --waline-badge-color: #2196f3;
+}
+#waline > div > div.vcomment > div > div.vfooter > div.vinfo > button.vbtn.primary{
+  color: #fff !important;
 }
 </style>'
 
@@ -685,6 +693,7 @@ waline:
   serverURL: 'https://blog-waline-jiesou.vercel.app'
   path: window.location.pathname
   placeholder: '说点什么吧...'
+  copyright: false
   meta: ['nick', 'mail', 'link']
   requiredMeta: []
   lang: 'zh-CN'
@@ -693,9 +702,6 @@ waline:
   'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq',
   'https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo']
   dark: 'html[data-user-color-scheme="dark"]'
-  avatarCDN: 'https://cravatar.cn/avatar/'
-  login: disable
-  wordLimit: 0
   pageSize: 10
 
 # Utterances
