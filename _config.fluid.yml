@@ -226,7 +226,7 @@ custom_html: '<style>
   /* 徽章 */
   --waline-badge-color: #2196f3;
 }
-#waline > div > div.vcomment > div > div.vfooter > div.vinfo > button.vbtn.primary{
+button.vbtn.primary{
   color: #fff !important;
 }
 </style>'
