@@ -170,7 +170,7 @@ color:
 
   # 超链接悬浮时字体色
   # Color of link when hovering
-  link_hover_color: "#64b5f6"
+  link_hover_color: "#80d6ff"
   link_hover_color_dark: "#9be7ff"
 
   # 超链接悬浮背景色
@@ -210,16 +210,29 @@ custom_css:
 # Customize <head> HTML content
 custom_head: '<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="//cdn.jsdelivr.net/npm/@waline/client"></script>
+<!-- 评论链接锚点跳转 https://github.com/walinejs/waline/issues/80#issuecomment-748940710 -->
 <script type="text/javascript">
 if(window.location.hash){
     var checkExist = setInterval(function() {
         if ($(window.location.hash).length) {
-            $("html, body").animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+            $("html, body").animate({scrollTop: $(window.location.hash).offset().top-90}, 700);
             clearInterval(checkExist);
+        } else {
+            window.scrollTo(0,document.documentElement.scrollHeight);
         }
     }, 100);
 }
-</script>' # 评论链接锚点跳转 https://github.com/walinejs/waline/issues/80#issuecomment-748940710
+</script>
+<!-- 识别评论中的 @ 在当前页打开 -->
+<script>
+var removeTarget = setInterval(function() {
+  var links = document.querySelectorAll("div.vcontent > p > a[href^=\"#\"]");
+  if (links.length) {
+    Array.from(links).forEach(link => link.removeAttribute("target"));
+    clearInterval(removeTarget);
+  }
+}, 100);
+</script>'
 
 # 自定义底部 HTML 内容（位于 footer 上方），注意不要和 `post: custom` 配置冲突
 # Customize the HTML content at the bottom (located above the footer), be careful not to conflict with `post: custom`
@@ -228,19 +241,32 @@ custom_html: '<style>
 :root{
   /* 主题色 */
   --waline-theme-color:#2196f3;
-  --waline-active-color:#64b5f6;
-
-  /* 布局颜色 */
-  --waline-bgcolor-light: #fff;
-
-  /* 徽章 */
-  --waline-badge-color: #2196f3;
+  --waline-active-color:#80d6ff;
+  /* 选中输入框时的背景 */
+  --waline-bgcolor-light: var(--waline-bgcolor) !important;
+  /* 边框 */
+  --waline-border-color: #808080 !important;
+  /* 提交中按钮背景 */
+  --waline-disable-bgcolor: #444 !important; 
+  /* 博主/置顶徽章背景 */
+  --waline-badge-color: var(--waline-theme-color);
 }
+
+  /* 提交按钮文本 */
 div.vfooter > div.vinfo > button.vbtn.primary{
   color: #fff !important;
 }
+  /* 博主的网站链接旁的绿勾勾小图标 */
 svg.verified-icon{
-  display:none
+  display:none;
+}
+  /* 评论者UA */
+div.vmeta{
+  display:none;
+}
+  /* 竖的虚线 */
+div.vquote {
+    border-left-color: var(--waline-border-color) !important;
 }
 </style>'
 
@@ -710,7 +736,8 @@ waline:
   meta: ['nick', 'mail', 'link']
   requiredMeta: []
   lang: 'zh-CN'
-  emoji: [  'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba',
+  emoji: ['https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba',
+  'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/alus',
   'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/bilibili',
   'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq',
   'https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo']
