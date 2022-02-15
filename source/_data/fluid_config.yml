@@ -1,3 +1,5 @@
+global:
+  favicon: /images/uploads/jiecs-32x32-白背景.png
 index:
   banner_img: https://bingimg.jiecs.workers.dev/?idx=7
   banner_img_height: 30
