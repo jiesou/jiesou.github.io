@@ -1,5 +1,8 @@
-global:
-  favicon: /images/uploads/jiecs-32x32-白背景.png
+favicon: /images/uploads/jiecs.png
+apple_touch_icon: /img/favicon.png
+tab_title_separator: " - "
+force_https: false
+
 index:
   banner_img: https://bingimg.jiecs.workers.dev/?idx=7
   banner_img_height: 30

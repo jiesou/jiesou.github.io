@@ -54,14 +54,19 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
         editor:
           preview: false      # 是否开启编辑预览
         fields:
-          - label: "全局"
-            name: "global"
-            widget: "object"
-            collapsed: true   
-            fields:
-              - label: "用于浏览器标签的图标"
-                name: "favicon"
-                widget: "image"
+          fields:
+            - label: "用于浏览器标签的图标"
+              name: "favicon"
+              widget: "image"
+            - label: "用于苹果设备的图标"
+              name: "apple_touch_icon"
+              widget: "image"
+            - label: "浏览器标签页中的标题分隔符"
+              name: "tab_title_separator"
+              widget: "string"
+            - label: "强制所有链接升级为 HTTPS"
+              name: "force_https"
+              widget: "boolean"
           - label: "首页"
             name: "index"
             widget: "object"
