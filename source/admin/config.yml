@@ -55,6 +55,7 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
           preview: false      # 是否开启编辑预览
         fields:
           - label: "全局"
+            name: "global"
             widget: "object"
             collapsed: true   
             fields:
