@@ -77,9 +77,11 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
               - label: "高度"
                 name: "banner_img_height"
                 widget: "number" 
+                required: false
               - label: "文章封面图(默认)"
                 name: "default_index_img"
                 widget: "image"
+                required: false
           - label: "归档页"
             name: "archive"
             widget: "object"
@@ -88,9 +90,11 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
               - label: "顶部图"
                 name: "banner_img"
                 widget: "image"
+                required: false
               - label: "高度"
                 name: "banner_img_height"
                 widget: "number"
+                required: false
           - label: "分类页"
             name: "category"
             widget: "object"
@@ -99,9 +103,11 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
               - label: "顶部图"
                 name: "banner_img"
                 widget: "image"
+                required: false
               - label: "高度"
                 name: "banner_img_height"
                 widget: "number"
+                required: false
           - label: "标签页"
             name: "tag"
             widget: "object"
@@ -110,9 +116,11 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
               - label: "顶部图"
                 name: "banner_img"
                 widget: "image"
+                required: false
               - label: "高度"
                 name: "banner_img_height"
                 widget: "number"
+                required: false
           - label: "关于页"
             name: "about"
             widget: "object"
@@ -121,9 +129,11 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
               - label: "顶部图"
                 name: "banner_img"
                 widget: "image"
+                required: false
               - label: "高度"
                 name: "banner_img_height"
                 widget: "number"
+                required: false
           - label: "友链页面"
             name: "links"
             widget: "object"

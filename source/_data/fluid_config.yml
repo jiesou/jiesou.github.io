@@ -1,22 +1,6 @@
 index:
   banner_img: https://bingimg.jiecs.workers.dev/?idx=7
   banner_img_height: 20
-post:
-  banner_img: https://bingimg.jiecs.workers.dev/?idx=7
-  banner_img_height: 20
-  default_index_img: "1"
-archive:
-  banner_img: https://bingimg.jiecs.workers.dev/?idx=7
-  banner_img_height: 20
-category:
-  banner_img: https://bingimg.jiecs.workers.dev/?idx=7
-  banner_img_height: 20
-tag:
-  banner_img: https://bingimg.jiecs.workers.dev/?idx=7
-  banner_img_height: 20
-about:
-  banner_img: https://bingimg.jiecs.workers.dev/?idx=7
-  banner_img_height: 20
 links:
   items:
     - title: 阿龙博客
