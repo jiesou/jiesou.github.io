@@ -45,7 +45,6 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
           - {label: "内容", name: "body", widget: "markdown", required: false}
           - {label: "评论", name: "comments", widget: "boolean", default: true, required: false}
 
-# 如果你不是Fluid 主题，请删除以下配置，或者对文件路径及字段进行修改
   - name: "settings"
     label: "配置"
     files:      
@@ -53,8 +52,15 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
         name: "fluid"
         label: "Fluid 主题配置"
         editor:
-          preview: true      # 是否开启编辑预览
+          preview: false      # 是否开启编辑预览
         fields:
+          - label: "全局"
+            widget: "object"
+            collapsed: true   
+            fields:
+              - label: "用于浏览器标签的图标"
+                name: "favicon"
+                widget: "image"
           - label: "首页"
             name: "index"
             widget: "object"
@@ -63,9 +69,16 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
               - label: "顶部图"
                 name: "banner_img"
                 widget: "image"
-              - label: "高度"
+              - label: "头图高度"
                 name: "banner_img_height"
                 widget: "number"
+              - label: "头图黑色蒙版的不透明度，1 是完全不透明"
+                name: "banner_mask_alpha"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                max: 1
+                step: 0.01
           - label: "文章页"
             name: "post"
             widget: "object"
@@ -74,7 +87,7 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
               - label: "顶部图(默认)"
                 name: "banner_img"
                 widget: "image"
-              - label: "高度"
+              - label: "头图高度"
                 name: "banner_img_height"
                 widget: "number" 
                 required: false
@@ -82,6 +95,13 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
                 name: "default_index_img"
                 widget: "image"
                 required: false
+              - label: "头图黑色蒙版的不透明度，1 是完全不透明"
+                name: "banner_mask_alpha"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                max: 1
+                step: 0.01
           - label: "归档页"
             name: "archive"
             widget: "object"
@@ -91,46 +111,67 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
                 name: "banner_img"
                 widget: "image"
                 required: false
-              - label: "高度"
+              - label: "头图高度"
                 name: "banner_img_height"
                 widget: "number"
                 required: false
+              - label: "头图黑色蒙版的不透明度，1 是完全不透明"
+                name: "banner_mask_alpha"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                max: 1
+                step: 0.01
           - label: "分类页"
             name: "category"
             widget: "object"
             collapsed: true
             fields:
-              - label: "顶部图"
+              - label: "头图"
                 name: "banner_img"
                 widget: "image"
                 required: false
-              - label: "高度"
+              - label: "头图高度"
                 name: "banner_img_height"
                 widget: "number"
                 required: false
+              - label: "头图黑色蒙版的不透明度，1 是完全不透明"
+                name: "banner_mask_alpha"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                max: 1
+                step: 0.01
           - label: "标签页"
             name: "tag"
             widget: "object"
             collapsed: true
             fields:
-              - label: "顶部图"
+              - label: "头图"
                 name: "banner_img"
                 widget: "image"
                 required: false
-              - label: "高度"
+              - label: "头图高度"
                 name: "banner_img_height"
                 widget: "number"
                 required: false
+              - label: "头图黑色蒙版的不透明度，1 是完全不透明"
+                name: "banner_mask_alpha"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                max: 1
+                step: 0.01
           - label: "关于页"
             name: "about"
             widget: "object"
             collapsed: true
             fields:
-              - label: "顶部图"
+              - label: "头图"
                 name: "banner_img"
                 widget: "image"
                 required: false
-              - label: "高度"
+              - label: "头图高度"
                 name: "banner_img_height"
                 widget: "number"
                 required: false
@@ -139,10 +180,10 @@ collections:      # https://www.netlifycms.org/docs/configuration-options/#colle
             widget: "object"
             collapsed: true
             fields:
-              - label: "顶部图"
+              - label: "头图"
                 name: "banner_img"
                 widget: "image"
-              - label: "高度"
+              - label: "头图高度"
                 name: "banner_img_height"
                 widget: "number"
               - label: "项目"
