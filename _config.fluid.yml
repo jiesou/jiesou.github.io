@@ -236,8 +236,13 @@ var removeTarget = setInterval(function() {
 
 # 自定义底部 HTML 内容（位于 footer 上方），注意不要和 `post: custom` 配置冲突
 # Customize the HTML content at the bottom (located above the footer), be careful not to conflict with `post: custom`
-custom_html: '<style>
-/*设置 Waline 配色*/
+custom_html: '<!-- start webpushr tracking code --> 
+<script>(function(w,d, s, id) {if(typeof(w.webpushr)!=="undefined") return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+fjs.parentNode.appendChild(js);}(window,document, "script", "webpushr-jssdk"));
+webpushr("setup",{"key":"BObxaUzWAtZ5ojRs8WgtY3cPah_vveI7_OuQLUqW3diOWCc0GtVxufgSHowH23FbyXsWe-m--4eJ9CZVhZCZEQI" });</script>
+<!-- end webpushr tracking code -->
+<style>
+/* 设置 Waline 配色 */
 :root{
   /* 主题色 */
   --waline-theme-color:#2196f3;
@@ -751,6 +756,15 @@ waline:
   dark: 'html[data-user-color-scheme="dark"]'
   pageSize: 10
 
+# Twikoo
+# 基于腾讯云开发
+# Based on Tencent CloudBase
+# See: https://twikoo.js.org
+twikoo:
+  envId: https://blog-twikoo-jiesou.vercel.app
+  # region: ap-shanghai
+  path: window.location.pathname
+
 # Utterances
 # 基于 GitHub Issues
 # Based on GitHub Issues
@@ -843,15 +857,6 @@ remark42:
   max_shown_comments: 10
   locale: zh
   components: ['embed']
-
-# Twikoo
-# 基于腾讯云开发
-# Based on Tencent CloudBase
-# See: https://twikoo.js.org
-twikoo:
-  envId:
-  region: ap-shanghai
-  path: window.location.pathname
 
 # Cusdis
 # 基于第三方服务或自托管服务
@@ -950,9 +955,9 @@ about:
 # Custom Page through `hexo new page`
 #---------------------------
 page:
-  # banner_img: /img/default.png
-  # banner_img_height: 60
-  # banner_mask_alpha: 0.3
+  banner_img: /img/default.png
+  banner_img_height: 30
+  banner_mask_alpha: 0.3
 
 
 #---------------------------
