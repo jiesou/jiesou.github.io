@@ -236,8 +236,7 @@ var removeTarget = setInterval(function() {
 
 # 自定义底部 HTML 内容（位于 footer 上方），注意不要和 `post: custom` 配置冲突
 # Customize the HTML content at the bottom (located above the footer), be careful not to conflict with `post: custom`
-custom_html: '<!-- start webpushr code --> <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=="undefined") return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window,document, "script", "webpushr-jssdk"));webpushr("setup",{"key":"BC-AgUQpqHVb37eIPA1t_2-KLEWXjQENfU5K2OfSyW7fDreagSCz47cgwPb1ZJGd0H52Z9qdHzoX9Jbvns8ohWw" });</script><!-- end webpushr code -->
-<style>
+custom_html: '<style>
 /* 设置 Waline 配色 */
 :root{
   /* 主题色 */
