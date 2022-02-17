@@ -37,15 +37,15 @@
   }
   /* 卡片 */
   #artitalk_main .cbp_tmtimeline>li .cbp_tmlabel,#artitalk_main .cbp_tmtimeline>li:nth-child(odd) .cbp_tmlabel{
-    background-color: #e8e8e8;
-    margin-left: 0px;
-    padding-top: 0.6em;
-    padding-bottom: 0.01em;
-    margin: 0 0 40px 0px;
+    background-color: #e8e8e8 !important;
+    margin-left: 0px !important;
+    padding-top: 0.6em !important;
+    padding-bottom: 0.01em !important;
+    margin: 0 0 40px 0px !important;
     border-radius: 0.25rem !important;
     box-shadow: none !important;
     font-size: 1.2em;
-    font-weight: 400;
+    font-weight: 400 !important;
   }
   /* 处理卡片左边的三角 */
   #artitalk_main .cbp_tmtimeline>li .cbp_tmlabel:after{
@@ -57,27 +57,23 @@
   }
   /* 卡片分割线 */
   #artitalk_main p.shuoshuo_time {
-    border-top-color: #2c3e50;
-    padding-top: 10px;
-    margin-top: -7px;
+    border-top-color: #2c3e50 !important;
+    padding-top: 10px !important;
+    margin-top: -7px !important;
   }
   /* 卡片右上角删除按钮 */
   #artitalk_main .delete_right{
-    right: 25px;
+    right: 25px !important;
   }
   /* 按钮 */
   #operare_artitalk .at_button, #artitalk_main .at_button {
-    border-radius: 20px;
+    border-radius: 20px !important;
     box-shadow: none !important;
-    margin-top: -7px;
+    margin-top: -7px !important;
   }
-  /* 文本编辑框 */
-  #artitalk_main .shuoshuo_text {
-    style: none !important;
-  }
-  /* 添加表情、文件按钮 */
-  #loadEmoji,#uploadSource {
-    display: none;
+  /* 添加表情按钮 */
+  #loadEmoji {
+    display: none !important;
   }
   /* 底边距 */
   p {

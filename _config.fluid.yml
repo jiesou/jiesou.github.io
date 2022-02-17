@@ -235,7 +235,7 @@ post:
 # Derived from Valine, with self-hosted service and new features
 # See: https://waline.js.org/
 waline:
-  serverURL: 'https://blog-waline-jiesou.vercel.app'
+  serverURL: 'https://waline-jiecs.vercel.app'
   path: window.location.pathname
   placeholder: '说点什么吧...'
   copyright: false
@@ -276,9 +276,11 @@ category:
 # Tag Page
 #---------------------------
 tag:
+  subtitle: 标签
   # banner_img: /img/default.png
   # banner_img_height: 80
   # banner_mask_alpha: 0.3
+  
 
 
 #---------------------------
