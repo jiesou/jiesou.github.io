@@ -13,6 +13,9 @@
     padding-left 1rem
     padding-right 1rem
 
+  .anchorjs-link-left
+    opacity 0 !important
+
 .post-content
     h1, h2, h3, h4, h5, h6
       anchor-offset()
@@ -34,23 +37,21 @@
 
 .post-metas
   display flex
-  flex-direction row
   flex-wrap wrap
+  font-size .9rem
 
 .post-meta
-  & > i
-    margin-right .15rem
 
-  & > a:not(.hover-with-bg)
-    margin-right .15rem
+  & > *:not(.hover-with-bg)
+    margin-right .2rem
 
 .post-prevnext
-  margin-top 2rem
   display flex
   flex-wrap wrap
   justify-content space-between
-  margin-left -0.5rem
-  margin-right -0.5rem
+  font-size .9rem
+  margin-left -.35rem
+  margin-right -.35rem
 
   .post-prev, .post-next
     display flex
@@ -128,81 +129,6 @@
     -webkit-transform translateX(0)
     transform translateX(0)
 
-// toc
-
-#toc
-  position -webkit-sticky
-  position sticky
-  top 2rem
-  padding 3rem 0 0 0
-  visibility hidden
-
-.toc-header
-  margin-bottom .5rem
-  font-weight 500
-  line-height 1.2
-
-  &, & > i
-    font-size 1.25rem
-
-.toc-body
-  max-height 75vh
-  overflow-y auto
-  overflow -moz-scrollbars-none
-  -ms-overflow-style none
-
-  ol
-    list-style none
-    padding-inline-start 1rem
-
-  &::-webkit-scrollbar
-    display none
-
-.tocbot-list
-  ol
-    list-style none
-    padding-left 1rem
-
-  a
-    font-size 0.95rem
-
-.tocbot-link
-  color var(--text-color)
-
-.tocbot-active-link
-  font-weight bold
-  color var(--link-hover-color)
-
-.tocbot-is-collapsed
-  max-height 0
-
-.tocbot-is-collapsible
-  overflow hidden
-  transition all .3s ease-in-out
-
-.toc-list-item
-  &.is-active-li::before
-    height 1rem
-    margin 0.25rem 0
-    visibility visible
-
-  &::before
-    width 0.15rem
-    height 0.2rem
-    position absolute
-    left 0.25rem
-    content ''
-    border-radius 2px
-    margin 0.65rem 0
-    background var(--link-hover-color)
-    visibility hidden
-    transition height .1s ease-in-out, margin .1s ease-in-out, visibility .1s ease-in-out
-
-@media (max-width: 1024px)
-  .toc-container
-    padding-left 0
-    padding-right 0
-
 .markdown-body .image-caption
   font-size .8rem
   color var(--post-text-color)
@@ -211,10 +137,10 @@
   margin -0.75rem auto 2rem
   text-align center
 
-.custom, .comments
+.custom, #comments
   margin-top 2rem
 
-.comments
+#comments
   noscript
     display block
     text-align center
