@@ -814,7 +814,7 @@ waline:
   emoji: ['https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo']
   dark: 'html[data-user-color-scheme="dark"]'
   avatar: 'retro'
-  avatarCDN: 'https://seccdn.libravatar.org/avatar/'
+  # avatarCDN: 'https://seccdn.libravatar.org/avatar/'
   avatarForce: false
   wordLimit: 0
   pageSize: 10
