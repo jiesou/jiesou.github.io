@@ -1,85 +1,92 @@
 /* 设置 Waline 样式 */
 :root{
-    /* 主题色 */
-    --waline-theme-color:#2196f3 !important;
-    --waline-active-color:#80d6ff  !important;
-    /* 选中输入框时的背景 */
-    --waline-bgcolor-light: var(--waline-bgcolor) !important;
-    /* 边框 */
-    --waline-border-color: #808080 !important;
-    /* 提交中按钮背景 */
-    --waline-disable-bgcolor: #444 !important; 
-    /* 博主/置顶徽章背景 */
-    --waline-badge-color: var(--waline-theme-color) !important;
-  }
-  
-    /* 提交按钮文本 */
-  div.vfooter > div.vinfo > button.vbtn.primary{
-    color: #fff !important;
-  }
-    /* 博主的网站链接旁的绿勾勾小图标 */
-  svg.verified-icon{
-    display:none;
-  }
-    /* 评论者UA */
-  div.vmeta{
-    display:none;
-  }
-    /* 竖的虚线 */
-  div.vquote {
-    border-left-color: var(--waline-border-color) !important;
-  }
-  
-  /* 设置 Artitalk 说说样式 */
+  /* 主题色 */
+  --waline-theme-color:#2196f3 !important;
+  --waline-active-color:#80d6ff  !important;
+  /* 选中输入框时的背景 */
+  --waline-bgcolor-light: var(--waline-bgcolor) !important;
+  /* 边框 */
+  --waline-border-color: #808080 !important;
+  /* 提交中按钮背景 */
+  --waline-disable-bgcolor: #444 !important; 
+  /* 博主/置顶徽章背景 */
+  --waline-badge-color: var(--waline-theme-color) !important;
+}
+  /* 提交按钮文本 */
+div.vfooter > div.vinfo > button.vbtn.primary{
+  color: #fff !important;
+}
+  /* 博主的网站链接旁的绿勾勾小图标 */
+svg.verified-icon{
+  display:none;
+}
+  /* 评论者UA */
+div.vmeta{
+  display:none;
+}
+  /* 竖的虚线 */
+div.vquote {
+  border-left-color: var(--waline-border-color) !important;
+}
+
+/* 设置 Artitalk 说说样式 */
   /* 头像 */
-  span.shuoshuo_author_img {
-    display:none;
-  }
+span.shuoshuo_author_img {
+  display:none;
+}
   /* 卡片 */
-  #artitalk_main .cbp_tmtimeline>li .cbp_tmlabel,#artitalk_main .cbp_tmtimeline>li:nth-child(odd) .cbp_tmlabel{
-    background-color: #e8e8e8 !important;
-    margin-left: 0px !important;
-    padding-top: 0.6em !important;
-    padding-bottom: 0.01em !important;
-    margin: 0 0 40px 0px !important;
-    border-radius: 0.25rem !important;
-    box-shadow: none !important;
-    font-size: 1.2em;
-    font-weight: 400 !important;
-  }
+.cbp_tmtimeline>li .cbp_tmlabel,#artitalk_main .cbp_tmtimeline>li:nth-child(odd) .cbp_tmlabel{
+  background-color: #e8e8e8 !important;
+  margin-left: 0px !important;
+  padding-top: 0.6em !important;
+  padding-bottom: 0.01em !important;
+  margin: 0 0 40px 0px !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+  font-size: 1.2em !important;
+  font-weight: 400 !important;
+}
+  /* 加载中 */
+#artitalk_main {
+    margin-bottom: 90px;
+    margin-top: 35px;
+}
+#lazy {
+  top: 50px !important;
+}
   /* 处理卡片左边的三角 */
-  #artitalk_main .cbp_tmtimeline>li .cbp_tmlabel:after{
-    border-right-color: #e8e8e8 !important;
-  }
+.cbp_tmtimeline>li .cbp_tmlabel:after{
+  border-right-color: #e8e8e8 !important;
+}
   /* 卡片悬停 */
-  #artitalk_main .cbp_tmlabel {
-    transform: translateY(0px) !important;
-  }
+.cbp_tmlabel {
+  transform: translateY(0px) !important;
+}
   /* 卡片分割线 */
-  #artitalk_main p.shuoshuo_time {
-    border-top-color: #2c3e50 !important;
-    padding-top: 10px !important;
-    margin-top: -7px !important;
-  }
+p.shuoshuo_time {
+  border-top-color: #2c3e50 !important;
+  padding-top: 10px !important;
+  margin-top: -7px !important;
+}
   /* 卡片右上角删除按钮 */
-  #artitalk_main .delete_right{
-    right: 25px !important;
-  }
+.delete_right{
+  right: 25px !important;
+}
   /* 按钮 */
-  #operare_artitalk .at_button, #artitalk_main .at_button {
-    border-radius: 20px !important;
-    box-shadow: none !important;
-    margin-top: -7px !important;
-  }
+#operare_artitalk .at_button, #artitalk_main .at_button {
+  border-radius: 20px !important;
+  box-shadow: none !important;
+  margin-top: -7px !important;
+}
   /* 添加表情按钮 */
-  #loadEmoji {
-    display: none !important;
-  }
+#loadEmoji {
+  display: none !important;
+}
   /* 底边距 */
-  p {
-    margin-bottom: 1em !important;
-  }
+p {
+  margin-bottom: 1em !important;
+}
   /* 右下三个按钮 */
-  #artitalk_main .power {
-    visibility: hidden !important;
-  }
+.power {
+  display: none !important;
+}
