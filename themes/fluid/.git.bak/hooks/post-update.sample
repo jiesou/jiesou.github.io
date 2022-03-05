@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/data/data/com.termux/files/usr/bin/sh
 #
 # An example hook script to prepare a packed repository for use over
 # dumb transports.

@@ -18,11 +18,11 @@
 
 # 用于浏览器标签的图标
 # Icon for browser tab
-# favicon: /img/fluid.png
+# favicon: /img/favicon.png
 
 # 用于苹果设备的图标
 # Icon for Apple touch
-# apple_touch_icon: /img/fluid.png
+# apple_touch_icon: /img/favicon.png
 
 # 浏览器标签页中的标题分隔符，效果： 文章名 - 站点名
 # Title separator in browser tab, eg: article - site
@@ -236,19 +236,16 @@ post:
 # See: https://waline.js.org/
 waline:
   serverURL: 'https://waline-jiecs.vercel.app'
-  path: window.location.pathname
   placeholder: '说点什么吧...'
   copyright: false
-  meta: ['nick', 'mail', 'link']
   requiredMeta: []
-  lang: 'zh-CN'
   emoji: ['https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba',
   'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/alus',
   'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/bilibili',
   'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq',
   'https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo']
-  dark: 'html[data-user-color-scheme="dark"]'
-  pageSize: 10
+  avatar: 'identicon'
+  avatarCDN: 'https://cravatar.cn/avatar/'
 
 
 #---------------------------
@@ -318,20 +315,6 @@ page:
 
 
 #---------------------------
-# 404页
-# 404 Page
-#---------------------------
-page404:
-  enable: true
-  banner_img: /img/default.png
-  banner_img_height: 90
-  banner_mask_alpha: 0.3
-  # 重定向到首页的延迟(毫秒)
-  # Delay in redirecting to home page (milliseconds)
-  redirect_delay: 5000
-
-
-#---------------------------
 # 友链页
 # Links Page
 #---------------------------
@@ -362,3 +345,16 @@ page404:
   #     link: "https://github.com/fluid-dev/hexo-theme-fluid",
   #     avatar: "/img/favicon.png"
   #   }
+
+#---------------------------
+# 以下是配置 JS CSS 等静态资源的 URL 前缀，可以自定义成 CDN 地址，
+# 默认的 jsDelivr CDN 可能在部分地区无法访问，如果需要修改，最好使用与默认配置相同的版本，以避免潜在的问题，
+# ** 如果你不知道如何设置，请不要做任何改动 **
+#
+# Here is the url prefix to configure the static assets. Set CDN addresses you want to customize.
+# Be aware that you would better use the same version as default ones to avoid potential problems.
+# DO NOT EDIT THE FOLLOWING SETTINGS UNLESS YOU KNOW WHAT YOU ARE DOING
+#---------------------------
+
+static_prefix:
+  waline: https://lib.baomitu.com/waline/latest/
