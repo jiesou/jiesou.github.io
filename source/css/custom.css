@@ -5,8 +5,6 @@
   --waline-active-color:#80d6ff  !important;
   /* 选中输入框时的背景 */
   --waline-bgcolor-light: var(--waline-bgcolor) !important;
-  /* 边框 */
-  --waline-border-color: #808080 !important;
   /* 提交中按钮背景 */
   --waline-disable-bgcolor: #444 !important; 
   /* 博主/置顶徽章背景 */

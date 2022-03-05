@@ -5,7 +5,6 @@ var shuoshuoMargin = setInterval(function() {
       var artitalk_main = document.querySelector("#artitalk_main").style;
       artitalk_main.setProperty("margin-top","0px");
       artitalk_main.setProperty("margin-bottom","0px");
-      console.log("remove margin-bottom and margin-top");
       clearInterval(shuoshuoMargin);
     }
   }, 100);
