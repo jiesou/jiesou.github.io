@@ -1,5 +1,5 @@
-favicon: /images/uploads/jiecs.png
-apple_touch_icon: /img/favicon.png
+favicon: /images/favicon.png
+apple_touch_icon: /images/favicon.png
 tab_title_separator: " - "
 force_https: false
 
