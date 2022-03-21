@@ -120,6 +120,13 @@ navbar:
     - { key: "about", link: "/about/", icon: "iconfont icon-user-fill" }
     - { key: "links", link: "/links/", icon: "iconfont icon-link-fill" }
 
+  # 首屏图片的相关配置
+  # Config of the big image on the first screen
+  banner:
+    # 视差滚动，图片与板块会随着屏幕滚动产生视差效果
+    # Scrolling parallax
+    parallax: false
+  
 
 #---------------------------
 # 页脚
@@ -129,14 +136,7 @@ footer:
   # 页脚第一行文字的 HTML，建议保留 Fluid 的链接，用于向更多人推广本主题
   # HTML of the first line of the footer, it is recommended to keep the Fluid link to promote this theme to more people
   content: '
-    Powered by
-    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-|
-    Theme
-    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
-|
-    Comment
-    <a href="https://github.com/walinejs/waline" target="_blank" rel="nofollow noopener"><span>Waline</span></a>
+    <a href="/thanks" target="_blank" rel="nofollow noopener"><span>Thanks</span></a>
     <br>
     Jiecs All Rights Reserved.
   '

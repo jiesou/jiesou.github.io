@@ -1,5 +1,5 @@
 /* 首页等字完全居中 */
-if (window.location.pathname.match(/^(\/|\/(archives|categories|tags|projects|links)\/)$/)) {
+if (document.querySelector(".header-inner").getAttribute('style') == 'height: 30vh;') {
     document.querySelector(".banner-text > div.h2").setAttribute("style", "margin-bottom: -1em !important;");
 }
 

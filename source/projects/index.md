@@ -1,9 +1,6 @@
 ---
 title: 项目
 abbrlink: 43
-tags: []
-categories:
-  - - uncategorized
 comments: false
 date: 2021-07-14 20:59:00
 ---
