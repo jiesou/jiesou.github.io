@@ -1,3 +1,8 @@
+/* 首页等字完全居中 */
+if (window.location.pathname.match(/^(\/|\/(archives|categories|tags|projects|links)\/)$/)) {
+    document.querySelector(".banner-text > div.h2").setAttribute("style", "margin-bottom: -1em !important;");
+}
+
 /* 评论链接锚点跳转 https://github.com/walinejs/waline/issues/80#issuecomment-748940710 */
 if(window.location.hash){
     var checkExist = setInterval(function() {

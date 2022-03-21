@@ -11,7 +11,7 @@ comment: true
 
 搜索 _712254276_ 或 点击 [链接](https://qr.alipay.com/11w12861oax89w30fn98p36) 或 扫码
 
-![红包码](https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/427-about_alipayredenvelope.png)
+![红包码](https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/427-about_alipayredenvelope.png?<40>)
 
 ### 推广优惠链接（AFF）
 
@@ -32,7 +32,7 @@ comment: true
 新客专属福利：<https://cloud.tencent.com/act/cps/redirect?redirect=1040&cps_key=60379014d525230ea3d758962b7fa288&from=console>
 
 **\[宝塔--服务器运维面板\]**  
-<https://www.bt.cn/?invite_code=MV95b3poemQ>=
+<https://www.bt.cn/?invite_code=MV95b3poemQ>
 
 ## 联系
 

@@ -2,8 +2,6 @@
 title: 欢迎使用 Typecho
 tags: []
 abbrlink: 45
-categories:
-  - - uncategorized
 date: 2021-01-07 16:05:00
 ---
 

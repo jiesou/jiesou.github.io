@@ -2,8 +2,6 @@
 title: 世界，您好！
 tags: []
 abbrlink: 1
-categories:
-  - - uncategorized
 date: 2021-07-31 15:24:30
 ---
 

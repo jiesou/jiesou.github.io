@@ -66,6 +66,7 @@ color:
 # Specify the path of your custom js file, support list. The path is relative to the source directory, such as `/js/custom.js` corresponding to the directory `source/js/custom.js`
 custom_js: 
   - /js/custom.js
+  - /js/resize_image.js
   - //identity.netlify.com/v1/netlify-identity-widget.js
 
 # 指定自定义 .css 文件路径，用法和 custom_js 相同
@@ -115,6 +116,7 @@ navbar:
     - { key: "archive", link: "/archives/", icon: "iconfont icon-archive-fill" }
     - { key: "category", link: "/categories/", icon: "iconfont icon-category-fill" }
     - { key: "tag", link: "/tags/", icon: "iconfont icon-tags-fill" }
+    - { name: "项目", link: "/projects/", icon: "iconfont icon-code" }
     - { key: "about", link: "/about/", icon: "iconfont icon-user-fill" }
     - { key: "links", link: "/links/", icon: "iconfont icon-link-fill" }
 
@@ -184,7 +186,7 @@ index:
 
       # 请求地址
       # Request url
-      url: "https://v1.hitokoto.cn/?max_length=25"
+      url: "https://v1.hitokoto.cn/?max_length=17"
 
       # 从请求结果获取字符串的取值字段，最终必须是一个字符串，例如返回结果为 {"data": {"author": "fluid", "content": "An elegant theme"}}, 则取值字段为 ['data', 'content']；如果返回是列表则自动选择第一项
       # The value field of the string obtained from the response. For example, the response content is {"data": {"author": "fluid", "content": "An elegant theme"}}, the expected `keys: ['data','content']`; if the return is a list, the first item is automatically selected
@@ -318,7 +320,9 @@ page:
 # 友链页
 # Links Page
 #---------------------------
-# links:
+links:
+  title: 友链
+  subtitle: 友链
   # enable: true
   # banner_img: /img/default.png
   # banner_img_height: 60
