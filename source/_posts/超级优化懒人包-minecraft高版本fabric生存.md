@@ -1,7 +1,7 @@
 ---
 title: 超级优化懒人包-Minecraft高版本Fabric生存
-index_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/873-cover_超级优化懒人包-Minecraft高版本Fabric生存.png
-banner_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/873-cover_超级优化懒人包-Minecraft高版本Fabric生存.png
+index_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/873-cover_超级优化懒人包-Minecraft高版本Fabric生存.png
+banner_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/873-cover_超级优化懒人包-Minecraft高版本Fabric生存.png
 tags:
   - Minecraft
 abbrlink: 394

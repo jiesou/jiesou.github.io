@@ -1,7 +1,7 @@
 ---
 title: AndroLua 反编译与 Lua 反函数序列化
-index_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/862-cover_AndroLua+反编译与+Lua+反函数序列化.png
-banner_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/862-cover_AndroLua+反编译与+Lua+反函数序列化.png
+index_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/862-cover_AndroLua+反编译与+Lua+反函数序列化.png
+banner_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/862-cover_AndroLua+反编译与+Lua+反函数序列化.png
 tags:
   - AndroLua
   - Lua

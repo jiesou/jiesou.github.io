@@ -1,6 +1,6 @@
 ---
-index_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/253-cover-MFWL免费解锁-Minecraft-for-Windows-（MCBE）一键脚本更新.png
-banner_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/253-cover-MFWL免费解锁-Minecraft-for-Windows-（MCBE）一键脚本更新.png
+index_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/253-cover-MFWL免费解锁-Minecraft-for-Windows-（MCBE）一键脚本更新.png
+banner_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/253-cover-MFWL免费解锁-Minecraft-for-Windows-（MCBE）一键脚本更新.png
 title: '[MFWL]免费解锁 Minecraft for Windows （MCBE）一键脚本更新'
 tags:
   - 程序

@@ -1,7 +1,7 @@
 ---
 title: 使用 CloudflareWorkers 搭建简易一言服务
-index_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/641-cover_使用+CloudflareWorkers+搭建简易一言服务.png
-banner_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/641-cover_使用+CloudflareWorkers+搭建简易一言服务.png
+index_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/641-cover_使用+CloudflareWorkers+搭建简易一言服务.png
+banner_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/641-cover_使用+CloudflareWorkers+搭建简易一言服务.png
 tags:
   - Cloudflare
   - 程序

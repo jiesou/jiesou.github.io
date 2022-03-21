@@ -1,7 +1,7 @@
 ---
 title: 使你的Web站点全局变成黑白
-index_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/056-cover_使你的Web站点全局变成黑白.jpg
-banner_img: https://images.weserv.nl/?url=gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/056-cover_使你的Web站点全局变成黑白.jpg
+index_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/056-cover_使你的Web站点全局变成黑白.jpg
+banner_img: https://gitlab.com/jiesou/Images/-/raw/main/Markor/2022/03/056-cover_使你的Web站点全局变成黑白.jpg
 tags:
   - JS
   - 日常
