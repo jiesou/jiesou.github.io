@@ -7,8 +7,8 @@ Allow: /projects
 Allow: /about
 Allow: /links
 
-Disallow: /js/
-Disallow: /css/
-Disallow: /admin/
+Disallow: /js
+Disallow: /css
+Disallow: /admin
 
 Sitemap: http://www.jies.top/sitemap.xml
