@@ -125,13 +125,20 @@ navbar:
   # Navigation bar menu. `key` is used to associate languages/*.yml. If there is no association, the value of `key` itself will be displayed; if `icon` is a css class, it can be omitted; adding `name` can force the display of the specified name
   menu:
     - { key: "home", link: "/", icon: "iconfont icon-home-fill" }
-    - { name: "说说", link: "/shuoshuo/", icon: "iconfont icon-comment" }
+    - { key: "说说", link: "/shuoshuo/", icon: "iconfont icon-comment" }
     - { key: "archive", link: "/archives/", icon: "iconfont icon-archive-fill" }
     - { key: "category", link: "/categories/", icon: "iconfont icon-category-fill" }
     - { key: "tag", link: "/tags/", icon: "iconfont icon-tags-fill" }
-    - { name: "项目", link: "/projects/", icon: "iconfont icon-code" }
+    - { key: "项目", link: "/projects/", icon: "iconfont icon-code" }
     - { key: "about", link: "/about/", icon: "iconfont icon-user-fill" }
-    - { key: "links", link: "/links/", icon: "iconfont icon-link-fill" }
+#   - { key: "links", link: "/links/", icon: "iconfont icon-link-fill" }
+    - {
+      key: "links",
+      icon: "iconfont icon-link-fill",
+      submenu: [
+        { key: "阿龙博客", link: "https://alongw.cn" }
+      ]
+    }
 
   # 首屏图片的相关配置
   # Config of the big image on the first screen
