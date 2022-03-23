@@ -91,12 +91,12 @@ custom_head: '
 # 网页访问统计
 # Analysis of website visitors
 web_analytics:  # 网页访问统计
-  enable: false
+  enable: true
 
   # 百度统计的 Key，值需要获取下方链接中 `hm.js?` 后边的字符串
   # Baidu analytics, get the string behind `hm.js?`
   # See: https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376
-  baidu: 
+  baidu: e2bcbf5019e3c05e7631d4a3081b10d9
 
   # Google 统计的 Tracking ID
   # Google analytics, set Tracking ID
