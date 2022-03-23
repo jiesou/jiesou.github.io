@@ -76,14 +76,16 @@ custom_css:
   - //at.alicdn.com/t/font_3187709_82n84dsycml.css
 
 # 自定义 <head> 节点中的 HTML 内容
-custom_head: '<script type="text/javascript">
+custom_head: '
+<meta name="description" content="偶尔写点技术记录，杂谈。杰出兽 jiecs jiecs_23 jiesou" />
+<meta name="keywords" content="独立博客,杰出兽,我的世界,Minecraft,MCBE,哔哩哔哩" />
+<script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "83h7yd1jzh");
-</script>
-'
+</script>'
 
 # 网页访问统计
 # Analysis of website visitors
@@ -147,6 +149,10 @@ footer:
   # HTML of the first line of the footer, it is recommended to keep the Fluid link to promote this theme to more people
   content: '
     <a href="/thanks" target="_blank" rel="nofollow noopener"><span>Thanks</span></a>
+    |
+    <a href="/feed.xml" target="_blank" rel="nofollow noopener"><span>RSS</span></a>
+    |
+    <a href="https://cf-workers-status-page-production.jiecs.workers.dev" target="_blank" rel="nofollow noopener"><span>Status</span></a>
     <br>
     Jiecs All Rights Reserved.
   '
