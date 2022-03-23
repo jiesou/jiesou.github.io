@@ -79,6 +79,7 @@ custom_css:
 custom_head: '
 <meta name="description" content="偶尔写点技术记录，杂谈。杰出兽 jiecs jiecs_23 jiesou" />
 <meta name="keywords" content="独立博客,杰出兽,我的世界,Minecraft,MCBE,哔哩哔哩" />
+<link rel="alternate" type="application/atom+xml" title="RSS" href="/feed.xml">
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
