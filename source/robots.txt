@@ -11,4 +11,4 @@ Disallow: /js
 Disallow: /css
 Disallow: /admin
 
-Sitemap: http://www.jies.top/sitemap.xml
+Sitemap: https://www.jiecs.top/sitemap.xml
