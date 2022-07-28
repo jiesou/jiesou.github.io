@@ -1,0 +1,1 @@
+{"github":{"silent":true},"rewrites":[{"source":"http://.+/(.*)","destination":"/$1"}]}

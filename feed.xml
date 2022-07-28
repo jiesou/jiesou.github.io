@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>杰出兽的小宇宙</title>
+    <link>https://www.jiecs.top/</link>
+    
+    <image>
+      <url>https://www.jiecs.top/favicon.ico</url>
+      <title>杰出兽的小宇宙</title>
+      <link>https://www.jiecs.top/</link>
+    </image>
+    
+    <atom:link href="https://www.jiecs.top/feed.xml" rel="self" type="application/rss+xml"/>
+    
+    <description>偶尔写点技术记录，杂谈。杰出兽 jiecs jiecs_23 jiesou</description>
+    <pubDate>Thu, 28 Jul 2022 09:30:10 GMT</pubDate>
+    <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>最近搞了个大项目 - TOVALua手册</title>
+      <link>https://www.jiecs.top/archives/3eab65a6/</link>
+      <guid>https://www.jiecs.top/archives/3eab65a6/</guid>
+      <pubDate>Fri, 22 Jul 2022 14:14:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;a href=&quot;https://github.com/jiesou/TOVALuaManual-Server/tree/dev&quot;&gt;https://github.com/jiesou/TOVALuaManual-Server/tree/dev&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;参见项目</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><a href="https://github.com/jiesou/TOVALuaManual-Server/tree/dev">https://github.com/jiesou/TOVALuaManual-Server/tree/dev</a></p><p>参见项目页</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1/">云服务</category>
+      
+      <category domain="https://www.jiecs.top/tags/Android/">Android</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/3eab65a6/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>2022.6.29 我的博客是这样崩的</title>
+      <link>https://www.jiecs.top/archives/8ae69b12/</link>
+      <guid>https://www.jiecs.top/archives/8ae69b12/</guid>
+      <pubDate>Fri, 15 Jul 2022 19:33:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;至暗时刻&quot;&gt;&lt;a href=&quot;#至暗时刻&quot; class=&quot;headerlink&quot; title=&quot;至暗时刻&quot;&gt;&lt;/a&gt;至暗时刻&lt;/h2&gt;&lt;p&gt;2021 年 6 月 29 日 &lt;strong&gt;9:35&lt;/strong&gt;，我博客的重要合作伙伴 —— Google 向我发</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h2 id="至暗时刻"><a href="#至暗时刻" class="headerlink" title="至暗时刻"></a>至暗时刻</h2><p>2021 年 6 月 29 日 <strong>9:35</strong>，我博客的重要合作伙伴 —— Google 向我发送电子邮件 <sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="Google Search Console">[1]</span></a></sup>，反馈大量服务和域名接入层不可用。我在当天 <strong>16:37</strong> 得知了博客的异常情况。基于报警内容，我第一时间怀疑博客的 CDN - 百度云加速出现问题。打开浏览器准备着手<em>紧急</em>处理（为了方便理解，下述事故处理过程做了部分简化）。</p><h2 id="初因定位"><a href="#初因定位" class="headerlink" title="初因定位"></a>初因定位</h2><p><strong>17:00</strong> 登录 BU<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="[BetterUptime](https://betteruptime.com) 一个监控网站可用性并提供公开状态页的 Paas 服务">[2]</span></a></sup> 后台，发现后台并没有关于此事件的任何记录，导致未及时收到事件通知（我有<em>完善</em>的博客异常监控通知机制，博客异常通常能迅速通知到我的邮箱、Telegram 等）无法获取到事件的调试信息</p><p><strong>17:05</strong><br><em>机制</em>的我决定绕过 BU 后台，自行向博客发出请求来测试。发现博客确实炸了，只有百度云加速的 502 网关错误，连接源站失败</p><p>又测试了博客的其它附属服务，此时已确认只有博客面向中国的主线有问题。排除面向海外的服务以及评论、图床等系统的问题</p><h2 id="故障止损"><a href="#故障止损" class="headerlink" title="故障止损"></a>故障止损</h2><p><strong>17:10</strong><br>此时我已进入<em>版本控制系统</em> <sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="Github">[3]</span></a></sup><br><em>数据分析部</em> <sup id="fnref:4" class="footnote-ref"><a href="#fn:4" rel="footnote"><span class="hint--top hint--rounded" aria-label="百度云加速数据、百度统计、Google Analytics、Microsoft Clarity 等">[4]</span></a></sup> 和 <em>依赖审查部</em> <sup id="fnref:5" class="footnote-ref"><a href="#fn:5" rel="footnote"><span class="hint--top hint--rounded" aria-label="Dependabot">[5]</span></a></sup> 都没有报告什么异常</p><p><strong>17:15</strong><br>根据我的检测，自研的 <em>均衡分流系统</em> <sup id="fnref:6" class="footnote-ref"><a href="#fn:6" rel="footnote"><span class="hint--top hint--rounded" aria-label="Vercel、Netlify、Github Pages、Cloudflare Pages 等同时提供同一博客副本的分流">[6]</span></a></sup> 还在积极响应我的请求，处于可用状态。基本确定 百度云加速 - Vercel 链问题的可能性。准备暂停百度云加速 CDN 服务，直连 Vercel CDN 节点尝试止损。</p><p><strong>17:18</strong><br>再次测试，发现博客主站服务<em>仍未恢复</em>，但注意到错误信息变成了 <code>ERR_CERT_DATE_INVALID</code>，SSL 证书过期？</p><p><strong>20:42</strong><br>此时根据我的测试，博客主站服务已恢复正常，观察 <em>数据分析系统</em>，请求异常数量大大降低，业务成功率恢复到 50% 以上。但此时国内走的是直连 Vercel，速度势必会受到影响。</p><h2 id="根因定位"><a href="#根因定位" class="headerlink" title="根因定位"></a>根因定位</h2><p><strong>21:40</strong><br>于是再套上百度云加速，并将 HTTPS 加速模式设为半程加密试图彻底修复问题。</p><p><strong>21:45</strong><br>错误信息变成了 <code>ERR_TOO_MANY_REDIRECTS</code>。并且等了很长时间都没有自行修复</p><p><strong>22:05</strong><br>将百度云加速的 HTTPS 加速模式设回全程严格加密，一切神奇地恢复了。</p><h2 id="原因说明"><a href="#原因说明" class="headerlink" title="原因说明"></a>原因说明</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>现博客框架基于 HEXO，主要采用 Github Actions 渲染，并自动推送到各个分流服务。主域名 jiecs.top 采用 阿里DNS云解析，针对不同请求自动分流到不同分流服务。目前国内的分流服务是 百度云加速 + Vercel。Vercel 有自带、自动续签且不可禁用的 HTTPS，所以我将百度云加速的 HTTPS 设为了全程严格加密。整套系统到发生故障时已稳定运行快三个月时间。</p><h3 id="诱因"><a href="#诱因" class="headerlink" title="诱因"></a>诱因</h3><p>这三个月时间刚好是 Vercel 申请的 LetsEncrypt 证书的有效期，通常情况下到了有效期 Vercel 会自动续签。但因为百度云加速的全程加密，当 SSL 证书注册商通过 <code>.well-known/*</code> 路径验证域名所有权时，百度云加速发现此时源站的证书已过期，便会返回 502 源站错误，导致源站证书无法自动续签。</p><h3 id="根因"><a href="#根因" class="headerlink" title="根因"></a>根因</h3><p>Vercel 针对这种需要在 Vercel 上套 CDN 的情况有做支持。根据<a href="https://vercel.com/support/articles/using-cloudflare-with-vercel">文档</a>，我们需要在 CDN 中将 <code>.well-known/*</code> 路径设置为允许 HTTP 访问。但百度云加速的特定页面规则并不支持对 HTTPS 加速模式的设置。</p><h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><ol><li>为何故障刚发生时 BU 后台没有关于此事件的任何记录？</li></ol><p>事后复盘发现，虽然 BU 在全球各地都有监控节点，但中国不在全球范围内。博客只在面向中国的主线有问题，自然不会被记录。</p><ol start="2"><li>那为何你们的合作伙伴 —— Google 能发现博客的异常，Google 在中国有机房？</li></ol><p>我咋知道呢。</p><ol start="3"><li>为何直连 Vercel 分流在故障开始阶段也不可用？</li></ol><p>Vercel 在反复试图自动续签失败后动态调整了自动续签的重试间隔，而且续签 SSL 证书要时间。</p><ol start="4"><li>为何在切换分流到确认恢复之间过了将近四个小时？</li></ol><p>我刷B站去了。</p><ol start="5"><li>后续根因定位将百度云加速设为半程加密为何会导致 <code>ERR_TOO_MANY_REDIRECTS</code>？</li></ol><p>Vercel 有不可关闭的<em>强制</em> HTTPS，百度云加速使用 HTTP 向源站请求时源站会返回“重定向到 HTTPS”的信息，而用户浏览器发出的请求已是 HTTPS 了，从而触发了 <code>ERR_TOO_MANY_REDIRECTS</code>。</p><h2 id="优化改进"><a href="#优化改进" class="headerlink" title="优化改进"></a>优化改进</h2><ol><li><p>Vercel 的 HTTPS 证书过期之后会临时自动关掉强制 HTTPS，等它过期我就把百度云加速改成半程加密。管它安全不安全的，浏览器看着安全就行了。</p></li><li><p>故障演练<br>一定多多拉闸👊🤗</p></li></ol><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>事件是真实的，但并没有专门记录，上述大半 <strong>xx:xx</strong> 的时间都是瞎编的</p><p>其它摆烂不写了</p><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>Google Search Console<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a href="https://betteruptime.com/">BetterUptime</a> 一个监控网站可用性并提供公开状态页的 Paas 服务<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>Github<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>百度云加速数据、百度统计、Google Analytics、Microsoft Clarity 等<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span>Dependabot<a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:6" class="footnote-text"><span>Vercel、Netlify、Github Pages、Cloudflare Pages 等同时提供同一博客副本的分流<a href="#fnref:6" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2/">这个博客</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E5%8D%9A%E5%AE%A2/">博客</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E7%A8%8B%E5%BA%8F/">程序</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9/">哔哩哔哩</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/8ae69b12/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>[LSOCP] Minecraft 轻量超级优化客户端整合包全新升级</title>
+      <link>https://www.jiecs.top/archives/7eb365b6/</link>
+      <guid>https://www.jiecs.top/archives/7eb365b6/</guid>
+      <pubDate>Sat, 02 Jul 2022 20:23:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;很久之前我搞过个 &lt;a href=&quot;https://www.jiecs.top/archives/394/&quot;&gt;超级优化懒人包-Minecra</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很久之前我搞过个 <a href="https://www.jiecs.top/archives/394/">超级优化懒人包-Minecraft高版本Fabric生存</a></p><p>但那个的 1.17.1 版本实在有点老了，现在 1.19 都出了，很多模组都大变。</p><div class="note note-light">            <p>比如体素地图(VoxelMap)停更、IRIS 自带汉化，完全兼容钠，自带光影配置（而不需要 IRIS Starline）、铟(Indium)步入正式版等等</p>          </div><p>我没有 1.18.x 的需求，就懒得支持 1.18.x 了，直接 1.19</p><p>既然都跳过一个版本了，那干脆<strong>改个名字</strong></p><div class="note note-success">            <p>改叫 <strong>LSOCP</strong><br>即  <strong>L</strong>ight <strong>S</strong>uper <strong>O</strong>ptimiz <strong>C</strong>lient <strong>P</strong>ackage<br>轻量超级优化客户端整合包</p>          </div><p>名字确实挺长的</p><p>主要特点不会差多少，就是有些模组仅限更替之类的。然后对原先因博客迁移导致格式错误的表格进行重置</p><h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul><li>懒人包 内置 PCL 2 启动器和 JDK 17 等环境，各种模组配置已调试好。只需下载一个 ZIP 即可开玩</li><li>Fabric 整合包，轻量</li><li>不含 Optfine，使用开源且效果更好的 钠(Sodium) <del>及一堆元素周期表</del>替代。连接材质等特性也有实现</li><li>附带常用光影、资源包（材质）</li><li>面向客户端，不含向游戏内添加元素的模组</li><li>绝大多数内容均有汉化</li></ul><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>整合包分 FULL 和 MINI 两个版本</p><ul><li><a href="http://ctpan.jiecs.top/d/32856022-49594170-e70ac6">城通网盘</a> 两个版本都包含</li><li><a href="https://jiecs-my.sharepoint.com/:f:/g/personal/i_jiecs_onmicrosoft_com/EuAKe2HDM6tMnv-LonYePj0BcfwlBwmxWaPlOgnCw3Ku6g?e=vDbxDQ">OneDrive</a> 两个版本都包含</li><li><a href="https://wwt.lanzouj.com/b01jna01a">蓝奏云</a> 密码 jiecs.top。因单文件大小限制，只有 MINI 版本</li></ul><h3 id="FULL"><a href="#FULL" class="headerlink" title="FULL"></a>FULL</h3><p>FULL 包含了上述的运行环境，以及 Minecraft 本体、资源文件等。占用空间大，下载耗时长</p><p>大小 911MB，解压后 1.12 GB</p><h3 id="MINI"><a href="#MINI" class="headerlink" title="MINI"></a>MINI</h3><p>MINI 没有上述运行环境，Minecraft 本体、资源文件等也不包含，PCL2 文件补全时需要联网</p><p>大小 77.8 MB，解压后 131 MB</p><h2 id="内容物"><a href="#内容物" class="headerlink" title="内容物"></a>内容物</h2><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><table><thead><tr><th>名称</th><th>说明</th><th>链接</th><th>备注</th></tr></thead><tbody><tr><td><strong>Plain Craft Launcher 2</strong> <em>Release 2.3.0(257.50)</em></td><td>知名 Minecraft Java 启动器</td><td><a href="https://afdian.net/@LTCat">爱发电</a> <a href="https://www.mcbbs.net/thread-719579-1-1.html">MCBBS</a></td><td></td></tr><tr><td><strong>Java SE</strong> <em>17.0.3.1-windows-64x</em></td><td>Minecraft Java 必备运行环境</td><td><a href="https://download.oracle.com/java/17/archive/jdk-17.0.3.1_windows-x64_bin.zip">Oracle</a></td><td>源文件形式无需安装</td></tr><tr><td><strong>.NET Framework</strong> <em>4.8-Runtime-Offline Installer</em></td><td>Plain Craft Launcher 2 必备运行环境</td><td><a href="https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net48">Microsoft</a></td><td>离线 exe 安装包，大多数系统自带</td></tr></tbody></table><h3 id="模组"><a href="#模组" class="headerlink" title="模组"></a>模组</h3><h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><table><thead><tr><th>名称</th><th>说明</th><th>链接</th><th>备注</th></tr></thead><tbody><tr><td><strong>自动钓鱼</strong> Autofish <em>0.9.5</em></td><td>可配置的自动钓鱼</td><td><a href="https://github.com/MrTroot/autofish">Github</a></td><td></td></tr><tr><td><strong>Xaero的世界地图</strong> Xaero’s World Map <em>1.24.0</em></td><td>自动缓存、性能不错的地图</td><td><a href="https://chocolateminecraft.com/worldmapdownload.php">官网</a> <a href="https://www.curseforge.com/minecraft/mc-mods/xaeros-world-map">CurseForge</a></td><td>闭源</td></tr><tr><td><strong>Xaero的小地图</strong> Xaero’s Minimap <em>22.10.1</em></td><td>联动 Xaero的世界地图 的小地图</td><td><a href="https://www.curseforge.com/minecraft/mc-mods/xaeros-minimap">CurseForge</a></td><td>依赖 Xaero的世界地图；闭源</td></tr><tr><td><strong>回放</strong> ReplayMod <em>2.6.6</em></td><td>录制游戏内容并可编辑、渲染</td><td><a href="https://www.replaymod.com/">官网</a> <a href="https://github.com/ReplayMod/ReplayMod">Github</a></td><td>FFmpeg 版本 5.0.1 essentials</td></tr><tr><td><strong>一键背包整理Next</strong> Inventory Profiles Next <em>1.5.3</em></td><td>简单的一键背包整理</td><td><a href="https://github.com/blackd/Inventory-Profiles">Github</a></td><td></td></tr><tr><td><strong>缩放</strong> Zoomify <em>5.0.0</em></td><td>C 键放大，可进行许多配置</td><td><a href="https://github.com/isXander/Zoomify">Github</a></td><td>依赖 Fabric Language Kotlin</td></tr></tbody></table><h4 id="前置"><a href="#前置" class="headerlink" title="前置"></a>前置</h4><table><thead><tr><th>名称</th><th>说明</th><th>链接</th><th>备注</th></tr></thead><tbody><tr><td><strong>Fabric API</strong> <em>0.57.0</em></td><td>Fabric 基础 API</td><td><a href="https://fabricmc.net/">官网</a> <a href="https://github.com/FabricMC/fabric">Github</a></td><td>移除将导致绝大多数模组无法工作</td></tr><tr><td><strong>模组菜单</strong> Mod Menu <em>4.0.0</em></td><td>模组列表且是许多模组的配置屏幕 UI</td><td><a href="https://github.com/TerraformersMC/ModMenu">Github</a></td><td>更好的F3、动态FPS 等 9 个模组的配置 GUI 依赖此</td></tr><tr><td><strong>Cloth Config API</strong> <em>1.0.72</em></td><td>部分模组的配置屏幕 API</td><td><a href="https://github.com/shedaniel/cloth-config">Github</a></td><td>更好的F3、动态FPS 等 4 个模组的配置 GUI 依赖此和模组菜单</td></tr><tr><td><strong>Cloth API</strong> <em>4.0.65</em></td><td>部分模组的 API</td><td><a href="https://github.com/shedaniel/cloth-api">Github</a></td><td>界面微调 依赖此</td></tr><tr><td><strong>Architectury API</strong> <em>5.7.28</em></td><td>Forge 和 Fabric 的抽象化调用 API</td><td><a href="https://github.com/architectury/architectury-api">Github</a></td><td>界面微调 依赖此</td></tr><tr><td><strong>Fabric Language Kotlin</strong> <em>1.8.1</em></td><td>提供 Fabric 中 Kotlin 语言支持的 API</td><td><a href="https://github.com/FabricMC/fabric-language-kotlin">Github</a></td><td>缩放 依赖此</td></tr><tr><td><strong>铟</strong> Indium <em>1.0.6</em></td><td>让 Fabric Render API 与 钠 兼容</td><td><a href="https://github.com/comp500/Indium">Github</a></td><td>Lambda的更好的草方块、连接纹理 依赖此</td></tr></tbody></table><h4 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h4><table><thead><tr><th>名称</th><th>说明</th><th>链接</th><th>备注</th></tr></thead><tbody><tr><td><strong>Iris Shaders</strong> <em>1.2.5</em></td><td>在 Fabric 中与 钠 搭配兼容部分 Optfine 的光影</td><td><a href="https://irisshaders.net/">官网</a> <a href="https://github.com/IrisShaders/Iris">Github</a></td><td>在 模组菜单 或 钠 的视频设置中有可配置选项</td></tr><tr><td><strong>动态声音滤波器</strong> DynamicSoundFilters <em>1.3.0</em></td><td>根据场景对游戏音效添加混响等</td><td><a href="https://www.curseforge.com/minecraft/mc-mods/dynamic-sound-filters">CurseForge</a> <a href="https://bitbucket.org/andre111/dynamicsoundfilters">Bitbucket</a></td><td>在 模组菜单 中有可配置选项</td></tr><tr><td><strong>连接纹理</strong> Continuity <em>2.0.0</em></td><td>玻璃等材质边缘的连接</td><td><a href="https://github.com/PepperCode1/Continuity">Github</a></td><td>依赖 铟</td></tr><tr><td><strong>更多动画</strong> Not Enough Animations <em>1.6.0</em></td><td>增加如划船、看地图等时的玩家模型动画</td><td><a href="https://github.com/tr7zw/NotEnoughAnimations">Github</a></td><td></td></tr><tr><td><strong>Lambda的动态光源</strong> LambDynamicLights <em>2.1.2</em></td><td>比 Optfine 许多细节更好的动态光源</td><td><a href="https://github.com/LambdAurora/LambDynamicLights">Github</a></td><td>在 模组菜单 中有可配置选项</td></tr><tr><td><strong>Lambda的更好的草方块</strong> LambdaBetterGrass <em>1.3.0</em></td><td>比 Optfine 许多细节更好的草方块</td><td><a href="https://github.com/LambdAurora/LambdaBetterGrass">Github</a></td><td>依赖 铟；在 模组菜单 中有可配置选项</td></tr><tr><td><strong>界面微调</strong> Slight Gui Modifications <em>2.2.0</em></td><td>优化界面切换、截图等 UI 动画</td><td><a href="https://github.com/shedaniel/slight-gui-modifications">Github</a></td><td>依赖 Cloth API、Cloth Config API、Architectury API</td></tr></tbody></table><h4 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h4><table><thead><tr><th>名称</th><th>说明</th><th>链接</th><th>备注</th></tr></thead><tbody><tr><td><strong>物品栏HUD+</strong> Inventory HUD+ <em>3.4.2</em></td><td>显示药水效果、盔甲耐久等</td><td><a href="https://github.com/briansemrau/InventoryHUD">Github</a></td><td>独立配置界面</td></tr><tr><td><strong>更好的F3</strong> BetterF3 <em>1.3.1</em></td><td>多语言、彩色且可自定义的 F3</td><td><a href="https://github.com/cominixo/BetterF3">Github</a></td><td>在 模组菜单 中有可配置选项（依赖 Cloth Config API）</td></tr><tr><td><strong>伤害显示</strong> ToroHealth Damage Indicators <em>1</em></td><td>显示攻击掉血和生物血条</td><td><a href="https://github.com/ToroCraft/ToroHealth">Github</a></td><td>配置文件位于 .&#x2F;config&#x2F;torohealth.json 参考<a href="https://www.mcmod.cn/post/2258.html">此处</a></td></tr><tr><td><strong>苹果皮</strong> AppleSkin <em>2.4.0</em></td><td>显示饱和度和食物可恢复饥饿值等</td><td><a href="https://github.com/squeek502/AppleSkin">Github</a></td><td>在 模组菜单 中有可配置选项（依赖 Cloth Config API）</td></tr><tr><td><strong>燃料信息</strong> FuelInfo <em>1.0</em></td><td>显示燃料&#x2F;烈焰棒剩余可烧物品&#x2F;酿造药水数量</td><td><a href="https://github.com/Luligabi1/FuelInfo">Github</a></td><td></td></tr></tbody></table><h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><table><thead><tr><th>名称</th><th>说明</th><th>链接</th><th>备注</th></tr></thead><tbody><tr><td><strong>钠</strong> Sodium <em>0.4.2</em></td><td>极大地提升帧率并修复许多图形问题</td><td><a href="https://github.com/CaffeineMC/sodium-fabric">Github</a></td><td></td></tr><tr><td><strong>锂</strong> Lithium <em>0.8.0</em></td><td>优化各类计算机制</td><td><a href="https://github.com/CaffeineMC/lithium-fabric">Github</a></td><td></td></tr><tr><td><strong>磷</strong> Phosphor <em>0.8.1</em></td><td>优化光照引擎</td><td><a href="https://github.com/CaffeineMC/phosphor-fabric">Github</a></td><td></td></tr><tr><td><strong>铁氧体磁芯</strong> FerriteCore <em>5.0.0</em></td><td>减少内存占用并牺牲一些帧率</td><td><a href="https://github.com/malte0811/FerriteCore">Github</a></td><td>可能导致帧率不稳定</td></tr><tr><td><strong>氪</strong> Krypton <em>0.2.0</em></td><td>优化网络堆栈</td><td><a href="https://github.com/astei/krypton">Github</a></td><td></td></tr><tr><td><strong>C2ME</strong> <em>0.2.0</em></td><td>优化区块和 IO 加载性能</td><td><a href="https://github.com/RelativityMC/C2ME-fabric">Github</a> <a href="https://modrinth.com/mod/c2me-fabric">Modrinth</a></td><td>可能导致帧率不稳定</td></tr><tr><td><strong>DFU载入优化</strong> LazyDFU <em>0.1.3</em></td><td>优化跨版本升级数据流程来加速游戏启动和载入</td><td><a href="https://github.com/astei/lazydfu">Github</a></td><td></td></tr><tr><td><strong>实体渲染机制优化</strong> Entity Culling Fabric <em>1.5.2</em></td><td>跳过渲染不可见的实体</td><td><a href="https://github.com/tr7zw/EntityCulling">Github</a></td><td>与许多需要渲染大量实体的模组冲突</td></tr><tr><td><strong>动态FPS</strong> Dynamic Fps <em>2.2.0</em></td><td>自动降低游戏窗口在未聚焦时的渲染帧数</td><td><a href="https://github.com/juliand665/Dynamic-FPS">Github</a></td><td>在 模组菜单 中有可配置选项（依赖 Cloth Config API）；可能使部分 AFK 失效</td></tr><tr><td><strong>更好的树叶渲染优化</strong> CullLessLeaves <em>1.0.2</em></td><td>自定义需要渲染的树叶层数</td><td><a href="https://github.com/isXander/CullLessLeaves">Github</a></td><td>在 模组菜单（依赖 Cloth Config API）或 钠 的视频设置中有可配置选项</td></tr><tr><td><strong>更好的床</strong> Better Beds <em>1.2.0</em></td><td>移除床的实体渲染</td><td><a href="https://github.com/TeamMidnightDust/BetterBeds">Github</a></td><td>与部分床相关的模组冲突</td></tr><tr><td><strong>快速箱子渲染</strong> FastChest <em>1.3</em></td><td>移除箱子的动态模型</td><td><a href="https://github.com/FakeDomi/FastChest">Github</a></td><td>在模组菜单中有可配置选项；与修改箱子状态的资源包冲突</td></tr><tr><td><strong>崩溃优化</strong> Not Enough Crashes <em>4.1.6</em></td><td>游戏崩溃时提供更多信息，并能回到标题页面而不需要重新启动游戏</td><td><a href="https://github.com/natanfudge/not-enough-crashes">Github</a> <a href="https://www.curseforge.com/minecraft/mc-mods/not-enough-crashes">CurseForge</a></td><td>据 MCMOD 评论反馈兼容性较差</td></tr><tr><td><strong>输入法冲突修复</strong> IMBlockerFabric <em>1.0.19</em></td><td>在输入法开启时根据场景自动处理输入法输入</td><td><a href="https://github.com/mrjesen/ImBlockerFabric">Github</a></td><td></td></tr><tr><td><strong>禁用聊天举报</strong> No Chat Reports <em>1.2.3</em></td><td>禁用 1.19 中多人游戏新增的聊天举报</td><td><a href="https://github.com/Aizistral-Studios/No-Chat-Reports">Github</a> <a href="https://www.curseforge.com/minecraft/mc-mods/no-chat-reports">CurseForge</a></td><td></td></tr></tbody></table><h3 id="资源包"><a href="#资源包" class="headerlink" title="资源包"></a>资源包</h3><h4 id="功能-1"><a href="#功能-1" class="headerlink" title="功能"></a>功能</h4><table><thead><tr><th>名称</th><th>说明</th><th>链接</th><th>备注</th></tr></thead><tbody><tr><td><strong>生物悬浮血条</strong> Entity Healthbars <em>3.0</em></td><td>如 伤害显示 的世界血条与光影冲突可使用</td><td><a href="https://www.curseforge.com/minecraft/texture-packs/entity-healthbars">CurseForge</a></td><td></td></tr><tr><td><strong>RTX 16x</strong> <em>v6</em></td><td>仿基岩版 RTX PBR 法线材质，可搭配光影实现光追</td><td><a href="https://www.curseforge.com/minecraft/texture-packs/rtx-16x-for-java">CurseForge</a></td><td></td></tr></tbody></table><h4 id="汉化"><a href="#汉化" class="headerlink" title="汉化"></a>汉化</h4><table><thead><tr><th>名称</th><th>说明</th><th>链接</th><th>备注</th></tr></thead><tbody><tr><td><strong>汉化游戏文本+</strong> <em>1.1</em></td><td>汉化闪烁标语、终末之诗等，并添加了许多条闪烁标语</td><td><a href="https://github.com/jiesou/Minecraft-Text-Sinicization">Github</a></td><td></td></tr><tr><td><strong>Xaeros 地图汉化</strong> <em>210826</em></td><td>汉化 Xaeros 地图系列</td><td><a href="https://www.bilibili.com/read/cv11613668">哔哩哔哩</a></td><td>新兵Sinbing 制作</td></tr></tbody></table><h3 id="光影"><a href="#光影" class="headerlink" title="光影"></a>光影</h3><table><thead><tr><th>名称</th><th>说明</th><th>链接</th><th>备注</th></tr></thead><tbody><tr><td><strong>Complementary Shaders</strong> <em>v4.5</em></td><td>魔改自 BSL 的全能光影</td><td><a href="https://www.complementary.dev/">官网</a> <a href="https://www.curseforge.com/minecraft/customization/complementary-shaders">CurseForge</a></td><td>默认关闭</td></tr></tbody></table>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E4%B8%80%E4%BA%9B%E6%97%A5%E5%B8%B8/">一些日常</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/Minecraft/">Minecraft</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%B8%B8%E6%88%8F/">游戏</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/7eb365b6/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>数据丢失，杰出兽安卓APP完全弃坑</title>
+      <link>https://www.jiecs.top/archives/c357c2fc/</link>
+      <guid>https://www.jiecs.top/archives/c357c2fc/</guid>
+      <pubDate>Sun, 19 Jun 2022 14:37:10 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;阿巴酱的吃屎模块，本来是清理根目录下的各种垃圾文件(夹)的&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cdn.jiecs.top/img/2022/06/Screenshot_2022-06-18-23-20-15-884_com.topjohnwu.magisk.</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>阿巴酱的吃屎模块，本来是清理根目录下的各种垃圾文件(夹)的</p><p><img src="https://cdn.jiecs.top/img/2022/06/Screenshot_2022-06-18-23-20-15-884_com.topjohnwu.magisk.png" alt="循环吃掉乱拉屎的文件/文件夹"></p><p>之前一直没问题，最近我看它好像出了点问题，不吃垃圾了，于是重启了下模块。结果我一看，整个根目录都没了</p><p>我TM。。。</p><p>而且根目录下新建不了任何文件（夹），禁用掉模块也是如此。当时系统到没啥大问题，就是屏截不了了</p><p>重启了一下，系统完全正常了，但数据全丢了。包括 Android 和里面的 data。FusionApp 2 的工程文件也在 Android&#x2F;data 私有目录里，自然也全没了</p><p>虽然我工程每个版本会备份一次，但最近博客换框架，应用大改，没有发版自然也没有备份。还好最近也懒得折腾了，干脆直接弃坑了</p><p>但调试后已经装在手机上的应用还能提取出来。不是最新的（FusionApp 中可以预览运行），也处于开发中，<a href="http://ctpan.jiecs.top/f/32856022-599029140-86d544">文件链接</a></p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%9D%B0%E5%87%BA%E5%85%BD%E5%AE%89%E5%8D%93APP/">杰出兽安卓APP</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/c357c2fc/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>博客域名续费</title>
+      <link>https://www.jiecs.top/archives/bfcbf805/</link>
+      <guid>https://www.jiecs.top/archives/bfcbf805/</guid>
+      <pubDate>Wed, 01 Jun 2022 19:29:46 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;jiecs.top 本来要在 2022-07-31 到期，现在又续了一年&lt;br&gt;不出意外的话 jiecs.top 会一直续下去&lt;br&gt;loliis.top 应该也会&lt;br&gt;mumisin.icu 看情况&lt;/p&gt;
+</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>jiecs.top 本来要在 2022-07-31 到期，现在又续了一年<br>不出意外的话 jiecs.top 会一直续下去<br>loliis.top 应该也会<br>mumisin.icu 看情况</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E5%8D%9A%E5%AE%A2/">博客</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1/">云服务</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/bfcbf805/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Heroku-PagerMaid 现已支持新 Pyrogram 内核</title>
+      <link>https://www.jiecs.top/archives/198b4d7c/</link>
+      <guid>https://www.jiecs.top/archives/198b4d7c/</guid>
+      <pubDate>Thu, 26 May 2022 20:40:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;a href=&quot;https://github.com/jiesou/Heroku-PagerMaid/tree/pyro&quot;&gt;https://github.com/jiesou/Heroku-PagerMaid/tree/pyro&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;只需 10s 即可用</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><a href="https://github.com/jiesou/Heroku-PagerMaid/tree/pyro">https://github.com/jiesou/Heroku-PagerMaid/tree/pyro</a></p><p>只需 10s 即可用 Heroku 完全免费搭建 Telegram UserBot PagerMaid<del>（仅包括在线部署输入密钥的时间）</del></p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E7%A8%8B%E5%BA%8F/">程序</category>
+      
+      <category domain="https://www.jiecs.top/tags/Telegram/">Telegram</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/198b4d7c/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>关于在 Termux 中安装 Wrangler 遇到的问题</title>
+      <link>https://www.jiecs.top/archives/238e5292/</link>
+      <guid>https://www.jiecs.top/archives/238e5292/</guid>
+      <pubDate>Sun, 15 May 2022 18:13:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;div class=&quot;note note-danger&quot;&gt;
+            &lt;p&gt;我刚发现这篇文章是在瞎鸡巴扯完全过时的东西，请不要看我逼逼，直接跳到&lt;a href=&quot;#%E6%9B%B4%E6%96%B0&quot;&gt;更新&lt;/a&gt;&lt;/p&gt;
+          &lt;/div&gt;
+
+&lt;</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<div class="note note-danger">            <p>我刚发现这篇文章是在瞎鸡巴扯完全过时的东西，请不要看我逼逼，直接跳到<a href="#%E6%9B%B4%E6%96%B0">更新</a></p>          </div><h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>大概是太多人拿 Cloudflare Workers 翻墙，Cloudflare Workers 的 &lt;workers.dev&gt; 域名最近被墙了</p><p>而本博客的必应图片背景（即上面的这一片风景图）中的跳转部分就是由 Cloudflare Workers 搭建的。而且我还用 Cloudflare Wokers 搭建了许多别的服务，比如一言</p><p>再骂几次万恶的 GFW 也无济于事，还是只能换一个 ServerLess 平台。想了想决定用 Vercel</p><p>Vercel 的部署是相对简单方便的，不用 30 秒即可直接使用 Vercel CLI 创建项目并部署到生产环境。Vercel CLI 的安装也十分简单，可以直接用 <code>npm/yarn</code> 安装，没有任何问题</p><p>我之前部署 Cloudflare Workers 是用的 PC 浏览器打开 Playground 直接编写代码，然而在手机上，Playground 的体验十分糟糕</p><p><img src="https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-11-19-13-139-edit_com.microsoft.emmx.jpg?%3C40" alt="布局混乱，光标乱跳"></p><p>我甚至无法全选复制出代码</p><p>还好 Cloudflare Workers 也提供一个命令行部署方式，可以用命令行把代码提取下来。命令行工具叫 Wrangler CLI</p><h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>我按照 <a href="https://developers.cloudflare.com/workers/wrangler/cli-wrangler/install-update/">Wrangler 文档</a>里的安装方式使用 npm 安装：</p><p><img src="https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-18-32-20-441_com.termux.png" alt="Error: Unsupported platform: Linux arm64"></p><p>很快啊，就出问题了！定睛一看，这 Wrangler 居然没有 arm64 的预编译二进制可执行文件！</p><h3 id="使用-Cargo-自行编译安装"><a href="#使用-Cargo-自行编译安装" class="headerlink" title="使用 Cargo 自行编译安装"></a>使用 Cargo 自行编译安装</h3><p>好吧，官方文档还提供了自己编译安装的方法。先切到了 proot 的 Ubuntu</p><div class="note note-light">            <p>安装并切换到 proot 的 Ubuntu：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pkg install proot-distro<br>proot-distro install ubuntu<br>proot-distro login ubuntu<br></code></pre></td></tr></table></figure><p>然后安装点必要的东西</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt update<br>apt install curl wget git<br></code></pre></td></tr></table></figure>          </div><h4 id="安装-Rust"><a href="#安装-Rust" class="headerlink" title="安装 Rust"></a>安装 Rust</h4><p>照着指示安装了 Rust：<code>curl https://sh.rustup.rs -sSf | sh</code>，然后用 Cargo 编译安装：<code>cargo install wrangler</code></p><h4 id="安装-GCC"><a href="#安装-GCC" class="headerlink" title="安装 GCC"></a>安装 GCC</h4><p>很快又出了问题：</p><p><img src="https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-19-18-09-473_com.tencent.tim.png" alt="error: linker &#39;cc&#39; not found"></p><p>这是 GCC 编译器没有安装，<code>apt install gcc</code> 即可</p><h4 id="安装-Perl"><a href="#安装-Perl" class="headerlink" title="安装 Perl"></a>安装 Perl</h4><p>还有问题：</p><p><img src="https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-19-40-30-793_com.tencent.tim.png" alt="Can&#39;t locate FindBin pm in @INC"></p><p>必应一下找到了：<a href="https://github.com/openssl/openssl/issues/13761">https://github.com/openssl/openssl/issues/13761</a></p><p>明明已经装了 Perl，不过不知道为什么确实还是要用 apt 再装一下：<code>apt install perl</code></p><h4 id="安装-make"><a href="#安装-make" class="headerlink" title="安装 make"></a>安装 make</h4><p>人生哪有一帆风顺，问题：</p><p><img src="https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-19-47-21-571_com.tencent.tim.png" alt="No such file or directory"></p><p>必应：<a href="https://github.com/nushell/nushell/issues/5379">https://github.com/nushell/nushell/issues/5379</a></p><p>解决：<code>apt install make</code></p><h4 id="真的可以安装了"><a href="#真的可以安装了" class="headerlink" title="真的可以安装了"></a>真的可以安装了</h4><p>终于可以 <code>cargo install wrangler</code> 了</p><p>哎？但是？</p><p><img src="https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-20-15-52-075-edit_com.termux.jpg" alt="-bash: wrangler: command not found"></p><p><code>/root/.cargo/bin/wrangler</code> 指向了<br><code>/tmp/cargo-install223hTj/release/deps/.l2s.wrangler-df5343ad789ada3c0001</code> 这个又指向了 <code>.l2s.wrangler-df5343ad789ada3c0001.0001</code> 但这个又指向的文件不存在</p><p>这里我也不知道为啥，总之我是先把 <code>/root/.cargo/bin/wrangler</code> 这个软链接删掉，然后再重新安装一次就没问题了：</p><p><img src="https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-21-04-29-578-edit_com.termux.jpg" alt="wrangler 1.19.12"></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>先进入 proot，然后：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl https://sh.rustup.rs -sSf | sh<br><span class="hljs-built_in">source</span> <span class="hljs-variable">$HOME</span>/.cargo/env<br>apt install gcc perl make -y<br>cargo install wrangler<br></code></pre></td></tr></table></figure><h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><p>请<strong>不要</strong>听上面的</p><p>请<strong>不要</strong> <code>npm install -g @cloudflare/wrangler</code></p><p>这是 wrangler 1 的安装方法</p><p>你应该 <code>npm install -g wrangler</code></p><p>就没有任何问题了，也完美支持 arm64</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E7%AE%80%E5%8D%95%E6%8A%80%E6%9C%AF/">简单技术</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E7%A8%8B%E5%BA%8F/">程序</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1/">云服务</category>
+      
+      <category domain="https://www.jiecs.top/tags/Cloudflare/">Cloudflare</category>
+      
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/238e5292/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>BetterUptime 歇逼了</title>
+      <link>https://www.jiecs.top/archives/4111e586/</link>
+      <guid>https://www.jiecs.top/archives/4111e586/</guid>
+      <pubDate>Fri, 06 May 2022 21:39:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;img src=&quot;https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-06-21-34-51-758-edit_com.tencent.androidqqmail.jpg&quot; alt=&quot;BetterUptime 的 St</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><img src="https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-06-21-34-51-758-edit_com.tencent.androidqqmail.jpg" alt="BetterUptime 的 StatusPage 发生异常，展示无法更新状态"></p><p>那么问题来了<br>StatusPage 有没有 StatusPage</p><p>如果 StatusPage 的 StatusPage 坏了是不是就需要 StatusPage 的 StatusPage 的 StatusPage</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E5%8D%9A%E5%AE%A2/">博客</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1/">云服务</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/4111e586/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>BetterUptime 太牛皮了</title>
+      <link>https://www.jiecs.top/archives/ae6ef8a4/</link>
+      <guid>https://www.jiecs.top/archives/ae6ef8a4/</guid>
+      <pubDate>Thu, 05 May 2022 21:17:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;BetterUptime 最早在 09:01:46 发现了异常，然后在 09:01:59 确认了事件发生（从三个地点同时发现异常）并在 09:02:00 通知了电子邮件和 Zipier，几乎同时通知给了 Telegram Bot&lt;/p&gt;
+&lt;p&gt;然后我就能在 09:02 左右</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>BetterUptime 最早在 09:01:46 发现了异常，然后在 09:01:59 确认了事件发生（从三个地点同时发现异常）并在 09:02:00 通知了电子邮件和 Zipier，几乎同时通知给了 Telegram Bot</p><p>然后我就能在 09:02 左右收到事件，在 09:03:59 登录 BetterUptime 确认事件并编辑状态页面</p><p>此时状态页面的事件报告刚刚被自动生成（默认在事件持续时间超过三分钟时自动生成报告的状态页面），于是现在我能在状态页事件发生不到 10 秒内发布状态更新</p><p><img src="https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-05-21-05-49-439-edit_com.microsoft.emmx.jpg" alt="事件刚发生 6 秒就发布了状态更新"></p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E5%8D%9A%E5%AE%A2/">博客</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1/">云服务</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/ae6ef8a4/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>又做了个新项目</title>
+      <link>https://www.jiecs.top/archives/38b5ee82/</link>
+      <guid>https://www.jiecs.top/archives/38b5ee82/</guid>
+      <pubDate>Wed, 04 May 2022 14:10:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;a href=&quot;https://loliis.top/&quot;&gt;https://loliis.top&lt;/a&gt;&lt;/p&gt;
+</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><a href="https://loliis.top/">https://loliis.top</a></p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/38b5ee82/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>ServerLess 真香</title>
+      <link>https://www.jiecs.top/archives/16593c53/</link>
+      <guid>https://www.jiecs.top/archives/16593c53/</guid>
+      <pubDate>Sat, 30 Apr 2022 22:51:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;我发现我完全用不到服务器了&lt;/p&gt;
+&lt;p&gt;Heroku 搭建了 FreshRSS、PagerMaid&lt;/p&gt;
+&lt;p&gt;Vercel 搭建了博客评论后端、RSShub、个推后端、图片加速代理、域名托管&lt;/p&gt;
+&lt;p&gt;CloudflareWokers 搭建了一言管理系统、loli</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>我发现我完全用不到服务器了</p><p>Heroku 搭建了 FreshRSS、PagerMaid</p><p>Vercel 搭建了博客评论后端、RSShub、个推后端、图片加速代理、域名托管</p><p>CloudflareWokers 搭建了一言管理系统、lolicon API、必应壁纸 API、pixiv 反代</p><p>还有博客用了各种 Pages，博客评论数据库用的 LeanCloud，图床用的 Netlify</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E5%8D%9A%E5%AE%A2/">博客</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1/">云服务</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/16593c53/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>最近开了个新项目，杰出兽安卓APP再次推迟</title>
+      <link>https://www.jiecs.top/archives/b8eaad1a/</link>
+      <guid>https://www.jiecs.top/archives/b8eaad1a/</guid>
+      <pubDate>Thu, 28 Apr 2022 20:18:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;如题&lt;/p&gt;
+</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>如题</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E5%8D%9A%E5%AE%A2/">博客</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E7%A8%8B%E5%BA%8F/">程序</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%9D%B0%E5%87%BA%E5%85%BD%E5%AE%89%E5%8D%93APP/">杰出兽安卓APP</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/b8eaad1a/#disqus_thread</comments>
+      
+    </item>
+    
+  </channel>
+</rss>
