@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>杰出兽的小宇宙</title>
+    <link>https://www.jiecs.top/</link>
+    
+    <image>
+      <url>https://www.jiecs.top/favicon.ico</url>
+      <title>杰出兽的小宇宙</title>
+      <link>https://www.jiecs.top/</link>
+    </image>
+    
+    <atom:link href="https://www.jiecs.top/feed.xml" rel="self" type="application/rss+xml"/>
+    
+    <description>偶尔写点技术记录，杂谈。杰出兽 jiecs jiecs_23 jiesou</description>
+    <pubDate>Tue, 01 Jul 2025 14:18:24 GMT</pubDate>
+    <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>PVE 在裸金属机上通过 ALSA 播放声音</title>
+      <link>https://www.jiecs.top/archives/8fd95410/</link>
+      <guid>https://www.jiecs.top/archives/8fd95410/</guid>
+      <pubDate>Sat, 14 Jun 2025 20:14:25 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;PVE 图形界面中 后端驱动器：无（虚拟设备）表示 qemu 收到音频数据就丢弃，只是做一个假音频设备而已。&lt;/p&gt;
+&lt;p&gt;需要自己设置 qemu 参数来传输到宿主机的 ALSA 上。&lt;/p&gt;
+&lt;p&gt;编辑&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>PVE 图形界面中 后端驱动器：无（虚拟设备）表示 qemu 收到音频数据就丢弃，只是做一个假音频设备而已。</p><p>需要自己设置 qemu 参数来传输到宿主机的 ALSA 上。</p><p>编辑</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nano /etc/pve/qemu-server/103.conf<br></code></pre></td></tr></table></figure><p>添加</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">args: -audiodev alsa,<span class="hljs-built_in">id</span>=alsa0 -device intel-hda -device hda-duplex,audiodev=alsa0<br></code></pre></td></tr></table></figure><p>可以 </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt install alsa-utils<br>aplay -l<br></code></pre></td></tr></table></figure><p>检查宿主机 alsa 识别到的设备<br>还能使用 <code>alsamixer</code> TUI 工具调节音量、静音之类的</p><p>QEMU 可以通过</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">qemu-system-x86_64 -audiodev <span class="hljs-built_in">help</span><br></code></pre></td></tr></table></figure><p>来查看可用的音频后端驱动</p><p>还有</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">qemu-system-x86_64 -device <span class="hljs-built_in">help</span><br></code></pre></td></tr></table></figure><p>查看所有可用的前端音频设备</p><p>[[[想做 2.5G 虚拟化软路由_725]]]</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/TipsTricks/">TipsTricks</category>
+      
+      <category domain="https://www.jiecs.top/tags/PVE/">PVE</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/8fd95410/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>三相电源的理解</title>
+      <link>https://www.jiecs.top/archives/a997eaac/</link>
+      <guid>https://www.jiecs.top/archives/a997eaac/</guid>
+      <pubDate>Fri, 30 May 2025 22:12:50 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;星三角的相与线电压电流转换&quot;&gt;&lt;a href=&quot;#星三角的相与线电压电流转换&quot; class=&quot;headerlink&quot; title=&quot;星三角的相与线电压电流转换&quot;&gt;&lt;/a&gt;星三角的相与线电压电流转换&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;特性&lt;/</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h2 id="星三角的相与线电压电流转换"><a href="#星三角的相与线电压电流转换" class="headerlink" title="星三角的相与线电压电流转换"></a>星三角的相与线电压电流转换</h2><table><thead><tr><th>特性</th><th>星形接法 (Y)</th><th>三角形接法 (Δ)</th><th>比例 (Δ:Y) （基于相同 $U_L$ 和相同 $Z_P$）</th></tr></thead><tbody><tr><td>相电压</td><td>$U_P &#x3D; \dfrac{U_L}{\sqrt{3}}$</td><td>$U_P &#x3D; U_L$</td><td>$\sqrt{3} : 1$</td></tr><tr><td>相电流</td><td>$I_P &#x3D; I_L$</td><td>$I_P &#x3D; \dfrac{I_L}{\sqrt{3}}$</td><td>$\sqrt{3} : 1$</td></tr><tr><td>线电压</td><td>$U_L &#x3D; \sqrt{3} , U_P$</td><td>$U_L &#x3D; U_P$</td><td>$1 : 1$ （基准）</td></tr><tr><td>线电流</td><td>$I_L &#x3D; I_P &#x3D; \dfrac{U_L}{\sqrt{3} , Z_P}$</td><td>$I_L &#x3D; \sqrt{3} , I_P &#x3D; \dfrac{\sqrt{3} , U_L}{Z_P}$</td><td>$3 : 1$</td></tr><tr><td>功率</td><td>$P_Y &#x3D; \dfrac{U_L^2}{Z_P} \cdot \cos\phi$</td><td>$P_\Delta &#x3D; 3\dfrac{U_L^2}{Z_P} \cdot \cos\phi$</td><td>$3 : 1$</td></tr></tbody></table><p>三角形<strong>相电压</strong>等于电源两条相线间的<strong>线电压</strong> 380V<br>$U_P &#x3D; U_L$</p><p>星形<strong>相电压</strong>等于电源的单<strong>相电压</strong> 220V<br>$U_L &#x3D; U_P$</p><hr><h2 id="总有功功率的计算"><a href="#总有功功率的计算" class="headerlink" title="总有功功率的计算"></a>总有功功率的计算</h2><h3 id="通用公式"><a href="#通用公式" class="headerlink" title="通用公式"></a>通用公式</h3><p>用相参数公式表示：<br>$$<br>P &#x3D; 3 \cdot U_P \cdot I_P \cdot \cos\phi<br>$$<br>用线参数表示：<br>$$<br>P &#x3D; \sqrt{3} \cdot U_L \cdot I_L \cdot \cos\phi<br>$$<br>以上公式无论星&#x2F;三角都适用。</p><h4 id="线参数功率推导：星形接法（Y）"><a href="#线参数功率推导：星形接法（Y）" class="headerlink" title="线参数功率推导：星形接法（Y）"></a>线参数功率推导：星形接法（Y）</h4><p>我们知道星形接法中线参数与相参数的关系：</p><ul><li>$U_L &#x3D; \sqrt{3} , U_P \quad \Rightarrow \quad U_P &#x3D; \dfrac{U_L}{\sqrt{3}}$</li><li>$I_L &#x3D; I_P$</li></ul><p>将这些关系代入相参数的总功率公式 $P_Y &#x3D; 3 \cdot U_P \cdot I_P \cdot \cos\phi$：</p><p>$$<br>P_Y &#x3D; 3 \cdot \left( \dfrac{U_L}{\sqrt{3}} \right) \cdot I_L \cdot \cos\phi \<br>&#x3D; \left( \dfrac{3}{\sqrt{3}} \right) \cdot U_L \cdot I_L \cdot \cos\phi \<br>&#x3D; \sqrt{3} \cdot U_L \cdot I_L \cdot \cos\phi<br>$$</p><h4 id="线参数功率推导：三角形接法-Δ"><a href="#线参数功率推导：三角形接法-Δ" class="headerlink" title="线参数功率推导：三角形接法 (Δ)"></a>线参数功率推导：三角形接法 (Δ)</h4><p>我们知道三角形接法中线参数与相参数的关系：</p><ul><li>$U_L &#x3D; U_P$</li><li>$I_L &#x3D; \sqrt{3} , I_P \quad \Rightarrow \quad I_P &#x3D; \dfrac{I_L}{\sqrt{3}}$</li></ul><p>将这些关系代入相参数的总功率公式 $P_\Delta &#x3D; 3 \cdot U_P \cdot I_P \cdot \cos\phi$：</p><p>$$<br>P_\Delta &#x3D; 3 \cdot U_L \cdot \left( \dfrac{I_L}{\sqrt{3}} \right) \cdot \cos\phi \<br>&#x3D; \left( \dfrac{3}{\sqrt{3}} \right) \cdot U_L \cdot I_L \cdot \cos\phi \<br>&#x3D; \sqrt{3} \cdot U_L \cdot I_L \cdot \cos\phi<br>$$</p><p><strong>由此可见：</strong> 无论星&#x2F;三角的连接，无论用相参数还是线参数求，总有功功率<strong>计算方式</strong>都一样。</p><p><strong>同时：</strong><br>$$<br>S_{(视在)} &#x3D; 3 \cdot U_P \cdot I_P \cdot &#x3D; \sqrt{3} \cdot U_L \cdot I_L<br>$$<br>但如果 $U_L$（380V）、$Z_P$ 不变，那不同接法产生不同相电压和电流，总功率就不一样了。</p><hr><h4 id="最后，按照-U-L-、-Z-P-不变，来计算两种接法，总有功功率的比。"><a href="#最后，按照-U-L-、-Z-P-不变，来计算两种接法，总有功功率的比。" class="headerlink" title="最后，按照 $U_L$、$Z_P$ 不变，来计算两种接法，总有功功率的比。"></a>最后，按照 $U_L$、$Z_P$ 不变，来计算两种接法，总有功功率的比。</h4><p>这里的 $I_L$ 已经因为接法不同而发生了变化。</p><h5 id="星形接法-Y-的功率-P-Y-："><a href="#星形接法-Y-的功率-P-Y-：" class="headerlink" title="星形接法 (Y) 的功率 ($P_Y$)："></a><strong>星形接法 (Y) 的功率 ($P_Y$)：</strong></h5><p>$$<br>P_Y &#x3D; \sqrt{3} U_L I_{L,Y} \cos\phi<br>$$<br>把 $I_{L,Y}$ 替换进去：<br>$$<br>P_Y &#x3D; \sqrt{3} U_L \cdot \left[\frac{U_L}{\sqrt{3} Z_P}\right] \cos\phi<br>$$<br>$$<br>P_Y &#x3D; \left(\frac{U_L^2}{Z_P}\right) \cos\phi<br>$$</p><h5 id="三角形接法-Δ-的功率-P-Delta-："><a href="#三角形接法-Δ-的功率-P-Delta-：" class="headerlink" title="三角形接法 (Δ) 的功率 ($P_\Delta$)："></a><strong>三角形接法 (Δ) 的功率 ($P_\Delta$)：</strong></h5><h2 id="P-Delta-sqrt-3-U-L-I-L-Delta-cos-phi-把-I-L-Delta-替换进去：-P-Delta-sqrt-3-U-L-cdot-left-sqrt-3-cdot-frac-U-L-Z-P-right-cos-phi-P-Delta-3-left-frac-U-L-2-Z-P-right-cos-phi-现在对比-P-Delta-和-P-Y-：-P-Delta-P-Y-left-3-cdot-frac-U-L-2-Z-P-cos-phi-right-left-frac-U-L-2-Z-P-cos-phi-right-比例：-P-Delta-P-Y-3-1"><a href="#P-Delta-sqrt-3-U-L-I-L-Delta-cos-phi-把-I-L-Delta-替换进去：-P-Delta-sqrt-3-U-L-cdot-left-sqrt-3-cdot-frac-U-L-Z-P-right-cos-phi-P-Delta-3-left-frac-U-L-2-Z-P-right-cos-phi-现在对比-P-Delta-和-P-Y-：-P-Delta-P-Y-left-3-cdot-frac-U-L-2-Z-P-cos-phi-right-left-frac-U-L-2-Z-P-cos-phi-right-比例：-P-Delta-P-Y-3-1" class="headerlink" title="$$P_\Delta &#x3D; \sqrt{3} U_L I_{L,\Delta} \cos\phi$$把 $I_{L,\Delta}$ 替换进去：$$P_\Delta &#x3D; \sqrt{3} U_L \cdot \left[\sqrt{3} \cdot \frac{U_L}{Z_P}\right] \cos\phi$$$$P_\Delta &#x3D; 3 \left(\frac{U_L^2}{Z_P}\right) \cos\phi$$现在对比 $P_\Delta$ 和 $P_Y$：$$P_\Delta : P_Y &#x3D; \left[3 \cdot \frac{U_L^2}{Z_P} \cos\phi\right] : \left[\frac{U_L^2}{Z_P} \cos\phi\right]$$比例：$$P_\Delta : P_Y &#x3D; 3 : 1$$"></a>$$<br>P_\Delta &#x3D; \sqrt{3} U_L I_{L,\Delta} \cos\phi<br>$$<br>把 $I_{L,\Delta}$ 替换进去：<br>$$<br>P_\Delta &#x3D; \sqrt{3} U_L \cdot \left[\sqrt{3} \cdot \frac{U_L}{Z_P}\right] \cos\phi<br>$$<br>$$<br>P_\Delta &#x3D; 3 \left(\frac{U_L^2}{Z_P}\right) \cos\phi<br>$$<br><strong>现在对比 $P_\Delta$ 和 $P_Y$：</strong><br>$$<br>P_\Delta : P_Y &#x3D; \left[3 \cdot \frac{U_L^2}{Z_P} \cos\phi\right] : \left[\frac{U_L^2}{Z_P} \cos\phi\right]<br>$$<br>比例：<br>$$<br>P_\Delta : P_Y &#x3D; 3 : 1<br>$$</h2><p>但请记住：</p><ol><li>线电压在两种接法下是相同的（这是我们设定的比较前提）。所以电压的比值在这里是 1:1。</li><li>真正有 $\sqrt{3}$ 倍关系的，是相电压和相电流。</li><li>线电流之所以差 3 倍，是因为它受到了两个 $\sqrt{3}$ 因素的影响：</li></ol><ul><li>相电压的 $\sqrt{3}$ 倍关系：三角形接法下相电压比星形接法高 $\sqrt{3}$ 倍，导致相电流高 $\sqrt{3}$ 倍。</li><li>三角形接法中线电流和相电流的 $\sqrt{3}$ 倍关系：三角形接法中线电流是相电流的 $\sqrt{3}$ 倍，而星形接法中线电流等于相电流。<br>这两个 $\sqrt{3}$ 叠加起来，就变成了 $\sqrt{3} \times \sqrt{3} &#x3D; 3$ 倍。</li></ul><p>所以，<strong>功率的 3 倍关系，正是来自线电流的 3 倍关系</strong>，而线电压在比较前提下是相同的。</p><hr><h3 id="关于相电压线电压和向量"><a href="#关于相电压线电压和向量" class="headerlink" title="关于相电压线电压和向量"></a>关于相电压线电压和向量</h3><p>三相电，<em>单相电压</em>依旧是 220V，但相位相差 120°。所以，两相之间的<em>线电压</em>通过向量叠加，可得为 380V。</p><h3 id="关于向量叠加-中性线电流理解"><a href="#关于向量叠加-中性线电流理解" class="headerlink" title="关于向量叠加-中性线电流理解"></a>关于向量叠加-中性线电流理解</h3><p><img src="https://cdn.jiecs.top/img/2025/05/560-Screenshot_20250530-213001_PiliPlus~4.webp" alt="三相 中性线 电流计算"><br>来自：</p><blockquote><p>三相交流电路相电压、相电流、中性线电流的计算方法及相量图的画法 UP主: 长风的慢生活 - <a href="https://www.bilibili.com/video/BV1rm4y137aw">https://www.bilibili.com/video/BV1rm4y137aw</a> 2:06</p></blockquote>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E5%AD%A6%E4%B9%A0/">学习</category>
+      
+      <category domain="https://www.jiecs.top/tags/AI/">AI</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/a997eaac/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>“拓学无阻积分互助”平台使用与部署文档</title>
+      <link>https://www.jiecs.top/archives/ff069447/</link>
+      <guid>https://www.jiecs.top/archives/ff069447/</guid>
+      <pubDate>Wed, 30 Apr 2025 09:37:55 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;&lt;strong&gt;介绍&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;拓学无阻积分互助 是一个基于 Vue 3 和 Vite 构建的前端，以及使用 Node.js 和 Yarn</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a><strong>介绍</strong></h2><p>拓学无阻积分互助 是一个基于 Vue 3 和 Vite 构建的前端，以及使用 Node.js 和 Yarn 作为后端的 Web 应用。兼容多种数据库：兼容sequelize的数据库均可，也支持 VercelSQL等SaaS架构数据库（所有支持的数据库详见 server&#x2F;src&#x2F;adapter&#x2F;*）。</p><h2 id="使用已部署的测试环境"><a href="#使用已部署的测试环境" class="headerlink" title="使用已部署的测试环境"></a><strong>使用已部署的测试环境</strong></h2><p>访问： <a href="http://jtex.jiecs.top/">http://jtex.jiecs.top</a> （注意测试环境不支持 HTTPS）</p><p>测试用户：<br>用户名：test1<br>密码：12345678<br>管理用户：<br>用户名：0<br>密码：12345678</p><h2 id="Docker-Compose自动容器化部署"><a href="#Docker-Compose自动容器化部署" class="headerlink" title="Docker Compose自动容器化部署"></a><strong>Docker Compose自动容器化部署</strong></h2><h3 id="先决条件："><a href="#先决条件：" class="headerlink" title="先决条件："></a><strong>先决条件：</strong></h3><ul><li>参考<a href="https://docs.docker.com/engine/install">https://docs.docker.com/engine/install</a> 安装并设置了Docker Engine以及Docker Compose</li><li>良好的网络连接</li></ul><h3 id="克隆存储库"><a href="#克隆存储库" class="headerlink" title="克隆存储库:"></a><strong>克隆存储库:</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> &lt;https://github.com/jiesou/JTExchange.git&gt;<br><span class="hljs-built_in">cd</span> JTExchange<br>````<br><span class="hljs-comment">### **运行 Compose 容器组:**</span><br><br>（在项目根目录执行）  <br>docker compose up -d<br><br>Docker Compose将完成依赖环境配置，完成后通过 docker compose logs 可查看运行日志。出现下列字样时即表示已成功部署：<br><br></code></pre></td></tr></table></figure><p>jtexchange-server-1 | Server listening on port 3000<br>jtexchange-server-1 | Table Users synced.<br>jtexchange-server-1 | Table Transactions synced.<br>jtexchange-server-1 | Table Posts synced.</p><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><br>可在 &lt;http:<span class="hljs-comment">//127.0.0.1:8080&gt; 访问到</span><br><br><span class="hljs-meta">### **修改配置文件：**</span><br><br>重命名<span class="hljs-keyword">server</span>/.env.example为<span class="hljs-keyword">server</span>/.env文件，并根据需要修改其中内容：<br><br></code></pre></td></tr></table></figure><p>SYSTEM_KEY&#x3D;abcdef<br>PASSWORD_SALT&#x3D;abcdef<br>POSTGRES_URL&#x3D;postgres:&#x2F;&#x2F;postgres:<a href="mailto:&#49;&#x32;&#x33;&#52;&#x35;&#x36;&#64;&#x31;&#x32;&#55;&#46;&#x30;&#x2e;&#48;&#46;&#49;">123456@127.0.0.1</a>:5432&#x2F;base（会被Docker Compose覆盖）<br>OPENAI_API_KEY&#x3D;abcdef OPENAI_BASE_URL&#x3D;<a href="https://dashscope.aliyuncs.com/compatible-mode/v1">https://dashscope.aliyuncs.com/compatible-mode/v1</a></p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><br><span class="hljs-section">## <span class="hljs-strong">**手动部署**</span></span><br><br><span class="hljs-section">### <span class="hljs-strong">**先决条件**</span></span><br><br>在手动部署“拓学无阻”平台之前，需要确保系统上已安装以下运行环境：<br><br><span class="hljs-bullet">-</span> [<span class="hljs-string">Node.js</span>](<span class="hljs-link">https://nodejs.org/</span>)<br><span class="hljs-bullet">-</span> [<span class="hljs-string">Yarn</span>](<span class="hljs-link">https://yarnpkg.com/</span>)<br><span class="hljs-bullet">-</span> PostgreSQL（或外部/兼容sequelize的数据库均可，所有支持的数据库详见 server/src/adapter/\<span class="hljs-emphasis">*）</span><br><span class="hljs-emphasis">- 良好的网络连接</span><br><span class="hljs-emphasis"></span><br><span class="hljs-emphasis">## <span class="hljs-strong">**安装与部署**</span></span><br><span class="hljs-emphasis"></span><br><span class="hljs-emphasis">### <span class="hljs-strong">**数据库设置 (PostgreSQL为例)**</span></span><br><span class="hljs-emphasis"></span><br><span class="hljs-emphasis">- 安装 PostgreSQL。</span><br><span class="hljs-emphasis">- 创建一个新的数据库：</span><br><span class="hljs-emphasis"></span><br><span class="hljs-emphasis">```bash</span><br><span class="hljs-emphasis">createdb tx_db</span><br></code></pre></td></tr></table></figure><h3 id="后端安装与配置-Node-js-Yarn"><a href="#后端安装与配置-Node-js-Yarn" class="headerlink" title="后端安装与配置 (Node.js + Yarn)"></a><strong>后端安装与配置 (Node.js + Yarn)</strong></h3><ul><li>克隆存储库：</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/jiesou/JTExchange.git<br><span class="hljs-built_in">cd</span> JTExchange<br></code></pre></td></tr></table></figure><ul><li>安装后端依赖项：</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">yarn install<br></code></pre></td></tr></table></figure><ul><li>配置服务端：</li></ul><p>重命名 <code>server/.env.example</code> 为 <code>server/.env</code> 文件，并根据需要修改其中内容：</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-attribute">SYSTEM_KEY</span>=abcdef  <br><span class="hljs-attribute">PASSWORD_SALT</span>=abcdef  <br><span class="hljs-attribute">POSTGRES_URL</span>=postgres://postgres:123456@127.0.0.1:5432/base（会被Docker Compose覆盖）  <br><span class="hljs-attribute">OPENAI_API_KEY</span>=abcdef <span class="hljs-attribute">OPENAI_BASE_URL</span>=https://dashscope.aliyuncs.com/compatible-mode/v1<br></code></pre></td></tr></table></figure><h3 id="前端安装与配置-Vue-3-Vite"><a href="#前端安装与配置-Vue-3-Vite" class="headerlink" title="前端安装与配置 (Vue 3 + Vite)"></a><strong>前端安装与配置 (Vue 3 + Vite)</strong></h3><ul><li>进入 client 目录：</li></ul><p>（在项目根目录执行）  </p><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta">cd <span class="hljs-keyword">client</span><br></code></pre></td></tr></table></figure><ul><li>安装前端依赖项：</li></ul><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">yarn <span class="hljs-keyword">install</span><br></code></pre></td></tr></table></figure><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a><strong>启动</strong></h3><ul><li>确保 PostgreSQL 服务已启动。</li><li>启动后端服务器：</li></ul><p>（在项目根目录执行）  </p><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dos"><span class="hljs-built_in">cd</span> server  <br>yarn <span class="hljs-built_in">start</span><br></code></pre></td></tr></table></figure><ul><li>启动前端服务器：</li></ul><p>（在项目根目录执行）  </p><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs axapta">cd <span class="hljs-keyword">client</span>  <br>yarn dev<br></code></pre></td></tr></table></figure><ul><li>后端会监听本地3000端口，或可通过环境变量PORT端口来修改其监听的端口</li><li>前端vite默认提示所监听的端口，并将<a href="http://localhost:3000/">http://localhost:3000</a> 反向代理到前端的 &#x2F;api 路径，所以使用时只需要开放前端端口即可。实际上，vite build可直接将前端程序构建为纯静态产物，可动静态分离。</li></ul><h2 id="账号管理"><a href="#账号管理" class="headerlink" title="账号管理"></a><strong>账号管理</strong></h2><h3 id="创建账户"><a href="#创建账户" class="headerlink" title="创建账户"></a><strong>创建账户</strong></h3><ul><li>点击页面上方的登录。</li><li>点击“注册”按钮。</li><li>输入相关信息，完成注册。</li></ul><h3 id="账户管理"><a href="#账户管理" class="headerlink" title="账户管理"></a><strong>账户管理</strong></h3><ul><li>**注意：**ID为0的用户是管理用户（即老师身份），必须创建，可以发起金额为负值的交易，自身余额也允许为负值。</li><li>**注意：**SYSTEM_KEY环境变量所指向的密钥拥有系统管理用户的访问权限，能够通过&#x2F;api&#x2F;sudo&#x2F;*API执行特殊权限操作，例：</li></ul><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs livescript">curl --location <span class="hljs-string">&#x27;&lt;http://127.0.0.1:3000/api/sudo/new_system_transaction&gt;&#x27;</span> <span class="hljs-string">\\</span><br><span class="hljs-string">\--header</span> <span class="hljs-string">&#x27;Content-Type: application/x-www-form-urlencoded&#x27;</span> <span class="hljs-string">\\</span><br><span class="hljs-string">\--header</span> <span class="hljs-string">&#x27;X-Key: SYSTEM_KEY&#x27;</span> <span class="hljs-string">\\</span><br><span class="hljs-string">\--data-urlencode</span> <span class="hljs-string">&#x27;to=TO_ID&#x27;</span> <span class="hljs-string">\\</span><br><span class="hljs-string">\--data-urlencode</span> <span class="hljs-string">&#x27;amount=100&#x27;</span><br></code></pre></td></tr></table></figure><p>即向TO_ID凭空转账100个代币，交易记录中会显示交易来自用户0</p><ul><li>用户可以在个人中心修改密码、更新个人信息等。</li><li>仅管理员可管理用户权限和账户状态。</li></ul><h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a><strong>常见问题</strong></h2><p>无法连接数据库？</p><ul><li>确保 PostgreSQL 正在运行，并检查 .env 配置是否正确。</li></ul><p>前端或后端无法启动？</p><ul><li>确保依赖项已正确安装 (yarn install)。</li><li>检查端口是否被占用。</li><li>如使用Docker Compose自动部署，可尝试 docker compose build 重新构建应用镜像。</li></ul><p>如何部署到生产环境？</p><ul><li>推荐使用Docker进行容器化部署，或者使用PM2管理 Node.js 进程。</li><li>推荐外部再套一层 Nginx（Docker Compose已经自带一个实现动静态分离的Nginx了）。</li></ul>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      
+      <comments>https://www.jiecs.top/archives/ff069447/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>PlatformIO 内存级调试-解析栈回溯</title>
+      <link>https://www.jiecs.top/archives/8b0ec425/</link>
+      <guid>https://www.jiecs.top/archives/8b0ec425/</guid>
+      <pubDate>Tue, 22 Apr 2025 20:31:26 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;PlatformIO 默认构建即包含了调试信息&lt;br&gt;可以手动添加编译参数，输出 .map：&lt;/p&gt;
+&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>PlatformIO 默认构建即包含了调试信息<br>可以手动添加编译参数，输出 .map：</p><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">build_flags</span> =<br>    -Wl,-Map,$&#123;BUILD_DIR&#125;/firmware.Map<br>    -Wl,--cref  <span class="hljs-comment">; 生成交叉引用</span><br>    -fno-inline <span class="hljs-comment">; 禁止内联优化</span><br><span class="hljs-attr">build_type</span> = debug <span class="hljs-comment">; 这个可能比较重要</span><br></code></pre></td></tr></table></figure><h4 id="方案一：直接解析崩溃地址（无需工具链）"><a href="#方案一：直接解析崩溃地址（无需工具链）" class="headerlink" title="方案一：直接解析崩溃地址（无需工具链）"></a><strong>方案一：直接解析崩溃地址（无需工具链）</strong></h4><p>用文本编辑器打开 <code>output.map</code>，搜索崩溃地址 <strong>去掉前两位</strong>（ESP32-C3 的 Flash 地址是 <code>0x42xxxxxx</code>，实际偏移是后6位）：</p><ul><li>例如 <code>0x420012d2</code> → 搜索 <code>0012d2</code>，或者往前一位位找</li><li>重点查看 <code>.text</code> 段附近的符号</li></ul><h4 id="方案二：在线反编译："><a href="#方案二：在线反编译：" class="headerlink" title="方案二：在线反编译："></a><strong>方案二：在线反编译</strong>：</h4><p><a href="https://godbolt.org/">https://godbolt.org</a> （选择 XTensa 架构）</p><h4 id="方案三：反编译工具链："><a href="#方案三：反编译工具链：" class="headerlink" title="方案三：反编译工具链："></a><strong>方案三：反编译工具链：</strong></h4><p>安装工具集（通常已安装过）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">pio platform update<br>pio platform install espressif32<br></code></pre></td></tr></table></figure><p>工具链位置：<code>~/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-</code></p><h5 id="addr2line-精确定位"><a href="#addr2line-精确定位" class="headerlink" title="addr2line 精确定位"></a><strong>addr2line 精确定位</strong></h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">xtensa-esp32-elf-addr2line -pfiaC -e .pio/build/XXX/firmware.elf 0x[内存后四位]<br></code></pre></td></tr></table></figure><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#.pio/build/esp32s3dev/firmware.elf &lt;Address1&gt; &lt;Address2&gt; ...</span><br><br><span class="hljs-comment"># 示例（使用 Backtrace）：</span><br>esp_addr2line -pfiaC -e .pio/build/esp32dev/firmware.elf 0x40081e7d 0x400d2398 0x400d2870 0x40082725 0x4008434a 0x400d2766 0x400d0752 0x40082269 0x40085955 0x40085a3c 0x400d02ea 0x40080644<br><br></code></pre></td></tr></table></figure><h5 id="nm-查看符号"><a href="#nm-查看符号" class="headerlink" title="nm 查看符号"></a><strong>nm 查看符号</strong></h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">xtensa-esp32-elf-nm -n .pio/build/XXX/firmware.elf | grep -C 10 0000[内存后四位]<br></code></pre></td></tr></table></figure><h5 id="Espressif-IDF-Monitor-自动解析"><a href="#Espressif-IDF-Monitor-自动解析" class="headerlink" title="Espressif IDF Monitor 自动解析"></a>Espressif IDF Monitor 自动解析</h5><p>如果你使用 idf.py monitor 或在 PlatformlO 中使 用其内置的串口监视器，很多情况下它会自动尝试解析栈回溯。<br>或者在 PlatformIO 上，可以尝试</p><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">build_type</span> = debug<br><span class="hljs-attr">monitor_filters</span> = esp8266_exception_decoder<br><span class="hljs-attr">monitor_filters</span> = esp32_exception_decoder<br></code></pre></td></tr></table></figure>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/PlatformIO/">PlatformIO</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/8b0ec425/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Fedora Silverblue 命令行 rebase 升级到新发行版，遇到 RPM-Fusion 冲突</title>
+      <link>https://www.jiecs.top/archives/1695f709/</link>
+      <guid>https://www.jiecs.top/archives/1695f709/</guid>
+      <pubDate>Thu, 17 Apr 2025 09:16:11 GMT</pubDate>
+      
+        
+        
+      <description>&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> rpm-ostree rebase fedora:fedora/33/x86_64/silverblue \<br>      --uninstall rpmfusion-free-release-32-1.noarch \<br>      --uninstall rpmfusion-nonfree-release-32-1.noarch \<br>      --install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-33.noarch.rpm \<br>      --install https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-33.noarch.rpm<br></code></pre></td></tr></table></figure><p>像这样即可在更新到新发行版的同时，切换 RPM-Fusion 版本</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91/">我的电脑</category>
+      
+      <category domain="https://www.jiecs.top/tags/TipsTricks/">TipsTricks</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/1695f709/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>半波整流电压 0.45 常数的来源和含义</title>
+      <link>https://www.jiecs.top/archives/1164c913/</link>
+      <guid>https://www.jiecs.top/archives/1164c913/</guid>
+      <pubDate>Sat, 12 Apr 2025 01:41:30 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;不是说半波整流 输入有效值 *0.45= 输出平均值吗&lt;br&gt;然后问 AI 又说不对，是 *π&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cdn.jiecs.top/img/2025/04/709-Screenshot_20250412-013824_%E8%85%</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>不是说半波整流 输入有效值 *0.45= 输出平均值吗<br>然后问 AI 又说不对，是 *π</p><p><img src="https://cdn.jiecs.top/img/2025/04/709-Screenshot_20250412-013824_%E8%85%BE%E8%AE%AF%E5%85%83%E5%AE%9D.webp" alt="Screenshot_20250412-013824_腾讯元宝"></p><p><img src="https://cdn.jiecs.top/img/2025/tg_import_2025-04-02/photo_185@08-03-2025_21-52-44.jpg" alt="photo_185@08-03-2025_21-52-44.jpg"></p><p>AI 被误导了。于是发现这是一个“有效值”和“平均值”的问题。然后我又想，这道题的最大反向就是在问峰值电压，那还要 有效值 *√2<br>又一算，就发现<br>√2&#x2F;0.45≈3.14269<br>不就是 π 吗？太神奇了<br>那就是说“0.45”更准确的值应该是 0.4501581580785<br>即 √2&#x2F;π</p><p>再往下钻研的话：</p><blockquote><p>以下由 Gemini&#96; 2.5 Pro 推导：</p></blockquote><h2 id="1-理解交流电压-AC"><a href="#1-理解交流电压-AC" class="headerlink" title="1. 理解交流电压 (AC)"></a>1. 理解交流电压 (AC)</h2><p><strong>波形：</strong> 我们通常接触的交流电（比如市电）的电压是随时间变化的，其波形是正弦波（Sine Wave）。</p><p><strong>数学表示：</strong> 瞬时电压可以表示为：</p><p>$$<br>v(t) &#x3D; V_p \cdot \sin(\omega t)<br>$$</p><p>其中：</p><ul><li>$v(t)$：表示在时间 $t$ 的瞬时电压值。</li><li>$V_p$：表示峰值电压（Peak Voltage），也就是正弦波能达到的最大电压值。</li><li>$\sin()$：是三角函数中的正弦函数，它描述了电压如何随时间周期性变化。</li><li>$\omega$：是角频率（Angular Frequency），它与电源的频率 $f$（比如中国的 50Hz）有关，$\omega &#x3D; 2\pi f$。</li><li>$\omega t$：代表相位角，表示在时间 $t$ 时波形进行到了哪个阶段。一个完整的周期是 $2\pi$ 弧度（或 360 度）。</li></ul><p><strong>有效值（RMS）：</strong> 我们通常说的“220V交流电”，这个 220V 指的是有效值（Root Mean Square, RMS），而不是峰值。有效值是根据交流电产生的热效应来定义的，它等于一个产生相同热效应的直流电压的值。</p><p><strong>峰值与有效值的关系：</strong> 对于正弦波，峰值电压 $V_p$ 和有效值电压 $V_{\text{rms}}$ 的关系是：</p><p>$$<br>V_p &#x3D; V_{\text{rms}} \cdot \sqrt{2}<br>$$</p><p>或者：</p><p>$$<br>V_{\text{rms}} &#x3D; \frac{V_p}{\sqrt{2}}<br>$$</p><hr><h2 id="2-理解半波整流-Half-Wave-Rectification"><a href="#2-理解半波整流-Half-Wave-Rectification" class="headerlink" title="2. 理解半波整流 (Half-Wave Rectification)"></a>2. 理解半波整流 (Half-Wave Rectification)</h2><p><strong>目的：</strong> 将交流电（AC）转换为脉动的直流电（Pulsating DC）。</p><p><strong>原理：</strong> 通常使用一个二极管（Diode）来实现。二极管具有单向导电性，只允许电流朝一个方向流动。</p><p><strong>过程：</strong></p><ul><li>当交流电压处于正半周时（电压为正），二极管导通，电流流过负载，负载上得到正弦波的正半部分。</li><li>当交流电压处于负半周时（电压为负），二极管截止，没有电流流过负载，负载上的电压为零。</li></ul><p><strong>输出波形：</strong> 输出不再是完整的正弦波，而是只有正半周的波形，负半周被“砍掉”了，变成了零。在一个周期内，有一半时间有电压输出（形状是半个正弦波），另一半时间输出为零。</p><hr><h2 id="3-计算输出电压的平均值（Average-DC-Value）"><a href="#3-计算输出电压的平均值（Average-DC-Value）" class="headerlink" title="3. 计算输出电压的平均值（Average DC Value）"></a>3. 计算输出电压的平均值（Average DC Value）</h2><p>我们关心的是整流后得到的“直流”分量是多少。对于这种脉动的电压，我们通常计算其平均值（Average Value），这代表了在一个完整周期内电压的平均效果。这个平均值就是我们通常用直流电压表测量的数值。</p><p><strong>为什么要计算平均值？</strong> 因为输出电压虽然方向不变（都是正的或零），但大小是不断变化的。平均值能代表这个脉动直流电压的整体“强度”。</p><p><strong>如何计算平均值？</strong> 对于周期性变化的量，计算平均值需要用到积分（Integration）。</p><hr><h2 id="4-理解积分符号-∫"><a href="#4-理解积分符号-∫" class="headerlink" title="4. 理解积分符号 ∫"></a>4. 理解积分符号 ∫</h2><p><strong>积分的本质：</strong> 积分符号 ∫ 可以理解为 <strong>“求和（Summation）”</strong> 的意思，但不是简单地把几个数加起来，而是把连续变化的量在某个范围内的无穷小片段累加起来。</p><p><strong>几何意义：</strong> 在函数图像上，定积分 $\int_a^b f(x) , dx$ 计算的是函数 $f(x)$ 的曲线在 $x&#x3D;a$ 到 $x&#x3D;b$ 这段区间与 $x$ 轴所围成的面积。</p><p>解释如下：</p><ul><li>$\int$：积分符号，像一个拉长的 S（Summation 的首字母）。</li><li>$a$ 和 $b$：积分的下限和上限，表示我们关心的范围。</li><li>$f(x)$：被积分的函数，也就是我们想要累加的那个连续变化的量（在这里是瞬时电压 $v_{\text{out}}(t)$）。</li><li>$dx$（或 $dt$，$d(\omega t)$）：表示一个无穷小的片段（无穷小的宽度）。$f(x)dx$ 可以看作是一个极窄的矩形面积（高是 $f(x)$，宽是 $dx$）。积分就是把无数个这样的小矩形面积加起来。</li></ul><hr><h2 id="5-推导过程"><a href="#5-推导过程" class="headerlink" title="5. 推导过程"></a>5. 推导过程</h2><p>我们要计算半波整流后输出电压 $v_{\text{out}}(t)$ 在一个完整周期 $T$（或 $2\pi$ 弧度）内的平均值 $V_{\text{avg}}$。</p><p><strong>输出电压 $v_{\text{out}}(t)$ 在一个周期 $[0, 2\pi]$ 内的情况：</strong></p><ul><li>当 $0 \leq \omega t \leq \pi$（前半个周期）： $v_{\text{out}}(\omega t) &#x3D; V_p \cdot \sin(\omega t)$</li><li>当 $\pi \leq \omega t \leq 2\pi$（后半个周期）： $v_{\text{out}}(\omega t) &#x3D; 0$</li></ul><p><strong>平均值的计算公式：</strong></p><p>$$<br>V_{\text{avg}} &#x3D; \frac{1}{2\pi} \int_0^{2\pi} v_{\text{out}}(\omega t) , d(\omega t)<br>$$</p><p>将积分区间分成两部分：</p><p>$$<br>V_{\text{avg}} &#x3D; \frac{1}{2\pi} \left[ \int_0^{\pi} V_p \cdot \sin(\omega t) , d(\omega t) + \int_{\pi}^{2\pi} 0 \cdot d(\omega t) \right]<br>$$</p><p>第二部分为 0，所以只需要计算第一部分：</p><p>$$<br>V_{\text{avg}} &#x3D; \frac{1}{2\pi} \int_0^{\pi} V_p \cdot \sin(\omega t) , d(\omega t)<br>$$</p><p>积分结果（微积分知识）：</p><p>$$<br>\int_0^{\pi} V_p \cdot \sin(\omega t) , d(\omega t) &#x3D; V_p \cdot [-\cos(\omega t)]_0^{\pi}<br>&#x3D; V_p \cdot \left[ -\cos(\pi) + \cos(0) \right]<br>&#x3D; V_p \cdot [1 + 1] &#x3D; 2 V_p<br>$$</p><p>代回平均值公式：</p><h2 id="V-text-avg-frac-1-2-pi-cdot-2-V-p-frac-V-p-pi"><a href="#V-text-avg-frac-1-2-pi-cdot-2-V-p-frac-V-p-pi" class="headerlink" title="$$V_{\text{avg}} &#x3D; \frac{1}{2\pi} \cdot 2 V_p &#x3D; \frac{V_p}{\pi}$$"></a>$$<br>V_{\text{avg}} &#x3D; \frac{1}{2\pi} \cdot 2 V_p &#x3D; \frac{V_p}{\pi}<br>$$</h2><h4 id="分解解释："><a href="#分解解释：" class="headerlink" title="分解解释："></a>分解解释：</h4><h5 id="1-为什么区间算平均值要除以-2-pi-？这涉及到如何计算一个周期函数在一个完整周期内的平均值。"><a href="#1-为什么区间算平均值要除以-2-pi-？这涉及到如何计算一个周期函数在一个完整周期内的平均值。" class="headerlink" title="1. 为什么区间算平均值要除以 $2\pi$？这涉及到如何计算一个周期函数在一个完整周期内的平均值。"></a>1. 为什么区间算平均值要除以 $2\pi$？这涉及到如何计算一个周期函数在一个完整周期内的平均值。</h5><p><strong>基本平均值概念</strong>：回想一下计算一组离散数字（比如 5, 8, 2）的平均值，你会把它们加起来（$5 + 8 + 2 &#x3D; 15$），然后除以数字的个数（3），得到平均值 $15 &#x2F; 3 &#x3D; 5$。</p><p><strong>推广到连续函数</strong>：对于随时间（或角度）连续变化的量，比如电压 $v(t)$，我们不能简单地“数个数”。但是，我们可以用积分来“累加”这些连续变化的值在一个区间内的总量。</p><p>积分 $\int_a^b f(x), dx$ 计算的是函数 $f(x)$ 在区间 $[a, b]$ 上的“累积效应”或者说曲线下方的“面积”。</p><p><strong>平均值的定义</strong>：一个函数 $f(x)$ 在区间 $[a, b]$ 上的平均值，定义为该区间上的积分值除以该区间的长度。</p><p>$$<br>\text{平均值} &#x3D; \frac{1}{b - a} \int_a^b f(x), dx<br>$$</p><p><strong>应用到我们的问题</strong>：</p><p>我们计算的是半波整流后输出电压 $v_{\text{out}}(\omega t)$ 的平均值。<br>我们关心的是在一个完整的输入交流电周期内的平均表现。<br>交流电的完整周期，在用角度 $\omega t$ 表示时，是从 $0$ 到 $2\pi$ 弧度（相当于 $0$ 到 $360^\circ$）。</p><p>所以，我们计算平均值的区间是 $[0, 2\pi]$。<br>这个区间的长度是 $2\pi - 0 &#x3D; 2\pi$。</p><p><strong>结论</strong>：因此，为了计算 $v_{\text{out}}(\omega t)$ 在一个完整周期（$0$ 到 $2\pi$）内的平均值 $V_{\text{avg}}$，我们需要计算电压在这个周期内的总积分（即 $\int_0^{2\pi} v_{\text{out}}(\omega t), d(\omega t)$），然后除以这个周期的长度 $2\pi$。</p><p>$$<br>V_{\text{avg}} &#x3D; \frac{1}{2\pi} \int_0^{2\pi} v_{\text{out}}(\omega t), d(\omega t)<br>$$</p><p><strong>简单类比</strong>：想象一下你在测量一条长度为 $2\pi$ 米的弯曲路径的海拔高度。$v_{\text{out}}(\omega t)$ 就像是在路径上每一点的海拔高度。</p><p>积分 $\int_0^{2\pi} v_{\text{out}}(\omega t), d(\omega t)$ 就好像是计算了这条路径“海拔高度-路径长度”图下方的总面积。</p><p>为了得到这条路径的“平均海拔”，你需要用这个总面积除以路径的总长度 $2\pi$。</p><hr><blockquote><p>注，另一种方法：求面积的奇特方法，你绝对没见过 UP主: 仙童数学 - <a href="https://www.bilibili.com/video/BV1nv4y1F7yQ">https://www.bilibili.com/video/BV1nv4y1F7yQ</a></p></blockquote><h5 id="2-详细讲解积分计算部分：-int-0-pi-V-p-cdot-sin-omega-t-d-omega-t-2V-p"><a href="#2-详细讲解积分计算部分：-int-0-pi-V-p-cdot-sin-omega-t-d-omega-t-2V-p" class="headerlink" title="2. 详细讲解积分计算部分：$\int_0^\pi V_p \cdot \sin(\omega t), d(\omega t) &#x3D; 2V_p$"></a>2. 详细讲解积分计算部分：$\int_0^\pi V_p \cdot \sin(\omega t), d(\omega t) &#x3D; 2V_p$</h5><p>这部分计算的是正半周（即 $\omega t$ 从 $0$ 到 $\pi$）电压波形下的面积。我们一步步来：</p><p><strong>1. 确定被积函数和积分变量</strong>：<br>我们要积分的函数是 $V_p \cdot \sin(\omega t)$。<br>积分是关于变量 $\omega t$ 进行的。</p><p>$V_p$ 是峰值电压，它是一个常数，不随 $\omega t$ 变化。</p><p><strong>2. 提出常数</strong>：根据积分的性质，常数因子可以提到积分符号外面：</p><p>$$<br>\int_0^\pi V_p \cdot \sin(\omega t), d(\omega t) &#x3D; V_p \cdot \int_0^\pi \sin(\omega t), d(\omega t)<br>$$</p><p>现在我们只需要关注 $\int_0^\pi \sin(\omega t), d(\omega t)$ 这个积分。</p><hr><p><strong>3. 找到不定积分（反导数）</strong>：</p><p>我们需要找到一个函数，它的导数（相对于 $\omega t$）是 $\sin(\omega t)$。<br>我们知道 $\cos(x)$ 的导数是 $-\sin(x)$。<br>那么 $-\cos(x)$ 的导数就是 $-(-\sin(x)) &#x3D; \sin(x)$。<br>所以，$\sin(\omega t)$ 的一个不定积分（反导数）是 $-\cos(\omega t)$。</p><hr><p><strong>4. 应用牛顿-莱布尼茨公式（微积分基本定理）</strong>：</p><p>这个定理告诉我们如何计算定积分。如果 $F(x)$ 是 $f(x)$ 的一个反导数，那么：</p><p>$$<br>\int_a^b f(x), dx &#x3D; F(b) - F(a)<br>$$</p><p>这里的 $[F(x)]_a^b$ 记号就表示 $F(b) - F(a)$。</p><p>在我们的例子中，$f(\omega t) &#x3D; \sin(\omega t)$，反导数 $F(\omega t) &#x3D; -\cos(\omega t)$，积分区间是 $[0, \pi]$。</p><p>所以，</p><p>$$<br>\int_0^\pi \sin(\omega t), d(\omega t) &#x3D; [-\cos(\omega t)]_0^\pi<br>$$</p><p>这表示：</p><p>$$<br>[-\cos(\pi)] - [-\cos(0)]<br>$$</p><hr><p><strong>5. 计算三角函数值</strong>：</p><p>$\cos(\pi)$ （180度的余弦值）$&#x3D; -1$</p><p>$\cos(0)$ （0度的余弦值）$&#x3D; 1$</p><hr><p><strong>6. 代入计算</strong>：</p><p>$$<br>[-(-1)] - [-1] &#x3D; 1 - (-1) &#x3D; 1 + 1 &#x3D; 2<br>$$</p><hr><p><strong>7. 乘回常数 $V_p$</strong>：</p><p>不要忘了我们在第2步提出的常数 $V_p$。</p><p>$$<br>V_p \cdot \int_0^\pi \sin(\omega t), d(\omega t) &#x3D; V_p \cdot 2 &#x3D; 2V_p<br>$$</p><hr><p><strong>总结这个部分</strong>：</p><p>计算 $\int_0^\pi V_p \cdot \sin(\omega t), d(\omega t)$ 的过程是：</p><ul><li>把常数 $V_p$ 提出来。</li><li>找到 $\sin(\omega t)$ 的反导数 $-\cos(\omega t)$。</li><li>用牛顿-莱布尼茨公式，计算反导数在上限 $\pi$ 的值减去在下限 0 的值：$[-\cos(\pi)] - [-\cos(0)] &#x3D; 2$。</li><li>将提出的常数 $V_p$ 乘回去，得到 $2V_p$。</li></ul><p>这个 $2V_p$ 就是半波整流后，在一个周期内有电压输出的那部分（正弦波的正半拱）下方的面积。</p><p>将这个面积除以整个周期的长度 $2\pi$，就得到了平均电压：</p><p>$$<br>V_{\text{avg}} &#x3D; \frac{2V_p}{2\pi} &#x3D; \frac{V_p}{\pi}<br>$$</p><p>分解完成</p><hr><p>下一步，<strong>将结果与输入有效值 $V_{\text{rms}}$ 联系起来：</strong></p><p>已知：</p><p>$$<br>V_p &#x3D; V_{\text{rms}} \cdot \sqrt{2}<br>$$</p><p>代入上式：</p><p>$$<br>V_{\text{avg}} &#x3D; \frac{V_{\text{rms}} \cdot \sqrt{2}}{\pi}<br>$$</p><p><strong>计算系数：</strong></p><ul><li>$\sqrt{2} \approx 1.414$</li><li>$\pi \approx 3.14159$</li></ul><p>所以：</p><p>$$<br>\frac{\sqrt{2}}{\pi} \approx \frac{1.414}{3.14159} \approx 0.4501…<br>$$</p><hr><h2 id="最终结论："><a href="#最终结论：" class="headerlink" title="最终结论："></a>最终结论：</h2><p>$$<br>V_{\text{avg}} \approx 0.45 \cdot V_{\text{rms}}<br>$$</p><hr><h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>半波整流后的平均直流电压 $V_{\text{avg}}$ 大约是输入交流电压有效值 $V_{\text{rms}}$ 的 0.45 倍。这个 0.45 的系数来源于：</p><ul><li>计算的是整流后波形在一个完整周期内的平均值。</li><li>这个平均值是通过积分（累加瞬时值）得到的。积分计算的是正弦波正半周下的面积 $2V_p$。</li><li>将这个面积除以整个周期 $2\pi$ 得到平均高度 $V_p &#x2F; \pi$。</li><li>最后将峰值电压 $V_p$ 替换为用有效值 $V_{\text{rms}}$ 表示，得到：</li></ul><p>$$<br>V_{\text{avg}} &#x3D; \frac{\sqrt{2}}{\pi} \cdot V_{\text{rms}} \approx 0.45 \cdot V_{\text{rms}}<br>$$</p><hr><h2 id="重要提示："><a href="#重要提示：" class="headerlink" title="重要提示："></a>重要提示：</h2><ul><li>这个推导假设使用的是理想二极管，即没有正向压降。实际的硅二极管大约有 0.6V 到 0.7V 的正向压降，所以在低电压情况下，实际输出的平均电压会比理论值稍低。</li><li>输出的是脉动直流，而不是平滑的直流。如果需要平滑的直流，通常还需要加上滤波电容。</li></ul>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E5%AD%A6%E4%B9%A0/">学习</category>
+      
+      <category domain="https://www.jiecs.top/tags/AI/">AI</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E7%94%B5%E5%AD%90/">电子</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/1164c913/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>3D 打印小技巧</title>
+      <link>https://www.jiecs.top/archives/cd79a4e3/</link>
+      <guid>https://www.jiecs.top/archives/cd79a4e3/</guid>
+      <pubDate>Wed, 09 Apr 2025 23:29:30 GMT</pubDate>
+      
+        
+        
+      <description>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;自适应层高：&lt;/strong&gt; 兼顾速度与精度，但突变层高会显得不干净。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;墙序：&lt;/strong&gt; 先外后内（质量-高级-墙顺序），提升外墙平整度，牺牲悬垂。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;连接件宜用弹性连接</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<ul><li><strong>自适应层高：</strong> 兼顾速度与精度，但突变层高会显得不干净。</li><li><strong>墙序：</strong> 先外后内（质量-高级-墙顺序），提升外墙平整度，牺牲悬垂。</li><li><strong>连接件宜用弹性连接：</strong> 硬连接间隙不好调。参考 3D打印零件设计技巧—结构设计篇(二) - <a href="https://www.bilibili.com/video/BV18r421K7KG">https://www.bilibili.com/video/BV18r421K7KG</a> 3:55 处</li><li><strong>Z 方向的沉头孔：</strong> 搭桥易乱，可加斜面，用平头螺丝。</li><li><strong>减少空驶：</strong> <ul><li>开“避免跨越外墙”（质量-高级），最大绕行 300。</li><li>用“逐件打印”（其他-特殊模式-打印顺序）。</li></ul></li><li><strong>边角处缺口&#x2F;破洞，表面不平整：</strong><ul><li>需要校准，尤其是流量校准。</li></ul></li><li><strong>打印提速：</strong><ul><li>参考：这几个3D打印进阶技巧请收好，助你玩转3D打印！ - <a href="https://www.bilibili.com/video/BV1B1yVYRE1y">https://www.bilibili.com/video/BV1B1yVYRE1y</a> 5:00 处</li><li>用闪电填充（次选线填充），填充密度调低到 5-8%</li><li>合并填充&amp;识别狭窄内部实心填充（强度 - 高级）。对窄墙后者很有用。</li><li>打印单个大零件，可以“回抽时抬升 Z”（打印机编辑 - 挤出机设置）调零。</li></ul></li><li><strong>关于搭桥：</strong><ul><li>搭桥质量与冷却密切相关。但注意：搭桥部分，默认就是风扇全部拉满的，风扇也就那个样子了。有说法说，P1 的风道设计不好，风铺不开，可以把模型搭桥的部分放到更靠里面一点的地方。也可以稍微降低一点温度。</li><li>其次就是：</li><li>桥接线下坠——调大桥接速度、调小桥接流量。</li><li>桥接线被拉断——调小桥接速度、可开启厚桥。</li></ul></li><li><strong>建模时就要考虑便于生产：</strong><ul><li>保证强度：加强筋作用不大。主要是连接件不要太薄，可以直接把整个面拉起来，做成大块实体，拉大圆角</li><li>XY 方向上的横向长圆柱挖槽可能打不圆，可以在圆的上方做两条互相垂直的切线，形成水滴形状的挖槽。也可再把水滴上方填平拉桥。</li><li>在模型的各个方向上都加圆角，能很好地补偿直角溢出和象脚。</li></ul></li></ul>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%8A%80%E6%9C%AF/">技术</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/cd79a4e3/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>关于自平衡三角-迷你三棱柱复现</title>
+      <link>https://www.jiecs.top/archives/3edc7153/</link>
+      <guid>https://www.jiecs.top/archives/3edc7153/</guid>
+      <pubDate>Tue, 08 Apr 2025 18:33:32 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;a href=&quot;https://oshwhub.com/bonus/mi-ni-zi-ping-heng-san-ling-zhu-2&quot;&gt;https://oshwhub.com/bonus/mi-ni-zi-ping-heng-san-ling-zhu-2&lt;/a&gt;&lt;/p&gt;</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><a href="https://oshwhub.com/bonus/mi-ni-zi-ping-heng-san-ling-zhu-2">https://oshwhub.com/bonus/mi-ni-zi-ping-heng-san-ling-zhu-2</a></p><pre><code class=" mermaid">flowchart LR;    %% Main components    MTG[&quot;自平衡三角-迷你三棱柱复现&quot;]    MTG ----&gt; MCU[&quot;MCU (LGT8F32P)&quot;]    MTG ---&gt; Power[&quot;电源管理&quot;]    Power --&gt; Battery[(&quot;3.7V-4.2V 电池&quot;)]    Battery ---&gt; DCDC5V[&quot;5V 升压 DCDC&quot;]    Battery ---&gt; DCDC12V[&quot;12V 升压 DCDC&quot;]    Battery -.-&gt; NoteBatt([&quot;电池重量比较影响功能&quot;])    DCDC5V -. 供电 .-&gt; MCU    DCDC5V -. 供电 .-&gt; IMU    DCDC5V -. 供电 .-&gt; SCREEN        %% Sensors    MCU &lt;--&gt; IMU[&quot;MPU6050 位姿感测&quot;]    MCU --&gt; SCREEN[&quot;SSD1309 IIC 小屏幕&quot;]    SCREEN -.-&gt; NoteScreen([&quot;用于在没有无线通讯功能时显示数据参数&quot;])        %% Algorithms    MCU --&gt; PID[&quot;PID&quot;]    PID --&gt; PidSim[&quot;PID 模拟 pid-simulator-web.skythinker.top&quot;]    PID --&gt; PIDImpl[&quot;需要串级 PID，速度环PD、位置环 PI&quot;]    PIDImpl --&gt; PIDImplDesc[&quot;I（积分累计）反映对持续干扰的控制能力，对于自平衡三角是必要的，因为稳态的三角不能来回摇摆&quot;]    PID -...-&gt; OtherAlgos[&quot;其他控制算法&quot;]    OtherAlgos --&gt; LQR[&quot;LQR (线性二次调节器)&quot;]    OtherAlgos --&gt; MPC[&quot;MPC (模型预测控制)&quot;]        %% Power details    DCDC12V --&gt; Cap12V[&quot;12V 滤波电容&quot;]    Cap12V -.- NoteCap([&quot;比较重要，电机启动负载大，电池拖不动，会导致电机有时能启动有时不能启动&quot;])    DCDC12V -. 供电 .-&gt; Moter[&quot;12V 8p 带编码器无刷电机&quot;]    PID -..-&gt; Moter</code></pre><p>电池重量很影响平衡效果<br>PID 的 I 不能完全丢掉，稳态是需要单方向持续运转的<br>PID 模拟学习： <a href="https://pid-simulator-web.skythinker.top/">https://pid-simulator-web.skythinker.top</a></p><p>需要从合适位置摆入，有合适初始状态，才能稳定</p><p>只用PID?加上前馈解决95%的问题！ UP主: 华南小虎队 - <a href="https://www.bilibili.com/video/BV19T411t7du">https://www.bilibili.com/video/BV19T411t7du</a></p><p>除了PID还有各种算法：PID、LQR、MPC实时控制倒立摆仿真对比 UP主: 西格螺丝 - <a href="https://www.bilibili.com/video/BV17j41167RL">https://www.bilibili.com/video/BV17j41167RL</a></p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E7%94%B5%E5%AD%90/">电子</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/3edc7153/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Flash 和 DRAM</title>
+      <link>https://www.jiecs.top/archives/e9eab5fd/</link>
+      <guid>https://www.jiecs.top/archives/e9eab5fd/</guid>
+      <pubDate>Sun, 06 Apr 2025 11:24:01 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;DRAM（如DDR内存）中使用&lt;strong&gt;电容&lt;/strong&gt;： 在动态随机存取存储器（DRAM）中，使用了电容器来存储数据。每个存储单元由一个电容器和一个晶体管组成。然而，由于电容器的电荷会泄漏，DRAM 需要周期性地刷新数据，以维持其存储状态。这使得 DRAM 成</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>DRAM（如DDR内存）中使用<strong>电容</strong>： 在动态随机存取存储器（DRAM）中，使用了电容器来存储数据。每个存储单元由一个电容器和一个晶体管组成。然而，由于电容器的电荷会泄漏，DRAM 需要周期性地刷新数据，以维持其存储状态。这使得 DRAM 成为一种易失性存储器。</p><p>Flash 存储（如SSD）中使用<strong>浮栅晶体管</strong>： 浮栅晶体管被用于闪存（Flash Memory）中，能够在没有电源的情况下长期保存数据，这是因为浮栅上的电荷不会轻易泄漏。</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E5%AD%A6%E4%B9%A0/">学习</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/e9eab5fd/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>万用表的运作原理</title>
+      <link>https://www.jiecs.top/archives/b516c161/</link>
+      <guid>https://www.jiecs.top/archives/b516c161/</guid>
+      <pubDate>Fri, 04 Apr 2025 19:08:49 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h4 id=&quot;1-测电阻（Ω档）&quot;&gt;&lt;a href=&quot;#1-测电阻（Ω档）&quot; class=&quot;headerlink&quot; title=&quot;1. 测电阻（Ω档）&quot;&gt;&lt;/a&gt;&lt;strong&gt;1. 测电阻（Ω档）&lt;/strong&gt;&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;原理&lt;/stron</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h4 id="1-测电阻（Ω档）"><a href="#1-测电阻（Ω档）" class="headerlink" title="1. 测电阻（Ω档）"></a><strong>1. 测电阻（Ω档）</strong></h4><ul><li><strong>原理</strong>：<em><strong>恒流+测电压+自动除</strong></em> 万用表自动输出一个小电流（即恒流电源，约1mA），然后测电阻上的电压，自动算出阻值。  </li><li>必须<strong>断电测</strong><ul><li>如果不断电，万用表输出的电流 + 外部电路的电压 → <strong>电压叠加</strong>，导致计算出的电阻值不对！小电阻会测出大阻值。</li><li><strong>电流源初始电压</strong>通常1.5V~9V，量程&#x2F;档位越大，电压越高。 如果被测电路本身带电（比如电容没放电），高电压叠加外部电压，可能“烧表”。</li></ul></li><li>手<strong>同时</strong>碰两表笔，人体电阻会影响结果，所测电阻越大影响越大。</li></ul><hr><h4 id="2-测二极管（二极管档-蜂鸣档）"><a href="#2-测二极管（二极管档-蜂鸣档）" class="headerlink" title="2. 测二极管（二极管档 &#x2F; 蜂鸣档）"></a><strong>2. 测二极管（二极管档 &#x2F; 蜂鸣档）</strong></h4><ul><li><strong>原理</strong>：<em><strong>恒流+测电压得压降</strong></em> 万用表输出固定电流，测二极管正向压降。  </li><li><strong>蜂鸣档</strong>：小于 30-100 欧时响。</li><li><strong>接法</strong>：  <ul><li><strong>数字表</strong>：红笔接二极管<strong>阳极（A）</strong>，黑笔接<strong>阴极（K）</strong> → 显示 <strong>0.5~0.7V（硅管）</strong> 或 <strong>0.2~0.3V（锗管）</strong>。  </li><li><strong>指针表</strong>：黑笔接<strong>阳极（A）</strong>，红笔接<strong>阴极（K）</strong> → 指针大幅摆动（低阻值）。</li></ul></li><li><strong>测LED不亮：</strong><ul><li>部分型号数字表输出电压不足，可能无法点亮高压降LED（如蓝光LED需3V以上）。  <ul><li><strong>解决方案</strong>：用高电阻档（×10k）提供更高电压（测试时间要短）。</li></ul></li></ul></li></ul><table><thead><tr><th><strong>功能</strong></th><th><strong>原理</strong></th><th><strong>红表笔接</strong></th><th><strong>黑表笔接</strong></th><th><strong>二极管正向接法</strong></th></tr></thead><tbody><tr><td><strong>数字</strong></td><td>恒流测压降</td><td>电源正</td><td>电源负</td><td>红→阳极，黑→阴极</td></tr><tr><td><strong>指针</strong></td><td>电池驱动表头偏转</td><td>电源负</td><td>电源正</td><td>黑→阳极，红→阴极</td></tr></tbody></table><hr><h4 id="3-测电压（V档）"><a href="#3-测电压（V档）" class="headerlink" title="3. 测电压（V档）"></a><strong>3. 测电压（V档）</strong></h4><ul><li><strong>直流（DC）</strong>：红笔接正极，黑笔接负极，直接读数。 <ul><li>相当于并一个10MΩ+级的大电阻（高端表阻值更大）。万用表内置ADC处理</li></ul></li><li><strong>交流（AC）</strong>：不分正负，显示有效值。</li></ul><hr><h4 id="4-测电容"><a href="#4-测电容" class="headerlink" title="4. 测电容"></a><strong>4. 测电容</strong></h4><ul><li><strong>最好离板测</strong>：离散电容、电感影响很大。</li><li><strong>要滞留时间长一点</strong>：多数百元级万用表基于充放电时间计算容值，充电放电要时间。</li></ul><hr><h4 id="5-不要悬空测"><a href="#5-不要悬空测" class="headerlink" title="5.不要悬空测"></a><strong>5.不要悬空测</strong></h4><ul><li>会测出莫名其妙的值</li></ul>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E5%AD%A6%E4%B9%A0/">学习</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E7%94%B5%E5%AD%90/">电子</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/b516c161/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>关于 LuatOS ESP32-C3 开发板在 PlatformIO 上串口无响应</title>
+      <link>https://www.jiecs.top/archives/1071b9e9/</link>
+      <guid>https://www.jiecs.top/archives/1071b9e9/</guid>
+      <pubDate>Wed, 02 Apr 2025 19:50:24 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;strong&gt;理解问题核心：USB-CDC vs. UART&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;USB-CDC（USB Communications Device Class）:&lt;/strong&gt; ESP32芯片可以直接通过USB端口模拟一</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><strong>理解问题核心：USB-CDC vs. UART</strong></p><ul><li><p><strong>USB-CDC（USB Communications Device Class）:</strong> ESP32芯片可以直接通过USB端口模拟一个串口设备，无需额外的USB转串口芯片。这种方式通常在较新的ESP32芯片上使用，并以“Espressif USB JTAG&#x2F;serial debug unit”的形式出现在电脑上。</p></li><li><p><strong>UART（Universal Asynchronous Receiver&#x2F;Transmitter）:</strong> ESP32芯片的UART引脚通过一个USB转串口芯片（如CH343K）连接到USB端口。这种方式在很多ESP32开发板上使用，电脑上会显示为CH343K或类似的名称。</p></li><li><p><strong><code>ARDUINO_USB_MODE</code>:</strong> 这个选项决定了ESP32的USB端口的工作模式。</p><ul><li><code>0</code>：表示“Hardware CDC and JTAG”模式，即硬件CDC（串口）和JTAG调试模式。</li><li><code>1</code>：表示“USB-OTG”模式，即USB On-The-Go模式。</li></ul></li><li><p><strong><code>ARDUINO_USB_CDC_ON_BOOT</code>:</strong> 这个选项决定了ESP32在启动时是否启用USB-CDC功能。</p><ul><li><code>0</code>：表示禁用USB-CDC。</li><li><code>1</code>：表示启用USB-CDC。</li></ul></li></ul><p>完整可用的 platformio.ini 配置:</p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">[env:esp32-c3-devkitm-1]</span><br>platform = espressif32<br>board = esp32-c3-devkitm-1<br>framework = arduino<br>board_build.flash_mode = dio<br>board_build.extra_flags =<br>-D ARDUINO_USB_MODE=1<br>-D ARDUINO_USB_CDC_ON_BOOT=0<br>debug_tool = esp-builtin<br>upload_protocol = esptool<br>monitor_speed = 115200<br></code></pre></td></tr></table></figure><p>某些仿的 ESP32-C3 开发板（非合宙官方）可以尝试 <code>board = airm2m_core_esp32c3</code></p><p>对于没有 UART 转串口，只通过 USB CDC 烧录的开发板，实际上也可以通过 USB 传输串口数据。需要设置 <code>CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG</code>：</p><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[env:airm2m_core_esp32c3]</span><br><span class="hljs-attr">platform</span> = espressif32<br><span class="hljs-attr">board</span> = airm2m_core_esp32c3<br><span class="hljs-attr">framework</span> = ardui<span class="hljs-literal">no</span><br><span class="hljs-attr">upload_protocol</span> = esptool<br><span class="hljs-attr">board_build.extra_flags</span> =<br>  -D <span class="hljs-attr">ARDUINO_USB_MODE</span>=<span class="hljs-number">1</span><br>  -D <span class="hljs-attr">ARDUINO_USB_CDC_ON_BOOT</span>=<span class="hljs-number">1</span><br>  -D <span class="hljs-attr">CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG</span>=<span class="hljs-number">1</span><br><span class="hljs-attr">monitor_speed</span> = <span class="hljs-number">115200</span><br></code></pre></td></tr></table></figure><p><code>ARDUINO_USB_CDC_ON_BOOT</code> 可以实现上电自动打开 CDC，否则需要手动在按住 BOOT 的情况下按 RST 来进入 CDC 下载模式。</p><blockquote><p>注意如果程序运行时也通过 pinMode 更新了 IO18 和 IO19 的功能，那他们就会变成普通 GPIO，没法使用 CDC。</p></blockquote><p>参考：<a href="https://community.platformio.org/t/broken-esp32-c3-config-build-after-moving-to-arduino-esp32-v2-0-0-rc1/22817/14">https://community.platformio.org/t/broken-esp32-c3-config-build-after-moving-to-arduino-esp32-v2-0-0-rc1/22817/14</a></p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/PlatformIO/">PlatformIO</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/1071b9e9/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>各种连接器总结</title>
+      <link>https://www.jiecs.top/archives/e023069a/</link>
+      <guid>https://www.jiecs.top/archives/e023069a/</guid>
+      <pubDate>Tue, 01 Apr 2025 00:28:22 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h3 id=&quot;JST-连接器&quot;&gt;&lt;a href=&quot;#JST-连接器&quot; class=&quot;headerlink&quot; title=&quot;JST 连接器&quot;&gt;&lt;/a&gt;&lt;strong&gt;JST 连接器&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;JST（Japan Solderless Terminal）是日本</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h3 id="JST-连接器"><a href="#JST-连接器" class="headerlink" title="JST 连接器"></a><strong>JST 连接器</strong></h3><p>JST（Japan Solderless Terminal）是日本压着端子公司的标准，型号通常以 <strong>字母+引脚间距（mm）</strong> 命名：</p><h4 id="GH1-25"><a href="#GH1-25" class="headerlink" title="GH1.25"></a><strong>GH1.25</strong></h4><ul><li>带一侧锁扣，按压解锁。 </li><li>尺寸小，锁扣长长的长满卡扣。</li><li>常见母座：卧贴。</li></ul><h4 id="XH2-54"><a href="#XH2-54" class="headerlink" title="XH2.54"></a><strong>XH2.54</strong></h4><ul><li>尺寸较大，公头有竖向栅格与母座栅格对齐</li><li>无按压触发的卡扣，插拔直接拉开栅格两侧卡扣。</li><li>标准间距实际上是 <strong>2.5mm</strong>，如果有一长排的 2.54 排针焊盘，XH 端子和排针焊盘其实是不兼容的。（没人知道 XH2.54mm这个名字从哪里传出来的）。</li><li>常见母座：直针、卧针。</li></ul><p>更多参见：认识端子座 UP主: 水螺母 - <a href="https://www.bilibili.com/video/BV16T4y1D7aR">https://www.bilibili.com/video/BV16T4y1D7aR</a></p><hr><h4 id="螺旋式接线端子（Screw-Terminal）"><a href="#螺旋式接线端子（Screw-Terminal）" class="headerlink" title="螺旋式接线端子（Screw Terminal）"></a><strong>螺旋式接线端子（Screw Terminal）</strong></h4><ul><li>通过螺丝压紧导线的接线端子。适合粗导线或 10A 以上高电流。<ul><li><strong>直插式</strong>  </li><li><strong>栅栏式</strong> 塑料条分隔</li></ul></li></ul><h4 id="Molex-连接器"><a href="#Molex-连接器" class="headerlink" title="Molex 连接器"></a><strong>Molex 连接器</strong></h4><ul><li>常见于大的板对板连接</li><li>电脑电源和主板各组件之间的接口也是这种</li></ul><h4 id="USB"><a href="#USB" class="headerlink" title="USB"></a><strong>USB</strong></h4><ul><li><strong>牢固程度</strong>：Type-B（正方口）&gt; Type-C &gt; Type-A</li><li><strong>Type-B 大家族</strong>：Type-B &gt; Mini-B（比 micro 高一点） &gt; MicroB</li></ul><h4 id="FPC"><a href="#FPC" class="headerlink" title="FPC"></a><strong>FPC</strong></h4><ul><li>蓝白色 FPC 常见间距：0.5mm</li></ul>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E7%94%B5%E5%AD%90/">电子</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/e023069a/#disqus_thread</comments>
+      
+    </item>
+    
+  </channel>
+</rss>
