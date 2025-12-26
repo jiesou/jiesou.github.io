@@ -1,0 +1,1 @@
+let header_inner=document.querySelector(".header-inner");header_inner&&"30vh"==header_inner.style.height&&document.querySelector(".banner-text > div.h2").setAttribute("style","margin-bottom: -1em !important;");
