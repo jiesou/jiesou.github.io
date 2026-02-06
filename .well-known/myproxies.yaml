@@ -1,0 +1,276 @@
+proxies:
+  - name: "💎 EO 转移动出口 双栈"
+    type: trojan
+    server: i.jiecs.top
+    sni: i.jiecs.top
+    port: 443
+    password: "wczsjd7JJitMfGASCiRrQg=="
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+    # ss-opts:
+      # enabled: true
+      # method: aes-128-gcm
+      # password: "zdWbxuDu9kZME9Yr"
+  - name: "💎 移动出口 仅 v6"
+    type: ss
+    server: i.loliis.top
+    port: 28237
+    cipher: 2022-blake3-aes-128-gcm
+    password: "qA6XYQh03N5chl9w3KDP6Q=="
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+  - name: "推荐 Hytron HK gcore"
+    type: trojan
+    server: hytron-hk-gcore.qqo.pp.ua
+    sni: hytron-hk-gcore.qqo.pp.ua
+    port: 443
+    password: lJPa0namFWCaoj+LjOv7Hw==
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+  - name: "Hytron HK gcore v6"
+    type: trojan
+    server: 2a03:90c0:999c::12
+    sni: hytron-hk-gcore.qqo.pp.ua
+    port: 443
+    password: lJPa0namFWCaoj+LjOv7Hw==
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+  - name: "Hytron HK cf"
+    type: trojan
+    server: hytron-hk-cdn.qqo.pp.ua
+    sni: hytron-hk-cdn.qqo.pp.ua
+    port: 443
+    password: lJPa0namFWCaoj+LjOv7Hw==
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+  - name: "Hytron HK cf v6"
+    type: trojan
+    server: 2606:4700:a8:0:11:2998:a88c:79c2
+    sni: hytron-hk-cdn.qqo.pp.ua
+    port: 443
+    password: lJPa0namFWCaoj+LjOv7Hw==
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+  - name: "Hytron HK cf2"
+    type: trojan
+    server: 162.159.141.106
+    sni: hytron-hk-cdn.qqo.pp.ua
+    port: 443
+    password: lJPa0namFWCaoj+LjOv7Hw==
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+  - name: "Hytron HK cf 电信"
+    type: trojan
+    server: 172.64.229.215
+    sni: hytron-hk-cdn.qqo.pp.ua
+    port: 443
+    password: lJPa0namFWCaoj+LjOv7Hw==
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+  - name: "Hytron HK cf 电信2"
+    type: trojan
+    server: 104.17.25.136
+    sni: hytron-hk-cdn.qqo.pp.ua
+    port: 443
+    password: lJPa0namFWCaoj+LjOv7Hw==
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+
+
+  - name: "GCP us gcore"
+    type: trojan
+    server: gcp-us-central1-gcore.qqo.pp.ua
+    sni: gcp-us-central1-gcore.qqo.pp.ua
+    port: 443
+    password: lJPa0namFWCaoj+LjOv7Hw==
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+  - name: "GCP us gcore v6"
+    type: trojan
+    server: 2a03:90c0:999c::12
+    sni: gcp-us-central1-gcore.qqo.pp.ua
+    port: 443
+    password: lJPa0namFWCaoj+LjOv7Hw==
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 800
+    network: ws
+    ws-opts:
+      path: /ws
+      max-early-data: 2048
+      early-data-header-name: Sec-WebSocket-Protocol
+  - name: "GCP us ss"
+    type: ss
+    server: gcp-us-central1.qqo.pp.ua
+    port: 63691
+    cipher: 2022-blake3-aes-128-gcm
+    password: "8JCsPssfgS8tiRwiMlhARg=="
+    udp: true
+    udp-over-tcp: true
+    udp-over-tcp-version: 2
+    smux:
+      enable: true
+      max-streams: 4
+      padding: false
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 400
+  - name: "GCP us bbr udp"
+    type: hysteria2
+    server: gcp-us-central1.qqo.pp.ua
+    port: 443
+    password: ZGQ5njN9HU2qYrqGCeyD2g==
+    up: "60 Mbps"
+    down: "200 Mbps"
+    sni: gcp-us-central1.qqo.pp.ua
+    skip-cert-verify: false
+  - name: "GCP us tuic"
+    server: gcp-us-central1.qqo.pp.ua
+    port: 48691
+    type: tuic
+    version: 5
+    uuid: 29c0aadb-3f62-4df7-b77b-f2a9c7406809
+    password: SW8jtOT9CzQX2MZS
+    heartbeat-interval: 10000
+    alpn: [h3]
+    disable-sni: false
+    reduce-rtt: false
+    request-timeout: 8000
+    udp-relay-mode: quic
+    congestion-controller: cubic
+    sni: gcp-us-central1.qqo.pp.ua
+  - name: "GCP us vmess"
+    type: vmess
+    server: gcp-us-central1.qqo.pp.ua
+    port: 58961
+    udp: true
+    uuid: ebb7695e-b036-4c85-853b-fb476ef3d02b
+    alterId: 0
+    cipher: auto
+    packet-encoding: xudp
+    global-padding: false
+    authenticated-length: false
+    smux:
+      enable: true
+      max-streams: 4
+      padding: false
+      brutal-opts:
+        enabled: true
+        up: 60
+        down: 400
