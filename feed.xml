@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>杰出兽的小宇宙</title>
+    <link>https://www.jiecs.top/</link>
+    
+    <image>
+      <url>https://www.jiecs.top/favicon.ico</url>
+      <title>杰出兽的小宇宙</title>
+      <link>https://www.jiecs.top/</link>
+    </image>
+    
+    <atom:link href="https://www.jiecs.top/feed.xml" rel="self" type="application/rss+xml"/>
+    
+    <description>偶尔写点技术记录，杂谈。杰出兽 jiecs jiecs_23 jiesou</description>
+    <pubDate>Sun, 01 Mar 2026 17:03:10 GMT</pubDate>
+    <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>YouTube Music 淡入淡出 userscript</title>
+      <link>https://www.jiecs.top/archives/ce81b320/</link>
+      <guid>https://www.jiecs.top/archives/ce81b320/</guid>
+      <pubDate>Sun, 15 Feb 2026 20:10:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;来源： &lt;a href=&quot;https://www.reddit.com/r/YoutubeMusic/comments/1ekc7rw/comment/mfoxe1a&quot;&gt;https://www.reddit.com/r/YoutubeMusic/comments/1ekc7</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>来源： <a href="https://www.reddit.com/r/YoutubeMusic/comments/1ekc7rw/comment/mfoxe1a">https://www.reddit.com/r/YoutubeMusic/comments/1ekc7rw/comment/mfoxe1a</a></p><blockquote><p>由 AI 和我修改</p></blockquote><p>YouTube Music 网页版实际上是有淡入淡出的功能的，但是要 Premium，或者也许是灰度&#x2F;风控什么的。总之这个 userscript 通过各种 Hook 实现了丝滑的暂停播放、切歌时的淡入淡出<br>reddit 老哥原版只有暂停播放的淡入淡出，我在其基础上实现了切歌的淡入淡出</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// ==UserScript==</span><br><span class="hljs-comment">// @name         YouTube Music Ultimate Fade</span><br><span class="hljs-comment">// @details      Origin from: https://www.reddit.com/r/YoutubeMusic/comments/1ekc7rw/comment/mfoxe1a, modified by Claude</span><br><span class="hljs-comment">// @match        *://music.youtube.com/*</span><br><span class="hljs-comment">// @grant        none</span><br><span class="hljs-comment">// @run-at       document-start</span><br><span class="hljs-comment">// ==/UserScript==</span><br><br>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-string">&#x27;use strict&#x27;</span>;<br><br>    <span class="hljs-keyword">let</span> userVolume = <span class="hljs-number">0.5</span>;<br>    <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">FADE_TIME_NORMAL</span> = <span class="hljs-number">800</span>;<br>    <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">FADE_TIME_QUICK</span> = <span class="hljs-number">300</span>;<br><br>    <span class="hljs-comment">// 强制锁：在动画期间屏蔽冲突操作</span><br>    <span class="hljs-keyword">let</span> isFading = <span class="hljs-literal">false</span>;<br>    <span class="hljs-comment">// --- 核心淡入淡出引擎 ---</span><br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">fade</span>(<span class="hljs-params">video, target, duration</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> &#123;<br>            <span class="hljs-keyword">if</span> (video.<span class="hljs-property">_fadeController</span>) video.<span class="hljs-property">_fadeController</span>.<span class="hljs-title function_">abort</span>();<br>            <span class="hljs-keyword">const</span> controller = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>();<br>            video.<span class="hljs-property">_fadeController</span> = controller;<br><br>            <span class="hljs-keyword">const</span> startVolume = video.<span class="hljs-property">volume</span>;<br>            <span class="hljs-keyword">const</span> startTime = performance.<span class="hljs-title function_">now</span>();<br>            <span class="hljs-keyword">const</span> intervalTime = <span class="hljs-number">16</span>; <span class="hljs-comment">// 约 60fps</span><br><br>            <span class="hljs-keyword">const</span> interval = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>                <span class="hljs-keyword">if</span> (controller.<span class="hljs-property">signal</span>.<span class="hljs-property">aborted</span>) &#123;<br>                    <span class="hljs-built_in">clearInterval</span>(interval);<br>                    <span class="hljs-keyword">return</span> <span class="hljs-title function_">resolve</span>(<span class="hljs-literal">false</span>);<br>                &#125;<br>                <span class="hljs-keyword">const</span> elapsed = performance.<span class="hljs-title function_">now</span>() - startTime;<br>                <span class="hljs-keyword">const</span> progress = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(elapsed / duration, <span class="hljs-number">1</span>);<br>                <span class="hljs-keyword">const</span> ease = <span class="hljs-number">1</span> - <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(<span class="hljs-number">1</span> - progress, <span class="hljs-number">2</span>);<br><br>                video.<span class="hljs-property">volume</span> = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">max</span>(<span class="hljs-number">0</span>, <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(<span class="hljs-number">1</span>, startVolume + (target - startVolume) * ease));<br><br>                <span class="hljs-keyword">if</span> (progress &gt;= <span class="hljs-number">1</span>) &#123;<br>                    <span class="hljs-built_in">clearInterval</span>(interval);<br>                    video.<span class="hljs-property">_fadeController</span> = <span class="hljs-literal">null</span>;<br>                    <span class="hljs-title function_">resolve</span>(<span class="hljs-literal">true</span>);<br>                &#125;<br>            &#125;, intervalTime);<br>        &#125;);<br>    &#125;<br><br>    <span class="hljs-keyword">const</span> originalPause = <span class="hljs-title class_">HTMLVideoElement</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">pause</span>;<br>    <span class="hljs-keyword">const</span> originalPlay = <span class="hljs-title class_">HTMLVideoElement</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">play</span>;<br><br>    <span class="hljs-comment">// --- 核心 Hook：采用硬性延迟策略 ---</span><br>    <span class="hljs-title class_">HTMLVideoElement</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">pause</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">_isInternalAction</span> || <span class="hljs-variable language_">this</span>.<span class="hljs-property">paused</span>) <span class="hljs-keyword">return</span> originalPause.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>);<br><br>        <span class="hljs-keyword">if</span> (isFading) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 动画中禁止二次触发</span><br>        isFading = <span class="hljs-literal">true</span>;<br><br>        <span class="hljs-title function_">fade</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-number">0</span>, <span class="hljs-variable constant_">FADE_TIME_NORMAL</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">_isInternalAction</span> = <span class="hljs-literal">true</span>;<br>            originalPause.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>);<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">_isInternalAction</span> = <span class="hljs-literal">false</span>;<br>            <span class="hljs-comment">// 硬延迟：确保 UI 状态机稳定后再解锁</span><br>            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123; isFading = <span class="hljs-literal">false</span>; &#125;, <span class="hljs-number">100</span>);<br>        &#125;);<br>    &#125;;<br><br>    <span class="hljs-title class_">HTMLVideoElement</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">play</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">_isInternalAction</span>) <span class="hljs-keyword">return</span> originalPlay.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>);<br><br>        isFading = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 播放请求强制中断淡出锁</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">_fadeController</span>) <span class="hljs-variable language_">this</span>.<span class="hljs-property">_fadeController</span>.<span class="hljs-title function_">abort</span>();<br><br>        <span class="hljs-keyword">const</span> res = originalPlay.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">volume</span> &lt; <span class="hljs-number">0.1</span>) &#123;<br>            <span class="hljs-title function_">fade</span>(<span class="hljs-variable language_">this</span>, userVolume, <span class="hljs-variable constant_">FADE_TIME_NORMAL</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;;<br><br>    <span class="hljs-comment">// --- 处理点击：下一首、列表切歌等 ---</span><br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; &#123;<br>        <span class="hljs-keyword">if</span> (e.<span class="hljs-property">_isCustom</span>) <span class="hljs-keyword">return</span>;<br><br>        <span class="hljs-keyword">const</span> target = e.<span class="hljs-property">target</span>.<span class="hljs-title function_">closest</span>(<br>            <span class="hljs-string">&#x27;ytmusic-player-queue-item, ytmusic-play-button-renderer, .next-button, .previous-button, [aria-label*=&quot;Next&quot;], [aria-label*=&quot;Previous&quot;]&#x27;</span><br>        );<br><br>        <span class="hljs-keyword">if</span> (target) &#123;<br>            <span class="hljs-keyword">const</span> video = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;video&#x27;</span>);<br>            <span class="hljs-keyword">if</span> (video &amp;&amp; !video.<span class="hljs-property">paused</span>) &#123;<br>                <span class="hljs-comment">// 拦截原生点击，先做淡出</span><br>                e.<span class="hljs-title function_">preventDefault</span>();<br>                e.<span class="hljs-title function_">stopPropagation</span>();<br><br>                <span class="hljs-keyword">await</span> <span class="hljs-title function_">fade</span>(video, <span class="hljs-number">0</span>, <span class="hljs-variable constant_">FADE_TIME_QUICK</span>);<br><br>                <span class="hljs-comment">// 彻底停止当前，防止切歌爆音</span><br>                video.<span class="hljs-property">_isInternalAction</span> = <span class="hljs-literal">true</span>;<br>                originalPause.<span class="hljs-title function_">apply</span>(video);<br>                video.<span class="hljs-property">_isInternalAction</span> = <span class="hljs-literal">false</span>;<br><br>                <span class="hljs-comment">// 重新派发点击</span><br>                <span class="hljs-keyword">const</span> newClick = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MouseEvent</span>(<span class="hljs-string">&#x27;click&#x27;</span>, &#123;<br>                    <span class="hljs-attr">bubbles</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">cancelable</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">view</span>: <span class="hljs-variable language_">window</span>, <span class="hljs-attr">detail</span>: <span class="hljs-number">1</span><br>                &#125;);<br>                newClick.<span class="hljs-property">_isCustom</span> = <span class="hljs-literal">true</span>;<br>                target.<span class="hljs-title function_">dispatchEvent</span>(newClick);<br>            &#125;<br>        &#125;<br>    &#125;, <span class="hljs-literal">true</span>);<br><br>    <span class="hljs-comment">// --- MediaSession (系统通知栏/线控) ---</span><br>    <span class="hljs-keyword">const</span> _setActionHandler = navigator.<span class="hljs-property">mediaSession</span>.<span class="hljs-property">setActionHandler</span>.<span class="hljs-title function_">bind</span>(navigator.<span class="hljs-property">mediaSession</span>);<br>    navigator.<span class="hljs-property">mediaSession</span>.<span class="hljs-property">setActionHandler</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">action, handler</span>) &#123;<br>        <span class="hljs-keyword">const</span> <span class="hljs-title function_">wrappedHandler</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params">details</span>) =&gt; &#123;<br>            <span class="hljs-keyword">const</span> video = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;video&#x27;</span>);<br>            <span class="hljs-keyword">if</span> ((action === <span class="hljs-string">&#x27;nexttrack&#x27;</span> || action === <span class="hljs-string">&#x27;previoustrack&#x27;</span>) &amp;&amp; video &amp;&amp; !video.<span class="hljs-property">paused</span>) &#123;<br>                <span class="hljs-keyword">await</span> <span class="hljs-title function_">fade</span>(video, <span class="hljs-number">0</span>, <span class="hljs-variable constant_">FADE_TIME_QUICK</span>);<br>            &#125;<br>            <span class="hljs-keyword">if</span> (handler) <span class="hljs-title function_">handler</span>(details);<br>        &#125;;<br>        <span class="hljs-keyword">return</span> <span class="hljs-title function_">_setActionHandler</span>(action, wrappedHandler);<br>    &#125;;<br><br>    <span class="hljs-comment">// --- 视频初始化 ---</span><br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">patchVideo</span>(<span class="hljs-params">video</span>) &#123;<br>        <span class="hljs-keyword">if</span> (video.<span class="hljs-property">_isPatched</span>) <span class="hljs-keyword">return</span>;<br>        video.<span class="hljs-property">_isPatched</span> = <span class="hljs-literal">true</span>;<br><br>        video.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;volumechange&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>            <span class="hljs-keyword">if</span> (!video.<span class="hljs-property">_fadeController</span> &amp;&amp; video.<span class="hljs-property">volume</span> &gt; <span class="hljs-number">0</span>) &#123;<br>                userVolume = video.<span class="hljs-property">volume</span>;<br>            &#125;<br>        &#125;);<br><br>        video.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;loadstart&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>            <span class="hljs-keyword">if</span> (video.<span class="hljs-property">_fadeController</span>) video.<span class="hljs-property">_fadeController</span>.<span class="hljs-title function_">abort</span>();<br>            isFading = <span class="hljs-literal">false</span>;<br>            video.<span class="hljs-property">volume</span> = <span class="hljs-number">0</span>;<br>        &#125;);<br>    &#125;<br><br>    <span class="hljs-keyword">const</span> observer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MutationObserver</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-keyword">const</span> video = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;video&#x27;</span>);<br>        <span class="hljs-keyword">if</span> (video) <span class="hljs-title function_">patchVideo</span>(video);<br>    &#125;);<br>    observer.<span class="hljs-title function_">observe</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>, &#123; <span class="hljs-attr">childList</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">subtree</span>: <span class="hljs-literal">true</span> &#125;);<br><br>&#125;)();<br></code></pre></td></tr></table></figure>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E7%A8%8B%E5%BA%8F/">程序</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E5%A5%BD%E8%BD%AF%E4%BB%B6/">好软件</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/ce81b320/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Bluefin (Fedora Silverblue) ostree+btrfs 下 设置磁盘 Swapfile 和休眠</title>
+      <link>https://www.jiecs.top/archives/8a773376/</link>
+      <guid>https://www.jiecs.top/archives/8a773376/</guid>
+      <pubDate>Mon, 09 Feb 2026 20:20:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;ZRAM 基本上是够用的，默认就有，默认压缩算法是 lzo-rle，大小是 1&amp;#x2F;2 的内存大小或者至少 4G。&lt;/p&gt;
+&lt;p&gt;可以设置压缩算法为 zstd，相比较 lzo-rle 属于时间 (CPU) 换空间 (内存)，并且手动设置大小优化一下，如&lt;br&gt;&lt;cod</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>ZRAM 基本上是够用的，默认就有，默认压缩算法是 lzo-rle，大小是 1&#x2F;2 的内存大小或者至少 4G。</p><p>可以设置压缩算法为 zstd，相比较 lzo-rle 属于时间 (CPU) 换空间 (内存)，并且手动设置大小优化一下，如<br><code>/etc/systemd/zram-generator.conf</code>：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs conf">[zram0]<br>zram-size = # in MiB, 1/2 ram size or 1 ram size<br>compression-algorithm = zstd<br></code></pre></td></tr></table></figure><p>即可</p><hr><p>但内存空间确实不够的时候，ZRAM 对 OOM 无能为力，因此可以设置一个低 Priority 的小 Swapfile 用来在 OOM 的时候有腾挪空间</p><blockquote><p>当然如果要考虑休眠，那 Swapfile 还是要很大的</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs bash">❯ <span class="hljs-built_in">sudo</span> btrfs subvolume create /var/swap<br>Create subvolume <span class="hljs-string">&#x27;/var/swap&#x27;</span><br><br>~ <br>❯ <span class="hljs-built_in">sudo</span> btrfs filesystem mkswapfile --size 4G /var/swap/swapfile<br>create swapfile /var/swap/swapfile size 4.00GiB (4294967296)<br><br>~ <br>❯ <span class="hljs-built_in">sudo</span> -E nano /etc/systemd/system/var-swap-swapfile.swap<br><span class="hljs-comment"># 常规方法是在 /etc/fstab 里加，但 systemd 里加更现代一点</span><br><span class="hljs-comment"># systemd unit 名字不能改，应该是准确的路径转义</span><br>[Unit]<br>Description=Swapfile<br><br>[Swap]<br>What=/var/swap/swapfile<br>Priority=10<br><br>[Install]<br>WantedBy=swap.target<br><br>~ <br>❯ <span class="hljs-built_in">sudo</span> systemctl daemon-reload<br><br>~ <br>❯ <span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> --now var-swap-swapfile.swap<br>Created symlink <span class="hljs-string">&#x27;/etc/systemd/system/swap.target.wants/var-swap-swapfile.swap&#x27;</span> → <span class="hljs-string">&#x27;/etc/systemd/system/var-swap-swapfile.swap&#x27;</span>.<br><br>~ <br>❯ <span class="hljs-built_in">sudo</span> swapon -a<br><br>~ <br>❯ <span class="hljs-built_in">sudo</span> swapon<br>NAME               TYPE      SIZE USED PRIO<br>/dev/zram0         partition  16G   0B  100<br>/var/swap/swapfile file       4G    0B  10<br><br><span class="hljs-comment"># 到这一步就有 Swapfile 了如果要磁盘休眠还可以继续操作</span><br><span class="hljs-comment"># $ sudo cat /etc/dracut.conf.d/resume.conf</span><br><span class="hljs-comment"># $ rpm-ostree initramfs --enable</span><br><span class="hljs-comment"># 还有更多要考虑的: SELinux, systemd-hibernate-resume...</span><br></code></pre></td></tr></table></figure><p>参考文档：</p><ul><li><a href="https://fedoramagazine.org/update-on-hibernation-in-fedora-workstation">https://fedoramagazine.org/update-on-hibernation-in-fedora-workstation</a> 注意不完全全面，读下方的评论</li><li><a href="https://wiki.archlinuxcn.org/wiki/Swap">https://wiki.archlinuxcn.org/wiki/Swap</a></li><li><a href="https://wiki.archlinuxcn.org/wiki/Hibernation">https://wiki.archlinuxcn.org/wiki/Hibernation</a></li></ul>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91/">我的电脑</category>
+      
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/8a773376/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>上海如韵电子 CNxx 电池充电管理芯片选型表</title>
+      <link>https://www.jiecs.top/archives/facd4237/</link>
+      <guid>https://www.jiecs.top/archives/facd4237/</guid>
+      <pubDate>Thu, 29 Jan 2026 18:19:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;img src=&quot;https://cdn.jiecs.top/img/2026/01/1769681999333-image.webp&quot;&gt;&lt;/p&gt;
+&lt;p&gt;如图&lt;br&gt;来源： &lt;a href=&quot;https://www.bilibili.com/video/BV1oM4m1d</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><img src="https://cdn.jiecs.top/img/2026/01/1769681999333-image.webp"></p><p>如图<br>来源： <a href="https://www.bilibili.com/video/BV1oM4m1d7Rm">https://www.bilibili.com/video/BV1oM4m1d7Rm</a> 04:35</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E5%AD%A6%E4%B9%A0/">学习</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E7%94%B5%E5%AD%90/">电子</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/facd4237/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>城市天际线等游戏在 Linux Wine Proton 中的中文字体方块空白问题</title>
+      <link>https://www.jiecs.top/archives/89a6fa5/</link>
+      <guid>https://www.jiecs.top/archives/89a6fa5/</guid>
+      <pubDate>Mon, 15 Sep 2025 22:38:08 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;原因是有些游戏的中文环境写死了微软雅黑，我目前发现存在这个问题的游戏（公司）有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;城市天际线&lt;/li&gt;
+&lt;li&gt;Ndemic Creations 包括瘟疫公司、反叛公司等&lt;/li&gt;
+&lt;li&gt;Jutsu Games 包括 911 接线员、112 接线</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>原因是有些游戏的中文环境写死了微软雅黑，我目前发现存在这个问题的游戏（公司）有：</p><ul><li>城市天际线</li><li>Ndemic Creations 包括瘟疫公司、反叛公司等</li><li>Jutsu Games 包括 911 接线员、112 接线员等</li></ul><h3 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h3><p>用游戏（城市天际线）本身的 Font Changer 类模组指定字体到思源黑体</p><h3 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h3><p>在 wine 前缀<br>drive_c&#x2F;windows&#x2F;Fonts&#x2F; 下把思源、Noto 等其他字体，软链接或者复制到 msyh.ttf msyh.ttc 等的名字 </p><p>还是不行就，复制一个 Windows 安装下 C:\Windows\Fonts 里的 <strong>全部</strong> 内容（尤其是msyh、simhei、simsun 等）到 wine 前缀</p><p>或者从 Steam Proton 的这两个路径偷字体也可以：</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">~<span class="hljs-regexp">/.var/</span>app<span class="hljs-regexp">/com.valvesoftware.Steam/</span>.local<span class="hljs-regexp">/share/</span>Steam<span class="hljs-regexp">/steamapps/</span>common<span class="hljs-regexp">/Proton - Experimental/</span>files<span class="hljs-regexp">/share/</span>fonts<br>~<span class="hljs-regexp">/.var/</span>app<span class="hljs-regexp">/com.valvesoftware.Steam/</span>.local<span class="hljs-regexp">/share/</span>Steam<span class="hljs-regexp">/steamapps/</span>common<span class="hljs-regexp">/Proton - Experimental/</span>files<span class="hljs-regexp">/share/</span>wine/fonts<br></code></pre></td></tr></table></figure><p>Lutris 由于支持 UMU，因此也带有微软的字体：</p><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-regexp">~/.var/</span>app<span class="hljs-regexp">/net.lutris.Lutris/</span>data<span class="hljs-regexp">/lutris/</span>runners<span class="hljs-regexp">/proton/</span>ge-proton<span class="hljs-regexp">/files/</span>share/fonts<br><span class="hljs-regexp">/var/</span>home<span class="hljs-regexp">/chen/</span>.<span class="hljs-keyword">var</span><span class="hljs-regexp">/app/</span>net.lutris.Lutris<span class="hljs-regexp">/data/</span>lutris<span class="hljs-regexp">/runners/</span>proton<span class="hljs-regexp">/ge-proton/</span>files<span class="hljs-regexp">/share/</span>wine/fonts<br></code></pre></td></tr></table></figure>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      
+      <category domain="https://www.jiecs.top/tags/TipsTricks/">TipsTricks</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/89a6fa5/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>久量 DP-9102 手电筒的充电头类别和型号</title>
+      <link>https://www.jiecs.top/archives/4c47bd14/</link>
+      <guid>https://www.jiecs.top/archives/4c47bd14/</guid>
+      <pubDate>Sat, 06 Sep 2025 22:13:15 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;久量 LED 锂电池 验钞充电式手电筒&lt;br&gt;型号：DP-9102&lt;br&gt;LI-ION BATTERY MONEY DETECTOR LED TORCH&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cdn.jiecs.top/img/2025/09/100004078</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>久量 LED 锂电池 验钞充电式手电筒<br>型号：DP-9102<br>LI-ION BATTERY MONEY DETECTOR LED TORCH</p><p><img src="https://cdn.jiecs.top/img/2025/09/1000040780.webp" alt="包装壳"><br><img src="https://cdn.jiecs.top/img/2025/09/IMG_20250906_220750.webp" alt="包装壳背面说明"><br><img src="https://cdn.jiecs.top/img/2025/09/1000040781.webp" alt="充电器"><br><img src="https://cdn.jiecs.top/img/2025/09/1000040784.webp" alt="本体"></p><hr><p><img src="https://cdn.jiecs.top/img/2025/09/1000040782.webp" alt="充电器"><br><img src="https://cdn.jiecs.top/img/2025/09/IMG_20250906_215419.webp" alt="充电器详细参数"></p><p>充电器（标明的）型号：XW-001<br>输入：AC100V~240V 47&#x2F;63Hz 100mA<br>输出：DC 4.2V 500mA<br>带有一颗 LED 显示充电状态，未充满红灯，已充满绿灯<br>搜索 4.2V 500mA 即可买到兼容的充电器</p><p>是 3.5*1.35mm 偏细长的 DC 口</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/4c47bd14/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>ESP-12E ESP-12F ESP12S 和 ESP8266MOD 的区别</title>
+      <link>https://www.jiecs.top/archives/910267f4/</link>
+      <guid>https://www.jiecs.top/archives/910267f4/</guid>
+      <pubDate>Tue, 02 Sep 2025 21:43:24 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;ESP8266 是一小块芯片&lt;br&gt;而带银色屏蔽罩的，是可以用的“模块”，内部集成了小电容、晶振之类的最小系统&lt;br&gt;ESP8266MOD 就是模块的意思，该模块原厂厂家是安信可，但也有很多其他厂商也做一样的兼容模块&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cdn</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>ESP8266 是一小块芯片<br>而带银色屏蔽罩的，是可以用的“模块”，内部集成了小电容、晶振之类的最小系统<br>ESP8266MOD 就是模块的意思，该模块原厂厂家是安信可，但也有很多其他厂商也做一样的兼容模块</p><p><img src="https://cdn.jiecs.top/img/2025/09/Screenshot_20250902-213301_%E6%B7%98%E5%AE%9D.png" alt="screenshot"></p><p>如图， 直观区别主要在最下面一排六个 IO 口的有无、PCB 天线的设计，以及中心一块散热铜。当然模块内部也有些许不同，但大多数情况都是引脚封装兼容、程序通刷的</p><p>发布顺序为：ESP-12E → ESP-12F → ESP-12S</p><p>需要注意的是，ESP-12 下面一排六个 IO 口虽然看着是有，但实际上一般都无法使用。<br>包括官方安信可的手册里，也写了不可用<br><img src="https://cdn.jiecs.top/img/2025/09/Screenshot_20250903-212556_Fennec.png" alt="screenshot"><br>安信可文档 <a href="https://docs.ai-thinker.com/esp8266">https://docs.ai-thinker.com/esp8266</a><br>因为这一排 IO 都用于连接到内置的 SPI flash 了，IO9 IO10 用于四线 SPI 的另外两条线</p><p>还有常见的 ESP-01、 ESP8285、ESP-01S 一般指的是通过串口 AT 协议，可以让不带 WiFi 功能的单片机通过串口交换一定 WiFi 数据的 WiFi 模块</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/910267f4/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>通过 distrobox 在任何发行版安装星火应用商店</title>
+      <link>https://www.jiecs.top/archives/43e7ecc1/</link>
+      <guid>https://www.jiecs.top/archives/43e7ecc1/</guid>
+      <pubDate>Mon, 25 Aug 2025 21:07:59 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;首先&quot;&gt;&lt;a href=&quot;#首先&quot; class=&quot;headerlink&quot; title=&quot;首先&quot;&gt;&lt;/a&gt;首先&lt;/h2&gt;&lt;p&gt;由于 WPS 直接在 distrobox 环境下运行我遇到了各种麻烦的问题，于是尝试在 distrobox 中安装星火应用商店，再安装 WP</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h2 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h2><p>由于 WPS 直接在 distrobox 环境下运行我遇到了各种麻烦的问题，于是尝试在 distrobox 中安装星火应用商店，再安装 WPS。问题能够解决，于是顺便记录一下 distrobox 中安装星火的过程。总体上还是非常轻松的，十几分钟就能搞定</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote><p>系统环境为 Bluefin Linux (based-on Fedora Silverblue)</p></blockquote><p>创建 distrobox 使用的是这个 image</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">distrobox create --image quay.io/toolbx/ubuntu-toolbox:latest --name box-spark<br></code></pre></td></tr></table></figure><p>当前的 latest 应该是 24.04 (LTS)<br><code>ubuntu-toolbox</code> 是精简后的 ubuntu image，亲测也足够星火运行的，用完整的 ubuntu image 应当更加没有问题</p><p>默认没有 systemd 支持，而星火应用商店的更新通知（定时检查更新）依赖 systemd，可以通过 distrobox 的 <code>--init</code> flag 实现，但是这会让你<a href="#%E5%85%B3%E4%BA%8E%E4%B8%8E-systemd-%E7%9A%84%E4%B8%8D%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98">用不了中文输入法</a>。所以还是建议不用 systemd</p><p>进入容器命令行之后，正常 apt install <a href="https://www.spark-app.store/">星火应用商店的 .deb</a> 即可，星火应用商店会拖家带口把 qt、dtk、gcc 环境、工具链都装上，占用空间 600M+ 是正常的</p><p>没有什么报错安装完成之后（不装 systemd 的话安装过程会有一个小报错），就可以通过 <code>spark-store</code> 运行图形化的星火应用商店</p><h2 id="Post-fix-Workaround"><a href="#Post-fix-Workaround" class="headerlink" title="Post-fix &amp; Workaround"></a>Post-fix &amp; Workaround</h2><h3 id="第一个问题：中文字体坏的"><a href="#第一个问题：中文字体坏的" class="headerlink" title="第一个问题：中文字体坏的"></a>第一个问题：中文字体坏的</h3><p>这个很好解决：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install fonts-noto-cjk<br></code></pre></td></tr></table></figure><p>或者安装任何你喜欢的字体即可</p><h3 id="第二个问题：点击“下载并安装”，下载之后就没动作了，不会自己安装"><a href="#第二个问题：点击“下载并安装”，下载之后就没动作了，不会自己安装" class="headerlink" title="第二个问题：点击“下载并安装”，下载之后就没动作了，不会自己安装"></a>第二个问题：点击“下载并安装”，下载之后就没动作了，不会自己安装</h3><p>解决方案： <a href="https://gitee.com/spark-store-project/spark-store/issues/IBML1L">https://gitee.com/spark-store-project/spark-store/issues/IBML1L</a><br>即在 distrobox 容器内执行</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;#!/bin/sh</span><br><span class="hljs-string">sudo &quot;$@&quot;&#x27;</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /usr/local/bin/pkexec<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> +x /usr/local/bin/pkexec<br></code></pre></td></tr></table></figure><p>这是因为原本正常安装的星火应用商店，应当在安装过程中通过 <code>pkexec</code> 提升到 root 权限，因为这样可以跳出一个 askpass 图形界面请求用户输入密码。而在容器中一般直接使用 <code>sudo</code>，<code>pkexec</code> 由于各种原因往往没法正常工作。不是完全不可以，但挺麻烦的</p><p>所以以上命令能替换 <code>/usr/local/bin/pkexec</code> 的内容为一个脚本，直接原地将命令丢给 sudo</p><p>由于创建容器的时候就没有用 <code>--root</code> 创建 rootful 容器，所以这个 sudo 出来的 root <em>应该</em> 也不是宿主机的 root，不需要特别在乎安全问题。只要你用 Podman 就完全是 rootless 的</p><h3 id="第三个问题：搜索框没法输入中文"><a href="#第三个问题：搜索框没法输入中文" class="headerlink" title="第三个问题：搜索框没法输入中文"></a>第三个问题：搜索框没法输入中文</h3><p>最简单的 <del>经典</del> 解决方案就是从别的地方打好字然后粘贴进去</p><p>当然也可以选择一步到位。我使用 fcitx5 框架，需要在容器里安装对应前端界面（我也不知道为啥宿主机的 fcitx5 前端在容器里就不工作了）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install fcitx5-frontend-all<br></code></pre></td></tr></table></figure><p>这样安装的只是适用于 qt gtk 等程序的 fcitx5 前端，后端还是通过 D-Bus 连宿主机的（还好 distrobox 上 D-Bus 开箱即用）<br>当然就是要再牺牲掉一些存储空间，fcitx5 也喜欢拖家带口</p><h4 id="关于与-systemd-的不兼容问题"><a href="#关于与-systemd-的不兼容问题" class="headerlink" title="关于与 systemd 的不兼容问题"></a>关于与 systemd 的不兼容问题</h4><p>如果你在创建 distrobox 的时候选择启用了 systemd (init system)，那也会无法输入中文，安装 <code>fcitx5-frontend-all</code> 也没用。这是因为<a href="https://distrobox.it/useful_tips/#using-init-system-inside-a-distrobox">开启 systemd 之后，容器就无法访问宿主机的进程资源了</a></p><blockquote><p>Note however that in this mode, you’ll not be able to access host’s processes from within the container.</p></blockquote><p>你可以通过</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dbus-send --session --dest=org.freedesktop.DBus --<span class="hljs-built_in">type</span>=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames<br></code></pre></td></tr></table></figure><p>在容器内和主机内列出可用的 DBus 来确认这个问题</p><p>这个问题我还没找到解决办法。但大多数“正常”的程序都是不应该与 systemd 硬耦合的，所以就还是建议不用 systemd</p><p>其他问题目前都还没遇到</p><ul><li>WPS 开箱即用没有任何问题</li><li>能正常用 <code>distrobox-export --app WPS</code> 将 WPS 桌面图标 .desktop 导出到宿主机</li><li>通过星火应用商店安装的 ACE 兼容环境可以在命令行正常进入。这样对于适合安装到 ACE 兼容环境中的软件，问题应当又能解决很多<br>再其他的问题也就是星火应用商店本身的问题了（可不是容器的问题）</li></ul>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">简单教程</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91/">我的电脑</category>
+      
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/43e7ecc1/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>HomeAssistant 通过 OPPO 云服务跟踪一加/OPPO 设备的位置</title>
+      <link>https://www.jiecs.top/archives/ae8d6418/</link>
+      <guid>https://www.jiecs.top/archives/ae8d6418/</guid>
+      <pubDate>Thu, 07 Aug 2025 09:02:45 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;a href=&quot;https://github.com/jiesou/oppo_cloud_tracker&quot;&gt;https://github.com/jiesou/oppo_cloud_tracker&lt;/a&gt;&lt;br&gt;花了两天时间做了一个集成，基本够用了，挂一个 Seleniu</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><a href="https://github.com/jiesou/oppo_cloud_tracker">https://github.com/jiesou/oppo_cloud_tracker</a><br>花了两天时间做了一个集成，基本够用了，挂一个 Selenium Docker 容器，然后连连上去就行</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%95%99%E7%A8%8B/">教程</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/ae8d6418/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>HomeAssistant 通过 SSH 获取 Intel 主机自己的功耗</title>
+      <link>https://www.jiecs.top/archives/5b1dbf96/</link>
+      <guid>https://www.jiecs.top/archives/5b1dbf96/</guid>
+      <pubDate>Fri, 25 Jul 2025 19:33:42 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;需要使用 &lt;a href=&quot;https://www.home-assistant.io/integrations/command_line&quot;&gt;https://www.home-assistant.io/integrations/command_line&lt;/a&gt; 这个 com</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>需要使用 <a href="https://www.home-assistant.io/integrations/command_line">https://www.home-assistant.io/integrations/command_line</a> 这个 commend line 集成，通过命令行输入数据。</p><h2 id="从命令行获取功耗数据"><a href="#从命令行获取功耗数据" class="headerlink" title="从命令行获取功耗数据"></a>从命令行获取功耗数据</h2><p>Intel 一直支持通过 RAPL 获取 CPU 自身的耗电量（电能）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">root@casaos:/# <span class="hljs-built_in">cat</span> /sys/class/powercap/intel-rapl/intel-rapl:0/name<br>package-0<br>root@casaos:/# <span class="hljs-built_in">cat</span> /sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj<br>134021323469<br></code></pre></td></tr></table></figure><p>这个是 package-0 域的，包含 DRAM、核显，就是整个 SoC 的功耗。</p><p>而 Intel Syklake 之后的版本支持 PSYS 域，即 <code>intel-rapl:1</code></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">root@casaos:/# <span class="hljs-built_in">cat</span> /sys/class/powercap/intel-rapl/intel-rapl:1/name<br>psys<br>root@casaos:/# <span class="hljs-built_in">cat</span> /sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj<br>74239569162<br></code></pre></td></tr></table></figure><p>基本上就是全板的功耗了，还包含 SoC 之外设备的功耗（当然不含电源适配器的损耗）</p><h2 id="导入-HomeAssistant"><a href="#导入-HomeAssistant" class="headerlink" title="导入 HomeAssistant"></a>导入 HomeAssistant</h2><p>HomeAssistant 本身命令行的环境是在容器里，各种麻烦。脱离容器最简单的方法是直接 SSH 连主机。而 <code>ssh</code> 不支持非交互式密码认证，那就是说要密钥认证。</p><p>配置好主机的 SSH 密钥认证（这种网上教程太多了，就是 <code>ssh-keygen</code>）之后，把私钥粘贴到 <code>/config/ssh-key</code></p><blockquote><p><code>/homeassistant</code> 基本就是 <code>/config</code> 的软链接，但用 <code>/config</code> 没有问题</p></blockquote><blockquote><p>因为 HomeAssistant Commend Line 执行权限的问题，私钥不能拷到 <code>/root/.ssh</code> 下，虽然 <code>whoami</code> 是 root，但有各种问题</p></blockquote><p>然后最终就是 <code>configuration.yaml</code> 中添加：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">command_line:</span><br>    <span class="hljs-comment"># 主机功率消耗</span><br>    <span class="hljs-comment"># 原单位微焦（uJ），awk 乘以 6 变成焦耳（J）</span><br>    <span class="hljs-comment"># 连接到 casaos，通过私钥实现免密码登录</span><br>    <span class="hljs-comment"># -T 强制非交互式不分配伪终端，同时实现 Ubuntu 登录的欢迎消息不显示</span><br>    <span class="hljs-comment"># 可在命令后添加 2&gt;&amp;1; echo &quot;EXIT_CODE:$?&quot; 手动引导输出 exit code，让错误日志更丰富</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">sensor:</span><br>      <span class="hljs-attr">name:</span> <span class="hljs-string">&quot;主机累计电量&quot;</span><br>      <span class="hljs-attr">device_class:</span> <span class="hljs-string">&quot;energy&quot;</span><br>      <span class="hljs-attr">state_class:</span> <span class="hljs-string">&quot;total_increasing&quot;</span><br>      <span class="hljs-attr">unit_of_measurement:</span> <span class="hljs-string">&quot;J&quot;</span><br>      <span class="hljs-attr">scan_interval:</span> <span class="hljs-number">15</span><br>      <span class="hljs-attr">command:</span> <span class="hljs-string">&gt;</span><br><span class="hljs-string">        ssh -i /config/ssh-key -o &quot;StrictHostKeyChecking=no&quot; -T root@casaos.lan</span><br><span class="hljs-string">        &#x27;cat /sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj | awk &quot;&#123;printf \&quot;%.6f\n\&quot;, \$1/1000000&#125;&quot;&#x27;</span><br></code></pre></td></tr></table></figure><p>具体参数设置基本比较清楚了<br>建议获取到单位为焦耳的数据，然后再通过辅助元素，变化率传感器之类的算出功耗。不要直接 bash 输出最终结果</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%8A%80%E6%9C%AF/">技术</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%95%99%E7%A8%8B/">教程</category>
+      
+      <category domain="https://www.jiecs.top/tags/PVE/">PVE</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/5b1dbf96/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>G4560 HP 400g3 小主机 PVE Windows 核显穿透直连研究日志，以及 PVE 环境如何把 Windows 从 GPT 无损转为 MBR</title>
+      <link>https://www.jiecs.top/archives/4522cbac/</link>
+      <guid>https://www.jiecs.top/archives/4522cbac/</guid>
+      <pubDate>Thu, 24 Jul 2025 03:34:20 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;首先&quot;&gt;&lt;a href=&quot;#首先&quot; class=&quot;headerlink&quot; title=&quot;首先&quot;&gt;&lt;/a&gt;首先&lt;/h2&gt;&lt;p&gt;从实用主义的角度考虑，最简单的方法是 GVT-g 拆分核显，GRUB 里添加个参数就能用，也能实现一定程度上的硬件加速，比如 Chrome </description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h2 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h2><p>从实用主义的角度考虑，最简单的方法是 GVT-g 拆分核显，GRUB 里添加个参数就能用，也能实现一定程度上的硬件加速，比如 Chrome 解码视频。</p><p>但拆分核显得到的核显是“无头”，或者说没法绑定显示器的。一些软件，比如 Sunshine 串流。使用虚拟显示器时，出于 Sunshine 方面的问题，<strong>无法通过 QSV 进行硬件加速编码</strong>。<br>RustDesk 是能实现无头核显硬件加速的，但是 RustDesk 的使用体验比较糟糕。</p><p>于是最后只能考虑将整个核显进行穿透，不进行拆分。</p><h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>G4560 属于 7 代 Kaby Lake。经过一番搜寻，比较可靠、直接的核显穿透方案是 <a href="https://github.com/lixiaoliu666/intel6-14rom/tree/qemu7-9">https://github.com/lixiaoliu666/intel6-14rom/tree/qemu7-9</a>。<br>其中 <code>master</code> 分支下的 README 仅适用于 QEMU 10，需要换到作者提供的 QEMU、KVM 包（<a href="https://github.com/lixiaoliu666/pve-anti-detection">https://github.com/lixiaoliu666/pve-anti-detection</a>）<br>而 <code>qemu7-9</code> 分支下的 README <strong>适用于 QEMU 9.2</strong>，这样就不需要换 KVM，对原 PVE 环境的影响更小。所以选择这个分支。<br>我的环境是</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">root@400g3pve:~# pveversion <br>pve-manager/8.4.1/2a5fa54a8503f96d (running kernel: 6.8.12-11-pve)<br>root@400g3pve:~# qemu-system-x86_64 --version<br>QEMU emulator version 9.2.0 (pve-qemu-kvm_9.2.0-5)<br>Copyright (c) 2003-2024 Fabrice Bellard and the QEMU Project developers<br></code></pre></td></tr></table></figure><p>具体配置方式，在作者 李晓流 的专栏，以及 README 里以及写得很清楚了。也可以部分参考 <a href="https://imacos.top/2025/06/09/pve-intel-6-14-q35">https://imacos.top/2025/06/09/pve-intel-6-14-q35</a>。</p><p>总之：主要参考 <a href="https://www.bilibili.com/opus/1067771179546181639">https://www.bilibili.com/opus/1067771179546181639</a> 里 <strong>qemu 9.2</strong> 的部分。</p><hr><p>注意：</p><ul><li><code>hostpci0</code> 里不需要 <code>legacy-igd=1</code>。</li><li>下载 .rom 文件的时候要下载 Releases 里 V1.0 的，即 <a href="https://github.com/lixiaoliu666/intel6-14rom/releases/tag/v1.0-20250413-161986">https://github.com/lixiaoliu666/intel6-14rom/releases/tag/v1.0-20250413-161986</a>，这个版本才支持 QEMU 9.2，V2.0 是 QEMU 10 的。就下载 <code>6-14.rom</code> 大全版本即可，放到 <code>/usr/share/kvm/</code> 目录下。</li></ul><hr><p>我最终的 .conf 如下</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash">agent: 1<br>args: -<span class="hljs-built_in">set</span> device.hostpci0.bus=pcie.0 -<span class="hljs-built_in">set</span> device.hostpci0.addr=02.0 -<span class="hljs-built_in">set</span> device.hostpci0.x-igd-gms=0x2 -<span class="hljs-built_in">set</span> device.hostpci0.x-igd-opregion=on<br>boot: order=scsi0;net0;ide0<br>cores: 4<br>cpu: host<br>hostpci0: 0000:00:02.0,pcie=1,romfile=6-14.rom,x-vga=1<br>machine: q35<br>memory: 4096<br>meta: creation-qemu=9.2.0,ctime=1749979104<br>name: win<br>net0: virtio=BC:24:11:44:71:AA,bridge=vmbr0,firewall=1<br>numa: 1<br>ostype: l26<br>scsi0: local-lvm:vm-103-disk-1,discard=on,iothread=1,size=32G,ssd=1<br>scsihw: virtio-scsi-single<br>smbios1: uuid=8072d170-12f0-4aa5-86ef-f10471bb4282<br>sockets: 1<br>tpmstate0: local-lvm:vm-103-disk-2,size=4M,version=v2.0<br>vmgenid: 0288c536-37d1-4615-95f9-69e1663584a7<br></code></pre></td></tr></table></figure><p>接着，你会发现我的配置里没有 <code>bios:ovmf</code>，这意味着它会以默认的 SeaBIOS 进行 Legacy 启动。</p><p>这是因为我这台 G4560 和作者 README 里描述的情况一致：</p><blockquote><p>有些机器他还是有小bug的，会和这个项目 <a href="https://github.com/my33love/gk41-pve-ovmf">https://github.com/my33love/gk41-pve-ovmf</a> 中的描述症状一样：WIN10 直通安装没有任何问题，可以正常直通到物理显示器，但是一旦<strong>装了UHD驱动就黑屏</strong>了，只能RDP远程进去，暂时没找到解决办法！ubuntu测试完美，直通安装与安装完显示器都能在4K 60HZ下工作。我在j4105机器上遇见一样的问题，不管是用最新的6-10代核显驱动还是2019年及以前发布的6-10代核显驱动，只要一驱动了必黑屏。这是前人源代码埋下来的坑，快4年了无人解决，我也解决不了，找我没用。有网友反馈<strong>驱动黑屏问题是因为硬盘分区表问题，用mbr就可以了</strong>，我估计4-10代如果安装核显后驱动黑屏，大家可以试下安装的时候硬盘用mbr，实在不会就选择ide硬盘给win10虚拟机试试，如果能解决记得反馈。</p><p><a href="https://github.com/lixiaoliu666/intel6-14rom/tree/qemu7-9#:~:text=%E4%BD%86%E6%98%AF%E5%91%A2%E6%9C%89%E4%BA%9B,%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BE%97%E5%8F%8D%E9%A6%88%E3%80%82">（原文）</a></p></blockquote><p>即设备管理器里可以看到物理视频口所输出的显示器，但显示器就是不显示，没信号，黑屏。然后 RDP 能显示，而 Sunshine 串流也是和物理显示器一样直接串出个黑屏。</p><p>所以为了解决这个问题，Windows VM 的硬盘分区表必须是 MBR，这也意味着 Windows 必须不能是 GPT+OVMF (UEFI) 启动的，而必须是 MBR+SeaBIOS (Legacy) 启动的。</p><p>对于已经装好了的 Windows，实际上有很多方式可以无损从 UEFI 转到 Legacy。这里进行介绍。</p><h2 id="把-PVE-里的-Windows-VM-从-GPT-无损转为-MBR"><a href="#把-PVE-里的-Windows-VM-从-GPT-无损转为-MBR" class="headerlink" title="把 PVE 里的 Windows VM 从 GPT 无损转为 MBR"></a>把 PVE 里的 Windows VM 从 GPT 无损转为 MBR</h2><p>主要麻烦的就是 PVE 的 VirtIO SCSI 驱动，很多 PE 不支持，没法认出 Windows 系统磁盘。</p><p>调整分区和引导方式的时候，建议把之前核显直通的配置先删掉，改用默认显示。<br>我这里使用 <a href="https://down.edgeless.top/">Edgeless</a> 没有问题。微 PE 精简太多了，VirtIO SCSI 的驱动支持有问题。</p><blockquote><p>Edgeless 可以直接用设备管理器装好驱动。而另外，理论上也能通过 Dism&#x2F;Dism++ 直接把驱动做到 PE 镜像里，但要拆 ISO 什么的，我没成功过</p></blockquote><p>上 PE 需要和以往一样添加一个 IDE 的 CD&#x2F;DVD 驱动器，把 Edgeless 的 .iso 挂载上去。并在选项里调整引导顺序（也可在开机时按 Esc 选择启动项）</p><p>Edgeless 里要添加 VirtIO SCSI 驱动是很简单的：</p><ol><li>确保先也通过 CD&#x2F;DVD 驱动器的方式挂载了 virtio 驱动的 .iso（例如 virtio-win-0.1.271.iso）</li><li>设备管理器里，找到那个未识别的 SCSI 控制器。</li><li>右键，更新驱动程序，浏览我的电脑以查找驱动程序。<br>选择这个 <code>vioscsi</code> 驱动<br><img src="https://cdn.jiecs.top/img/2025/07/%E6%88%AA%E5%9B%BE_2025-07-24_03-18-37.png" alt="选择目录 E:\vioscsi\win10\amd64"></li><li>装上驱动之后，就能通过 DiskGenius 将分区表改为 MBR</li><li>如下图，可以把前面两个 FAT32 和“XENIX”的 EFI 小分区删掉，Legacy 启动不需要小分区<br><img src="https://cdn.jiecs.top/img/2025/07/%E6%88%AA%E5%9B%BE_2025-07-24_00-51-09.png" alt="四个分区，分别是 EFI 分区、Microsoft 保留分区 (MSR)、系统 C 盘、WinRE 分区"></li><li>同理，pve vm 的 .conf 里的 <code>efidisk: local-lvm:vm-103-disk-0,efitype=4m,size=4M</code> 这行也可以删掉了。<code>efidisk</code> 是给 EFI 用的</li><li>然后，使用 Edgeless 的 IQI 引导修复即可一键恢复 Legacy 引导。如果修复不了，尝试使用“理顺盘符”，要确保 C 盘在 PE 里的盘符也的确是 C 盘</li></ol><p>引导修复完成，先尝试进一下看看 Windows 能不能启动。然后就可以恢复之前核显直通的配置，重新 <code>display: none</code>。</p><p>再次启动 Windows，理论上物理显示器就能看到 Windows 的画面了。还是无信号、黑屏的话就插拔一下 DP 线，反正我是可以了。</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">简单教程</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%8A%80%E6%9C%AF/">技术</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%95%99%E7%A8%8B/">教程</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91/">我的电脑</category>
+      
+      <category domain="https://www.jiecs.top/tags/PVE/">PVE</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E5%A5%BD%E6%96%87/">好文</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/4522cbac/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>GK905 LK 光轴 网吧键盘 Fn 按键灯效功能图</title>
+      <link>https://www.jiecs.top/archives/c3965c3d/</link>
+      <guid>https://www.jiecs.top/archives/c3965c3d/</guid>
+      <pubDate>Tue, 22 Jul 2025 09:41:29 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;img src=&quot;https://cdn.jiecs.top/img/2025/07/964-IMG_20250722_093641.webp&quot; alt=&quot;GK905 LK光轴 灯效功能图&quot;&gt;&lt;/p&gt;
+</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><img src="https://cdn.jiecs.top/img/2025/07/964-IMG_20250722_093641.webp" alt="GK905 LK光轴 灯效功能图"></p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91/">我的电脑</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/c3965c3d/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>exFAT 调整大小时，bitmap 的故障</title>
+      <link>https://www.jiecs.top/archives/7a52ff22/</link>
+      <guid>https://www.jiecs.top/archives/7a52ff22/</guid>
+      <pubDate>Sun, 20 Jul 2025 14:13:36 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;在我想把 exFAT 换成 ext4 的过程中遇到了太多的坑，于是在这里记录一下&lt;/p&gt;
+&lt;p&gt;首先 exFAT 设计出来，就不是能被轻松调整大小的。包括 Windows 磁盘管理、GParted，甚至傲梅分区助手都没法改它大小&lt;br&gt;常见的，只有 DiskGenius 能</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>在我想把 exFAT 换成 ext4 的过程中遇到了太多的坑，于是在这里记录一下</p><p>首先 exFAT 设计出来，就不是能被轻松调整大小的。包括 Windows 磁盘管理、GParted，甚至傲梅分区助手都没法改它大小<br>常见的，只有 DiskGenius 能改大小</p><p>然后我改大小，又报各种文件系统错误，不让我改，DiskGenius 自己又没法修复 exFAT 的错误<br>fsck 修掉了几个问题，留下几个问题。最后就剩一个顽固的问题。就是：<br>$Bitmap中有标记为已使用的未用簇</p><p>Windows 的 chkdsk 也不行，说自己修好了，但总是能检查出一样的问题</p><p>翻遍网络找到这个：<a href="https://www.reddit.com/r/datarecovery/comments/tbs708/comment/ipny7b5">https://www.reddit.com/r/datarecovery/comments/tbs708/comment/ipny7b5</a><br>好像是最接近真相的<br>就是</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">chkdsk X: /f /x /freeorphanedchains<br></code></pre></td></tr></table></figure><p>结果我试了还是不行</p><p>最后，参照 Reddit 里别的帖子，用 DiskGenius 的前身 PartitionGuru 解决了问题</p>]]></content:encoded>
+      
+      
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      
+      
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      
+      <category domain="https://www.jiecs.top/tags/%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91/">我的电脑</category>
+      
+      <category domain="https://www.jiecs.top/tags/TipsTricks/">TipsTricks</category>
+      
+      
+      <comments>https://www.jiecs.top/archives/7a52ff22/#disqus_thread</comments>
+      
+    </item>
+    
+  </channel>
+</rss>
