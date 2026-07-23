@@ -1,0 +1,1129 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico">
+  <link rel="icon" href="/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jiecs">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="定位 G431 &#x2F; C0 &#x2F; C6 L6230 DRV8316 8A 大电流+高集成   RP2354A 将考虑作为方案B 内置flash 参考设计： https:&#x2F;&#x2F;github.com&#x2F;rbmakers&#x2F;RP2354A-Flight-Controller   无限指尖陀螺类似 https:&#x2F;&#x2F;oshwhub.com&#x2F;sun1053&#x2F;esp32c3-de-foc-dian-j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RoboRig 电机 FOC 项目">
+<meta property="og:url" content="https://www.jiecs.top/archives/b52107dc/index.html">
+<meta property="og:site_name" content="杰出兽的小宇宙">
+<meta property="og:description" content="定位 G431 &#x2F; C0 &#x2F; C6 L6230 DRV8316 8A 大电流+高集成   RP2354A 将考虑作为方案B 内置flash 参考设计： https:&#x2F;&#x2F;github.com&#x2F;rbmakers&#x2F;RP2354A-Flight-Controller   无限指尖陀螺类似 https:&#x2F;&#x2F;oshwhub.com&#x2F;sun1053&#x2F;esp32c3-de-foc-dian-j">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jiecs.top/img/2026/04/1775719963631-image.webp">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i1/2208413422775/O1CN01wCAV401WN06saWkPS_!!2208413422775.jpg_.webp">
+<meta property="og:image" content="https://cdn.jiecs.top/img/2026/04/1776687019342-image.webp">
+<meta property="og:image" content="https://cdn.jiecs.top/img/2026/04/1776687042272-image.webp">
+<meta property="og:image" content="https://cdn.jiecs.top/img/2026/04/1775727852152-image.webp">
+<meta property="article:published_time" content="2026-04-07T21:52:00.000Z">
+<meta property="article:modified_time" content="2026-07-23T12:30:36.849Z">
+<meta property="article:author" content="Jiecs">
+<meta property="article:tag" content="PlatformIO">
+<meta property="article:tag" content="嘉立创EDA">
+<meta property="article:tag" content="日常">
+<meta property="article:tag" content="电子">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jiecs.top/img/2026/04/1775719963631-image.webp">
+  
+  
+  
+  <title>RoboRig 电机 FOC 项目 - 杰出兽的小宇宙</title>
+
+  <link  rel="stylesheet" href="https://unpkg.jiecs.top/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://unpkg.jiecs.top/hint.css@2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://unpkg.jiecs.top/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.jiecs.top","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body><!-- hexo injector body_begin start -->
+<style>
+footer {
+  position: relative;
+}
+
+iframe[loading="lazy"], .iframe-overlay {
+  position: absolute;
+  height: 265px;
+  width: 300px;
+  transform: scale(0.9) translateY(-120px) translateX(25px);
+  clip-path: inset(0 round 1.2rem);
+  bottom: -100px;
+  left: 0px;
+  z-index: 3;
+  transition: transform 0.3s ease, clip-path 0.3s ease;
+}
+
+/* 透明遮罩层 - 与iframe完全相同的定位和尺寸 */
+.iframe-overlay {
+  z-index: 4; /* 比iframe高一层 */
+  background: transparent;
+  cursor: pointer;
+  /* 默认在桌面端隐藏遮罩 */
+  display: none;
+}
+
+/* 展开状态时隐藏遮罩层，向右偏移展开iframe */
+iframe[loading="lazy"].expanded + .iframe-overlay {
+  display: none;
+}
+iframe[loading="lazy"].expanded {
+  transform: scale(1) scaleY(1) translateY(-120px) translateX(25px);
+  clip-path: inset(0 0 0 0 round 1.2rem);
+}
+
+/* 浅色模式反色 */
+:root[data-user-color-scheme="light"] iframe[loading="lazy"] {
+  filter: invert(1) hue-rotate(-200deg);
+}
+
+/* 中屏幕藏起来显示 */
+@media (max-width: 1700px) {
+  iframe[loading="lazy"], .iframe-overlay {
+    clip-path: inset(0 0 140px 0 round 1.2rem);
+    transform: scale(0.64);
+  }
+  iframe[loading="lazy"]:hover {
+    transform: scale(1) scaleY(1) translateY(-120px) translateX(25px);
+    clip-path: inset(0 round 1.2rem);
+  }
+
+  .iframe-overlay {
+    display: block; /* 藏起来的时候，就显示拦截点击的遮罩 */
+  }
+}
+
+/* 小屏幕徽章显示 */
+@media (max-width: 768px) {
+  iframe[loading="lazy"], .iframe-overlay {
+    clip-path: inset(0 0 183px 0 round 1.2rem);
+    bottom: -38px;
+    transform: scale(0.5) scaleY(0.93);
+    left: calc(50% - 150px);
+  }
+  iframe[loading="lazy"]:hover {
+    transform: scale(1) scaleY(1) translateY(-120px) translateX(0px);
+    clip-path: inset(0 0 0 0 round 1.2rem);
+  }
+
+  /* 展开的时候居中展开 */
+  iframe[loading="lazy"].expanded {
+    transform: scale(0.8) scaleY(1) translateY(-120px) translateX(0px);
+    clip-path: inset(0 0 0 0 round 1.2rem);
+  }
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const footer = document.querySelector('footer');
+
+  const ad = document.createElement('iframe');
+  ad.frameBorder = 0;
+  ad.src = "https://support.nodeget.com/page/promotion?id=334%20|%20jiesou";
+  ad.loading = "lazy";
+
+  // 创建透明遮罩层，移动设备上拦截点击事件（先展开）
+  const overlay = document.createElement('div');
+  overlay.className = 'iframe-overlay';
+  overlay.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    ad.classList.add('expanded');
+  });
+  footer.appendChild(ad);
+  footer.appendChild(overlay);
+
+  // 点击 footer 外部区域收起
+  document.addEventListener('click', function(e) {
+    if (!ad.contains(e.target)) {
+      ad.classList.remove('expanded');
+    }
+  });
+});
+</script>
+<!-- hexo injector body_begin end -->
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 60vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>杰出兽的小宇宙</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E5%8A%A8%E6%80%81/" target="_self">
+                <i class="iconfont icon-comment"></i>
+                <span>动态</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/boxes/" target="_blank">
+                <i class="iconfont icon-code"></i>
+                <span>项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://www.alongw.cn" target="_self">
+                    
+                    <span>阿龙博客</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/%E5%8A%A8%E6%80%81/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-comment"></i>
+                  <span>动态</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/boxes/" target="_blank">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-code"></i>
+                  <span>项目</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            
+            <div class="col-12 mobile-grid-group-header">
+              <i class="iconfont icon-link-fill"></i>
+              <span>友链</span>
+            </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="https://www.alongw.cn" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-link-fill"></i>
+                    <span>阿龙博客</span>
+                  </div>
+                </a>
+              </div>
+            
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner"
+     style="background: url('https://api.jiecs.top/bingimg?idx=7&region=cn&resize=1') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">RoboRig 电机 FOC 项目</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-07 21:52" pubdate>
+          2026年4月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RoboRig 电机 FOC 项目</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><ul>
+<li>G431 &#x2F; C0 &#x2F; C6<ul>
+<li><strong>L6230</strong></li>
+<li><strong>DRV8316</strong> 8A 大电流+高集成</li>
+</ul>
+</li>
+<li>RP2354A 将考虑作为方案B<ul>
+<li>内置flash</li>
+<li>参考设计： <a target="_blank" rel="noopener" href="https://github.com/rbmakers/RP2354A-Flight-Controller">https://github.com/rbmakers/RP2354A-Flight-Controller</a></li>
+</ul>
+</li>
+<li>无限指尖陀螺类似 <a target="_blank" rel="noopener" href="https://oshwhub.com/sun1053/esp32c3-de-foc-dian-ji-xuan-niu">https://oshwhub.com/sun1053/esp32c3-de-foc-dian-ji-xuan-niu</a></li>
+<li>盘式无刷电机关键词</li>
+</ul>
+<h3 id="机架"><a href="#机架" class="headerlink" title="机架"></a>机架</h3><ul>
+<li>FPV 型<ul>
+<li>GEPRC MARK4 MARK5 7寸机架</li>
+<li>DJI F450</li>
+</ul>
+</li>
+<li>非 FPV 超小涵道圈圈机<ul>
+<li>大通 diatone<ul>
+<li>C3</li>
+<li>MXC3</li>
+</ul>
+</li>
+<li>大黄蜂BumbleBee V3</li>
+<li>Mobula7 1.6寸<ul>
+<li><a target="_blank" rel="noopener" href="https://www.happymodel.cn/index.php/2022/01/20/happymodel-mobula7-1s-micro-fpv-whoop-drone/">https://www.happymodel.cn/index.php/2022/01/20/happymodel-mobula7-1s-micro-fpv-whoop-drone/</a></li>
+</ul>
+</li>
+<li>Mobula8 2寸</li>
+<li>Protek25 2寸</li>
+<li>BetaFPV<ul>
+<li>Pavo Femto</li>
+<li>Meteor75 &#x2F; Meteor65<ul>
+<li>三方设计： <a target="_blank" rel="noopener" href="https://makerworld.com.cn/zh/models/2031332-tinywhoop-ji-jia-meteor-75-pro?from=search#profileId-2266258">https://makerworld.com.cn/zh/models/2031332-tinywhoop-ji-jia-meteor-75-pro?from=search#profileId-2266258</a></li>
+<li><a target="_blank" rel="noopener" href="https://betafpv.com/products/meteor75-brushless-whoop-quadcopter-1s">https://betafpv.com/products/meteor75-brushless-whoop-quadcopter-1s</a></li>
+<li><a target="_blank" rel="noopener" href="https://item.taobao.com/item.htm?id=875237136468&skuId=5879400859740">https://item.taobao.com/item.htm?id=875237136468&amp;skuId=5879400859740</a></li>
+<li>Matrix 1S AIO<ul>
+<li>三合一版本十字架形，需要搭配 DJI O4 数字图传</li>
+<li>四合一版本十字架形，模拟图传</li>
+<li>五合一另一个版本胖一点</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>   <img src="https://cdn.jiecs.top/img/2026/04/1775719963631-image.webp" srcset="/img/loading.gif" lazyload><br>   <img src="https://img.alicdn.com/imgextra/i1/2208413422775/O1CN01wCAV401WN06saWkPS_!!2208413422775.jpg_.webp" srcset="/img/loading.gif" lazyload alt="440"><br>  <img src="https://cdn.jiecs.top/img/2026/04/1776687019342-image.webp" srcset="/img/loading.gif" lazyload alt="882"><br>  正面，上侧<br>  <a target="_blank" rel="noopener" href="https://youtu.be/enWZdqV9JQQ?t=1025">https://youtu.be/enWZdqV9JQQ?t=1025</a><br>  <img src="https://cdn.jiecs.top/img/2026/04/1776687042272-image.webp" srcset="/img/loading.gif" lazyload alt="709">背面，下侧<br>  <a target="_blank" rel="noopener" href="https://youtu.be/enWZdqV9JQQ?t=950">https://youtu.be/enWZdqV9JQQ?t=950</a><br>  <a target="_blank" rel="noopener" href="https://detail.tmall.com/item.htm?id=709678635849">https://detail.tmall.com/item.htm?id=709678635849</a> Matrix ELRS 2.4G 版本<br>      <img src="https://cdn.jiecs.top/img/2026/04/1775727852152-image.webp" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="三相无刷驱动FOC"><a href="#三相无刷驱动FOC" class="headerlink" title="三相无刷驱动FOC"></a>三相无刷驱动FOC</h3><ul>
+<li>目标：<ul>
+<li>2S&#x2F;3S 小涵道 1.6 寸无人机</li>
+<li>低电压，考虑 USB 5V 开发</li>
+<li>兼无限指尖陀螺</li>
+<li>必须兼，兼很重要</li>
+<li>无人机那部分不需要特别高上限，能离地即可。但也要起码能离地，力争悬停。<ul>
+<li>无人机不需要位置检测，电流环就够了</li>
+</ul>
+</li>
+<li>主要考虑标注 <strong>经典</strong> 的方案，因为别的芯片几乎都很贵很难买到</li>
+</ul>
+</li>
+<li>驱动方案比较<ul>
+<li>高度集成<ul>
+<li>DRV8316 很强，5V，8A，很贵<ul>
+<li>电流采样、Buck 都集成了</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>集成 FET<ul>
+<li>DRV8311 小电压 5A<ul>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/will_t/drv8311h">https://oshwhub.com/will_t/drv8311h</a></li>
+<li>QFN侧边引脚很少</li>
+</ul>
+</li>
+<li>DRV8313 <strong>超级经典</strong>，8V 起步，3A<ul>
+<li>Expert电子实验室 <a target="_blank" rel="noopener" href="https://oshwhub.com/expert/bu-zu-bai-yuan-de-simplefoc-wu-shua-dian-ji-qu-dong-ban">https://oshwhub.com/expert/bu-zu-bai-yuan-de-simplefoc-wu-shua-dian-ji-qu-dong-ban</a></li>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/lleo_wh/cat-foc-qu-dong-ban">https://oshwhub.com/lleo_wh/cat-foc-qu-dong-ban</a></li>
+</ul>
+</li>
+<li>L6234PD013TR 7V 5A<ul>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/zdldcyy/l6234-shuang-lu-wu-shua-qu-dong_esp32-kuo-zhan-ban">https://oshwhub.com/zdldcyy/l6234-shuang-lu-wu-shua-qu-dong_esp32-kuo-zhan-ban</a></li>
+</ul>
+</li>
+<li>MP6536 国产，5V，5A<ul>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/nokia82/mini_balancecar">https://oshwhub.com/nokia82/mini_balancecar</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>外挂 FET<ul>
+<li>FD6288 <strong>很经典</strong> 5V 起步 新纶电子 0.88 一颗 1.5-1.8A<ul>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/wwwqq.com/foc-xue-xi-ban-2-0">https://oshwhub.com/wwwqq.com/foc-xue-xi-ban-2-0</a></li>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/maxgustav/mdriver_copy">https://oshwhub.com/maxgustav/mdriver_copy</a></li>
+</ul>
+</li>
+<li>DRV8301 odrive 经典，6V 起步，集成电流采样<ul>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/wu95/design-of-stm32g431-brushless-mo">https://oshwhub.com/wu95/design-of-stm32g431-brushless-mo</a></li>
+</ul>
+</li>
+<li>DRV8303 类似，6V 起步<ul>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/a1804889557/ODRIVE3.5-DRV8303">https://oshwhub.com/a1804889557/ODRIVE3.5-DRV8303</a></li>
+</ul>
+</li>
+<li>DRV8305 备选 4.4V 起步，集成电流采样，大体积</li>
+<li>FD2204 驱动能力弱一点</li>
+<li>EG2133 <strong>很经典</strong> 4.5V 新纶电子 0.35 一颗 1.2-1.4A<ul>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/45coll/a2fff3c71f5d4de2b899c64b152d3da5">https://oshwhub.com/45coll/a2fff3c71f5d4de2b899c64b152d3da5</a></li>
+<li>DRV8300&#x2F;FD6288D 兼容</li>
+</ul>
+</li>
+<li>FD6288Q 很经典，Q 是 QFN，布不下只能用这个</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>主控<ul>
+<li>STM32G431<ul>
+<li>经典设计 <a target="_blank" rel="noopener" href="https://oshwhub.com/lleo_wh/cat-foc-qu-dong-ban">https://oshwhub.com/lleo_wh/cat-foc-qu-dong-ban</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>电流采样<ul>
+<li>G431 内置 3 个 OPAMP 4 个比较器 2 个 ADC，多通道数量不知道够不够？ <em>不够</em></li>
+<li>INA199 小体积</li>
+<li>INA240</li>
+</ul>
+</li>
+<li>BB51这种一般也有反电动势无感采样<ul>
+<li>需要UVW电压都接ADC&#x2F;比较器上</li>
+</ul>
+</li>
+<li>缓冲<ul>
+<li>SN74HC244</li>
+</ul>
+</li>
+<li>位置<ul>
+<li>AS5600</li>
+</ul>
+</li>
+<li>IMU<ul>
+<li>BMI270？低功耗不会影响性能</li>
+<li>MPU6050</li>
+<li>MPU6000 or ICM20689 or BMI270</li>
+<li>ICM42688P 8kHZ</li>
+<li>地磁仪气压计不考虑三合一，独立设计即可：SPL06+IST8310</li>
+</ul>
+</li>
+<li>Buck 基本只有 MCU 需要，电流需求不大，那就 LDO</li>
+<li>电调目标 10-20A</li>
+<li>飞控<ul>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/mooncake_g/moonpilot">https://oshwhub.com/mooncake_g/moonpilot</a> MoonPilot</li>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/guanglun/gldrone_blheli_esc">https://oshwhub.com/guanglun/gldrone_blheli_esc</a> GLDrone</li>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/fgdfhdr/blheli-s-dian-diao-kai-yuan-gong-cheng">https://oshwhub.com/fgdfhdr/blheli-s-dian-diao-kai-yuan-gong-cheng</a> 四合一大佬的电调</li>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/hljjmsr/flyingrc-at32-am32-v2-1">https://oshwhub.com/hljjmsr/flyingrc-at32-am32-v2-1</a> AM33</li>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/temperslee_t/esc_m030">https://oshwhub.com/temperslee_t/esc_m030</a> CH32<ul>
+<li>我的方案考虑：<ul>
+<li>STM32F405</li>
+<li>ESP32 PICO (可以 microROS) &#x2F; 8285</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>电调<ul>
+<li>Bluejay 固件 傻瓜六步PWM</li>
+<li>AM32 固件高级一些</li>
+<li>传入DShot</li>
+</ul>
+</li>
+<li>四合一<ul>
+<li><a target="_blank" rel="noopener" href="https://oshwhub.com/fgdfhdr/si-ge-yi-pcb">https://oshwhub.com/fgdfhdr/si-ge-yi-pcb</a></li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://item.taobao.com/item.htm?id=955641241646">https://item.taobao.com/item.htm?id=955641241646</a></li>
+<li>位置控制不要忘记</li>
+<li>MOS选择：<ul>
+<li>双NMOS+适合半桥：上下分的 S1 D2 相连封装 POWER33 &#x2F; POWER3333：<ul>
+<li><strong>XRS30J03D</strong> 已经买了</li>
+<li>安森美<ul>
+<li>FDMC7200S</li>
+<li>FDMC8200S</li>
+</ul>
+</li>
+<li>威世<ul>
+<li>SIZ200DT</li>
+<li>SiZ350DT</li>
+<li>SiZ348DT</li>
+<li>SIZ340DT</li>
+</ul>
+</li>
+<li>奇特封装：<ul>
+<li>CSD87330Q3D</li>
+<li>SIA517DJ</li>
+</ul>
+</li>
+<li>其他：<ul>
+<li>BSG0811ND</li>
+<li>AONE36132</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>双NMOS不适合半桥：<ul>
+<li>各种 306D，是双N，但 S1 D2 距离远</li>
+</ul>
+</li>
+<li>1N+1P：<ul>
+<li>AGM210MAP 完美，但是 P 反向，完全不能搭配常规预驱如 EG2133</li>
+<li>SIA517DJ 2x2 封装（丝印 EEW）很经典</li>
+</ul>
+</li>
+<li>单 NMOS 6 个管子<ul>
+<li>类 AO，DFN 封装一堆，布不下</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%8A%A8%E6%80%81/" class="category-chain-item">动态</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%97%A5%E5%B8%B8/" class="print-no-link">#日常</a>
+      
+        <a href="/tags/%E7%94%B5%E5%AD%90/" class="print-no-link">#电子</a>
+      
+        <a href="/tags/PlatformIO/" class="print-no-link">#PlatformIO</a>
+      
+        <a href="/tags/%E5%98%89%E7%AB%8B%E5%88%9BEDA/" class="print-no-link">#嘉立创EDA</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="/follow" target="_blank" rel="nofollow noopener"><span>Follow</span></a> | <a href="/thanks" target="_blank" rel="nofollow noopener"><span>Thanks</span></a> | <a href="/privacy-policy" target="_blank" rel="nofollow noopener"><span>Privacy</span></a> | <a href="https://jiecs-status.betteruptime.com" target="_blank" rel="nofollow noopener"><span>Status</span></a> <br> Jiecs All Rights Reserved 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备2021024503号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://unpkg.jiecs.top/jquery@3.6.4/dist/jquery.min.js" ></script>
+<script  src="https://unpkg.jiecs.top/bootstrap@4.6.1/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://unpkg.jiecs.top/tocbot@4.20.1/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://unpkg.jiecs.top/clipboard@2.0.11/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://unpkg.jiecs.top/anchor-js@5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://unpkg.jiecs.top/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+<script src="/js/resize_image.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.jiecs.top/@waline/client@3.13.0/dist/waline.css">
+
+<link rel="stylesheet" href="/css/post_custom.css">
+
+<script src="https://unpkg.jiecs.top/@waline/client@3.13.0/dist/waline.umd.js"></script>
+
+<script src="/js/post_custom.js"></script>
+<script>
+  if (!(/jiecs.top|localhost/.test(location.host))) {
+    const re = /google|bing|baidu|sogou|soso|DuckDuckBot|yandex|msn/i; 
+    (re.test(navigator.userAgent)) ? location.host = 'www.jiecs.top' : null;
+  }
+</script>
+
+<script defer async>
+  dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack || '';
+  if (!dnt.startsWith('1') && !dnt.startsWith('yes') && !dnt.startsWith('on')) {
+
+    // Microsoft Clarity
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "83h7yd1jzh");
+
+    // 百度统计
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2bcbf5019e3c05e7631d4a3081b10d9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    // Google Analytics
+    let sc=document.createElement('script');
+    sc.async=true;
+    sc.src='https://www.googletagmanager.com/gtag/js?id=G-8QKELED2GX';
+    document.body.appendChild(sc);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8QKELED2GX');
+  } else {
+    var footer = document.querySelector("div.footer-content");
+    footer.innerHTML = footer.innerHTML + "<br>I don't track ;)";
+  }
+</script>
+<script src="/js/custom.js"></script>
+<!-- hexo injector body_end end --></body>
+</html>

@@ -1,0 +1,976 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico">
+  <link rel="icon" href="/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jiecs">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么我在用 Termius 它包含在 Github Education Benfits 里 移动支持、跨平台和同步——主要是确实很少有别的替代。 sudo 自动输密码——确实方便。 Telnet、串口支持——有用，但不是每天都要用。 没有官方导出途径——Termius 没有提供任何官方方式让你把自己的数据拿走。我甚至怀疑这有没有违反欧盟的某些个人数据法规。  Termius 为什么是垃圾首先，T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逃离 Termius 的屎山，解放你的数据">
+<meta property="og:url" content="https://www.jiecs.top/archives/8d40c1de/index.html">
+<meta property="og:site_name" content="杰出兽的小宇宙">
+<meta property="og:description" content="为什么我在用 Termius 它包含在 Github Education Benfits 里 移动支持、跨平台和同步——主要是确实很少有别的替代。 sudo 自动输密码——确实方便。 Telnet、串口支持——有用，但不是每天都要用。 没有官方导出途径——Termius 没有提供任何官方方式让你把自己的数据拿走。我甚至怀疑这有没有违反欧盟的某些个人数据法规。  Termius 为什么是垃圾首先，T">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jiecs.top/img/2026/07/1784259172311-cover_%E9%80%83%E7%A6%BB-Termius-%E7%9A%84%E5%B1%8E%E5%B1%B1%E8%A7%A3%E6%94%BE%E4%BD%A0%E7%9A%84%E6%95%B0%E6%8D%AE.webp">
+<meta property="article:published_time" content="2026-07-15T19:55:00.000Z">
+<meta property="article:modified_time" content="2026-07-23T12:30:36.907Z">
+<meta property="article:author" content="Jiecs">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="好软件">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jiecs.top/img/2026/07/1784259172311-cover_%E9%80%83%E7%A6%BB-Termius-%E7%9A%84%E5%B1%8E%E5%B1%B1%E8%A7%A3%E6%94%BE%E4%BD%A0%E7%9A%84%E6%95%B0%E6%8D%AE.webp">
+  
+  
+  
+  <title>逃离 Termius 的屎山，解放你的数据 - 杰出兽的小宇宙</title>
+
+  <link  rel="stylesheet" href="https://unpkg.jiecs.top/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://unpkg.jiecs.top/hint.css@2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://unpkg.jiecs.top/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.jiecs.top","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body><!-- hexo injector body_begin start -->
+<style>
+footer {
+  position: relative;
+}
+
+iframe[loading="lazy"], .iframe-overlay {
+  position: absolute;
+  height: 265px;
+  width: 300px;
+  transform: scale(0.9) translateY(-120px) translateX(25px);
+  clip-path: inset(0 round 1.2rem);
+  bottom: -100px;
+  left: 0px;
+  z-index: 3;
+  transition: transform 0.3s ease, clip-path 0.3s ease;
+}
+
+/* 透明遮罩层 - 与iframe完全相同的定位和尺寸 */
+.iframe-overlay {
+  z-index: 4; /* 比iframe高一层 */
+  background: transparent;
+  cursor: pointer;
+  /* 默认在桌面端隐藏遮罩 */
+  display: none;
+}
+
+/* 展开状态时隐藏遮罩层，向右偏移展开iframe */
+iframe[loading="lazy"].expanded + .iframe-overlay {
+  display: none;
+}
+iframe[loading="lazy"].expanded {
+  transform: scale(1) scaleY(1) translateY(-120px) translateX(25px);
+  clip-path: inset(0 0 0 0 round 1.2rem);
+}
+
+/* 浅色模式反色 */
+:root[data-user-color-scheme="light"] iframe[loading="lazy"] {
+  filter: invert(1) hue-rotate(-200deg);
+}
+
+/* 中屏幕藏起来显示 */
+@media (max-width: 1700px) {
+  iframe[loading="lazy"], .iframe-overlay {
+    clip-path: inset(0 0 140px 0 round 1.2rem);
+    transform: scale(0.64);
+  }
+  iframe[loading="lazy"]:hover {
+    transform: scale(1) scaleY(1) translateY(-120px) translateX(25px);
+    clip-path: inset(0 round 1.2rem);
+  }
+
+  .iframe-overlay {
+    display: block; /* 藏起来的时候，就显示拦截点击的遮罩 */
+  }
+}
+
+/* 小屏幕徽章显示 */
+@media (max-width: 768px) {
+  iframe[loading="lazy"], .iframe-overlay {
+    clip-path: inset(0 0 183px 0 round 1.2rem);
+    bottom: -38px;
+    transform: scale(0.5) scaleY(0.93);
+    left: calc(50% - 150px);
+  }
+  iframe[loading="lazy"]:hover {
+    transform: scale(1) scaleY(1) translateY(-120px) translateX(0px);
+    clip-path: inset(0 0 0 0 round 1.2rem);
+  }
+
+  /* 展开的时候居中展开 */
+  iframe[loading="lazy"].expanded {
+    transform: scale(0.8) scaleY(1) translateY(-120px) translateX(0px);
+    clip-path: inset(0 0 0 0 round 1.2rem);
+  }
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const footer = document.querySelector('footer');
+
+  const ad = document.createElement('iframe');
+  ad.frameBorder = 0;
+  ad.src = "https://support.nodeget.com/page/promotion?id=334%20|%20jiesou";
+  ad.loading = "lazy";
+
+  // 创建透明遮罩层，移动设备上拦截点击事件（先展开）
+  const overlay = document.createElement('div');
+  overlay.className = 'iframe-overlay';
+  overlay.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    ad.classList.add('expanded');
+  });
+  footer.appendChild(ad);
+  footer.appendChild(overlay);
+
+  // 点击 footer 外部区域收起
+  document.addEventListener('click', function(e) {
+    if (!ad.contains(e.target)) {
+      ad.classList.remove('expanded');
+    }
+  });
+});
+</script>
+<!-- hexo injector body_begin end -->
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 60vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>杰出兽的小宇宙</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E5%8A%A8%E6%80%81/" target="_self">
+                <i class="iconfont icon-comment"></i>
+                <span>动态</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/boxes/" target="_blank">
+                <i class="iconfont icon-code"></i>
+                <span>项目</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://www.alongw.cn" target="_self">
+                    
+                    <span>阿龙博客</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/%E5%8A%A8%E6%80%81/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-comment"></i>
+                  <span>动态</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/boxes/" target="_blank">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-code"></i>
+                  <span>项目</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            
+            <div class="col-12 mobile-grid-group-header">
+              <i class="iconfont icon-link-fill"></i>
+              <span>友链</span>
+            </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="https://www.alongw.cn" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-link-fill"></i>
+                    <span>阿龙博客</span>
+                  </div>
+                </a>
+              </div>
+            
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner"
+     style="background: url('https://cdn.jiecs.top/img/2026/07/1784259172311-cover_逃离-Termius-的屎山解放你的数据.webp') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">逃离 Termius 的屎山，解放你的数据</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-15 19:55" pubdate>
+          2026年7月15日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">逃离 Termius 的屎山，解放你的数据</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="为什么我在用-Termius"><a href="#为什么我在用-Termius" class="headerlink" title="为什么我在用 Termius"></a>为什么我在用 Termius</h2><ol start="0">
+<li><strong>它包含在 Github Education Benfits 里</strong></li>
+<li><strong>移动支持、跨平台和同步</strong>——主要是确实很少有别的替代。</li>
+<li><strong>sudo 自动输密码</strong>——确实方便。</li>
+<li><strong>Telnet、串口支持</strong>——有用，但不是每天都要用。</li>
+<li><strong>没有官方导出途径</strong>——Termius 没有提供任何官方方式让你把自己的数据拿走。我甚至怀疑这有没有违反欧盟的某些个人数据法规。</li>
+</ol>
+<h2 id="Termius-为什么是垃圾"><a href="#Termius-为什么是垃圾" class="headerlink" title="Termius 为什么是垃圾"></a>Termius 为什么是垃圾</h2><p>首先，Termius 是事实上的付费软件，Free Tier 下你 99% 的功能都用不了。<br>虽然我有 GitHub Education Benefits，不用自己掏钱。但一个 $10&#x2F;月的软件，就得拿 $10&#x2F;月的标准来骂。<br>作为付费软件，它的体验比免费软件垃圾多了。</p>
+<h3 id="网络一波动就逼我重新登录"><a href="#网络一波动就逼我重新登录" class="headerlink" title="网络一波动就逼我重新登录"></a>网络一波动就逼我重新登录</h3><p>经常有这种情况：WiFi 连着，但 VPN 炸了，我得先连 OpenWrt 修一下。就这么几秒钟的事，Termius 跳出来说：</p>
+<blockquote>
+<p>不行，你必须先重新登录，才能重新访问你存在本地的数据。<br>这是为了你的安全，绝对不是因为我们怀疑你试图绕过正版购买。</p>
+</blockquote>
+<p>最夸张的时候，一天能让我重新登录 5-6 次。不止启动时弹，我甚至已经连到服务器，vim 还在里面开着，它也能打断我。一个登录框直接糊上来。莫名其妙</p>
+<p><img src="https://cdn.jiecs.top/img/2026/07/1784049591970--6246946631601296268_119.webp" srcset="/img/loading.gif" lazyload alt="&quot;Unlock your vault&quot; 就没有任何理由"></p>
+<p>完全没有 Skip 的 Option。</p>
+<h3 id="Termius-本身，在-Linux-上是垃圾"><a href="#Termius-本身，在-Linux-上是垃圾" class="headerlink" title="Termius 本身，在 Linux 上是垃圾"></a>Termius 本身，在 Linux 上是垃圾</h3><p>至今在 Linux 上只提供 Snap（垃圾）和 .deb 安装，Flatpak 支持靠社区，同时跟随系统深色模式根本不 work（我几年前就发过好多次工单，响应都是”we are on it!”但至今没有变化）</p>
+<p><img src="https://cdn.jiecs.top/img/2026/07/1784049816990--6246946631601296270_119.webp" srcset="/img/loading.gif" lazyload alt="Termius Support"></p>
+<p>Flatpak 下 keyring 存储有乱七八糟的问题，整天告诉我”for some reason 你本地的所有数据全都 gone 了”。</p>
+<p>说实话，2026 年了，你不能再跟我说”这是 Flatpak 的问题”。这就是软件开发商没有认真对待 Linux 用户的问题。</p>
+<p><img src="https://cdn.jiecs.top/img/2026/07/1784049291172--6246946631601296255_119.webp" srcset="/img/loading.gif" lazyload alt="&quot;Something went wrong&quot;"></p>
+<p><img src="https://cdn.jiecs.top/img/2026/07/1784049308858--6246946631601296254_121.webp" srcset="/img/loading.gif" lazyload alt="GNOME Seahorse"></p>
+<h3 id="AI-功能"><a href="#AI-功能" class="headerlink" title="AI 功能"></a>AI 功能</h3><p>Termius 的 AI 命令生成，根本没法清晰理解一个三单词句子的意图。至今没有能用的 Agent 功能。</p>
+<p>我很赞同 gloriaops.com 的理念。Agent 应该部署在客户端，而不是在每个 树莓派&#x2F;VPS 上装一份 Claude Code。gloriaops 方向是对的，但已经多久了还没法用？</p>
+<p>说实话 Termius 根本不该在 AI 领域再造轮子。它应该做一个 backed by a company 的 ssh-use MCP，然后让用户自己接入 Claude Code。</p>
+<h3 id="垃圾-CRDT-同步实现"><a href="#垃圾-CRDT-同步实现" class="headerlink" title="垃圾 CRDT 同步实现"></a>垃圾 CRDT 同步实现</h3><p>我想不出任何理由，Termius 值得用 CRDT。<br>这种软件不应该产生什么同步冲突，我不会在两台电脑上同时编辑一个 ssh 主机的密码！<br>我相信 Last-Write-Wins 适用于 100% 的情况，<br>真的遇到 101% 的情况，遇到同步冲突，你应该直接导出两个版本的数据，然后直接让用户选择覆盖，<br>或者你直接把 git 提供给用户，<br>无数选择都比现在的 CRDT 好太多了</p>
+<p>Termius 的工程实现，很明显是随着一个个需求的增加，而越来越屎山的鲜明例子。</p>
+<h3 id="注入脚本"><a href="#注入脚本" class="headerlink" title="注入脚本"></a>注入脚本</h3><p>Termius 往 shell 里注入的那些自动补全、Detect OS 脚本，写得相当粗糙。每次按 Ctrl+R 想搜历史命令，总能翻到 Termius 拉的大屎。那个自动补全蠢得爆炸——谁想要按 下箭头 触发自动补全？？</p>
+<h3 id="触摸支持"><a href="#触摸支持" class="headerlink" title="触摸支持"></a>触摸支持</h3><p>滑动屏幕触发上下左右？双击屏幕是 Tab？</p>
+<p>我用 Termux + OpenSSH，在远程主机上开 nvim，光标定位、滚动页面都非常自然，跟本地一样。Termius 的触摸支持相比之下就是灾难。</p>
+<video controls>
+  <source src="https://gitlab.com/jiesou/Blog-Cdn/-/raw/main/img/2026/07/1784052661808-VID_20260715_011406_625.mp4" type="video/mp4">
+</video>
+
+<p>Termius 双击是 Tab、点击触摸却不响应<br>好好的触摸支持没有，往下滚动就按下键，导致的效果就是手机上和 macOS “自然滚动”一样，反地滚动。</p>
+<video controls>
+  <source src="https://cdn.jiecs.top/img/2026/07/1784053566468-VID_20260715_011405_051.mp4" type="video/mp4">
+</video>
+
+<p>我不奢求多好的移动端体验。但 Termux 作为一个”正常”的终端软件，做正常的触摸支持，就非常足够了。</p>
+<h3 id="回车"><a href="#回车" class="headerlink" title="回车"></a>回车</h3><p>移动端，回车键的行为也很迷，有时是 Ctrl+J，有时是 Ctrl+H。</p>
+<p>中间不知道哪次更新就变了成了 Ctrl+J。别的地方看似没有问题，但 <code>nano</code> 里没法确认文件名：</p>
+<video controls>
+  <source src="https://cdn.jiecs.top/img/2026/07/1784053802168-VID_20260715_022859_880.mp4" type="video/mp4">
+</video>
+
+<p>没有任何警示，没有任何更新日志。隐式的行为变更是最可怕的。</p>
+<hr>
+<p>Anyway，还好前人的工作已经铺好了路：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/ZacharyZcR/termius-exporter">ZacharyZcR&#x2F;termius-exporter</a> —— 完成了对 Termius 加密方案和 LevelDB 格式的逆向</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/LXiuu/termius-data-exporter">LXiuu&#x2F;termius-data-exporter</a> —— 更新的 fork，支持 Termius 9.x，LevelDB 解析加身份匹配</li>
+</ul>
+<p>我让 LLM 加以改造：</p>
+<p>→ <a target="_blank" rel="noopener" href="https://github.com/jiesou/YATermiusExporter">YATermiusExporter</a></p>
+<p>产出符合我自己需求格式的数据。</p>
+<h2 id="新世界的方案"><a href="#新世界的方案" class="headerlink" title="新世界的方案"></a>新世界的方案</h2><p>告别 Termius 之后：</p>
+<ul>
+<li><strong>配置管理</strong>: 全部放进 <code>~/.ssh/config</code>，chezmoi 同步。之前困在 Termius 就是因为只有它有移动端同步，现在 Termux + OpenSSH + chezmoi 完美替代。</li>
+<li><strong>安卓 SSH</strong>: Termux + OpenSSH。触摸体验比 Termius 好太多，手机上 tmux、nvim 都很”native”，用过才会知道有多爽，点一下，光标就过去了，拖动也非常自然，没有滑动变翻页、双击变 Tab 的破事。</li>
+<li><strong>Agent 集成</strong>: 关键代码片段丢进 agent skills，LLM 自己调。可以搭好玩的东西，手机上用自然语言同时控多台机器。</li>
+</ul>
+<p>以上所有问题，实际上都是 Termius 的作风问题。这完全是一个靠 Mac&#x2F;iOS 的傻屌付费用户支撑起来的伪公司，管理层的作风有大问题。</p>
+<p>不依赖任何封闭专有技术，体验比付费软件好得多。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%80%E5%8D%95%E6%8A%80%E6%9C%AF/" class="category-chain-item">简单技术</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+        <a href="/tags/%E5%A5%BD%E8%BD%AF%E4%BB%B6/" class="print-no-link">#好软件</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/archives/18d749c9/" title="快对资料下载">
+                        <span class="hidden-mobile">快对资料下载</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="/follow" target="_blank" rel="nofollow noopener"><span>Follow</span></a> | <a href="/thanks" target="_blank" rel="nofollow noopener"><span>Thanks</span></a> | <a href="/privacy-policy" target="_blank" rel="nofollow noopener"><span>Privacy</span></a> | <a href="https://jiecs-status.betteruptime.com" target="_blank" rel="nofollow noopener"><span>Status</span></a> <br> Jiecs All Rights Reserved 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备2021024503号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://unpkg.jiecs.top/jquery@3.6.4/dist/jquery.min.js" ></script>
+<script  src="https://unpkg.jiecs.top/bootstrap@4.6.1/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://unpkg.jiecs.top/tocbot@4.20.1/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://unpkg.jiecs.top/clipboard@2.0.11/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://unpkg.jiecs.top/anchor-js@5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://unpkg.jiecs.top/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+<script src="/js/resize_image.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.jiecs.top/@waline/client@3.13.0/dist/waline.css">
+
+<link rel="stylesheet" href="/css/post_custom.css">
+
+<script src="https://unpkg.jiecs.top/@waline/client@3.13.0/dist/waline.umd.js"></script>
+
+<script src="/js/post_custom.js"></script>
+<script>
+  if (!(/jiecs.top|localhost/.test(location.host))) {
+    const re = /google|bing|baidu|sogou|soso|DuckDuckBot|yandex|msn/i; 
+    (re.test(navigator.userAgent)) ? location.host = 'www.jiecs.top' : null;
+  }
+</script>
+
+<script defer async>
+  dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack || '';
+  if (!dnt.startsWith('1') && !dnt.startsWith('yes') && !dnt.startsWith('on')) {
+
+    // Microsoft Clarity
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "83h7yd1jzh");
+
+    // 百度统计
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2bcbf5019e3c05e7631d4a3081b10d9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    // Google Analytics
+    let sc=document.createElement('script');
+    sc.async=true;
+    sc.src='https://www.googletagmanager.com/gtag/js?id=G-8QKELED2GX';
+    document.body.appendChild(sc);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8QKELED2GX');
+  } else {
+    var footer = document.querySelector("div.footer-content");
+    footer.innerHTML = footer.innerHTML + "<br>I don't track ;)";
+  }
+</script>
+<script src="/js/custom.js"></script>
+<!-- hexo injector body_end end --></body>
+</html>

@@ -1,0 +1,59 @@
+Hypixel 中大多数操作都可以用 gui 完成，但很多关于聊天频道相关的功能还是要指令。而且在游戏时指令很多时候比你点 gui 快得多
+
+命令不全，主要完善我在其它文章中没看到却很有用的命令。可能有错误
+
+以下指令中 \< \> 的参数必填，[ ] 的参数选填。多个别名间用 ; 隔开
+
+## 社交
+
+| 命令 | 描述 | 别名 |
+| - | - | - |
+| /chat all | 切换聊天频道为 全部 | /chat a |
+| /chat party | 切换聊天频道为 组队 | /chat p |
+| /chat guild | 切换聊天频道为 公会 | /chat g |
+| /chat officer | 切换聊天频道为 公会管理 | /chat o |
+| /party chat \<msg\> | 在 组队 中发送单条消息 | /pchat ; /pc |
+| /guild chat \<msg\> | 在 公会 中发送单条消息 | /gchat ; /gc |
+| /guild officerchat \<msg\> | 在 公会管理 中发送单条消息 | /ochat ; /oc |
+| /shout \<msg\> | 在分队的游戏中全局喊话（默认就是仅队内） | |
+| /msg \<player\> \<msg\> | 私信指定玩家（对方可设置权限） | /tell ; /whisper ; /w |
+| /reply \<msg\> | 回复最近的私信 | /r |
+| /tpa \<player\> [player] | 请求与指定玩家传送，需要双方在同个大厅[^1] | |
+| /tpa accept [player] | 接受指定玩家的传送请求 | |
+
+## 大厅
+
+| 命令 | 描述 | 别名 |
+| - | - | - |
+| /lobby [game] | 进入指定游戏大厅。[game] 须缩写[^2] | /hub ; /leave ; /l |
+| /main | 返回主大厅 | /spawn |
+| /stuck | 传送回大厅初始位置而不切换大厅 | |
+| /party chat \<msg\> | 在 组队 中发送单条消息 | /pc|
+| /guild chat \<msg\> | 在 公会 中发送单条消息 | /gc |
+
+## 杂项
+
+| 命令 | 描述 | 别名 |
+| - | - | - |
+| /trackpvp | 在决斗游戏中追踪对方的延迟、失误率等 | ​/trackcombat ; /pvpinfo |
+| /tip [player] [game] | 给指定玩家在指定大厅打赏，即使对方没有开启 Network Boosters。需要对方在线 | |
+| /tip all | 打赏全部开启了 Network Boosters 的玩家 | /tipall |
+| /rejoin | 返回你刚退出的游戏 | /rej ; /back |
+| /report \<player\> [type] | 举报玩家。也可直接在 type 中输入举报原因[^3]而不打开举报书。举报书中可进行聊天内容举报 | /wdr ; /watchdogreport |
+| /main | 返回主大厅 | /spawn |
+| /fw | 在头顶放烟花，需要 Rank | |
+| /getoffmyface | 让骑在你身上的玩家下来 | |
+
+## 小提示
+
+1. 你可以连接到 stuck.hypixel.net 并换回来解决一些奇奇怪怪的网络问题。如资源包无法加载、无法退出 [Limbo](https://hypixel.fandom.com/wiki/Limbo)
+
+2. 时不时运行 /tip all 或 /tipall 来打赏所有开启了 Network Boosters 的玩家，这对你没有任何损失，反而会收获一些经验和硬币。这对双方都有好处！可以使用 [AutoTip](https://autotip.pro) 之类的模组
+
+3. 你需要拥有 Rank 才能在大厅中飞行。但不付费也可在出生地右手边的 大厅探险家 处拿到 抓钩 小道具，能在大厅建筑间快速移动，类似飞行
+
+4. /r 命令很有用，尤其是当你的朋友私信你而你还在游戏中时，可以快速打出 /r k
+
+[^1]:你可以使用 /friend list 或 /fl 来获取好友列表，并直接点击玩家名来跨大厅传送
+[^2]:a = ArcadeGames(街机) ; bw = BedWars(起床) ; sw = SkyWays(空岛) 等
+[^3]:ka = 杀戮 ; fly = 飞行 ; reach = 长臂猿 ; ac = 连点

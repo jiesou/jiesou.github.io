@@ -1,0 +1,295 @@
+# 杰出兽的小宇宙
+
+> 偶尔写点技术记录，杂谈。杰出兽 jiecs jiecs_23 jiesou
+
+## Article List
+
+- [逃离 Termius 的屎山，解放你的数据](https://www.jiecs.top/archives/8d40c1de/): undefined
+- [快对资料下载](https://www.jiecs.top/archives/18d749c9/): undefined
+- [金士顿 SA400 固态掉固件通病 解决](https://www.jiecs.top/archives/b45493a8/): undefined
+- [通过 distrobox 在任何发行版安装如意玲珑](https://www.jiecs.top/archives/ab866b92/): undefined
+- [希沃 MT11  插板式计算机内部结构分析以及不带主板开机](https://www.jiecs.top/archives/3c47b44b/): undefined
+- [修复 Linux 桌面 U 盘 cache 特别激进](https://www.jiecs.top/archives/8301404/): undefined
+- [btrfs 原子级 sanpshot 回滚全流程](https://www.jiecs.top/archives/c52efbd9/): undefined
+- [ESP-IDF include 头文件 C++ IntelliSense 飘红解决](https://www.jiecs.top/archives/671b051e/): undefined
+- [Lerobot 深度研究：Dynamixel 兼容性与 DIY 方案全解析](https://www.jiecs.top/archives/4c3d228a/): undefined
+- [YouTube Music 淡入淡出 userscript](https://www.jiecs.top/archives/ce81b320/): undefined
+- [Bluefin (Fedora Silverblue) ostree+btrfs 下 设置磁盘 Swapfile 和休眠](https://www.jiecs.top/archives/8a773376/): undefined
+- [上海如韵电子 CNxx 电池充电管理芯片选型表](https://www.jiecs.top/archives/facd4237/): undefined
+- [城市天际线等游戏在 Linux Wine Proton 中的中文字体方块空白问题](https://www.jiecs.top/archives/89a6fa5/): undefined
+- [久量 DP-9102 手电筒的充电头类别和型号](https://www.jiecs.top/archives/4c47bd14/): undefined
+- [ESP-12E ESP-12F ESP12S 和 ESP8266MOD 的区别](https://www.jiecs.top/archives/910267f4/): undefined
+- [通过 distrobox 在任何发行版安装星火应用商店](https://www.jiecs.top/archives/43e7ecc1/): undefined
+- [HomeAssistant 通过 OPPO 云服务跟踪一加/OPPO 设备的位置](https://www.jiecs.top/archives/ae8d6418/): undefined
+- [HomeAssistant 通过 SSH 获取 Intel 主机自己的功耗](https://www.jiecs.top/archives/5b1dbf96/): undefined
+- [G4560 HP 400g3 小主机 PVE Windows 核显穿透直连研究日志，以及 PVE 环境如何把 Windows 从 GPT 无损转为 MBR](https://www.jiecs.top/archives/4522cbac/): undefined
+- [GK905 LK 光轴 网吧键盘 Fn 按键灯效功能图](https://www.jiecs.top/archives/c3965c3d/): undefined
+- [exFAT 调整大小时，bitmap 的故障](https://www.jiecs.top/archives/7a52ff22/): undefined
+- [Linux Proton DXVK 转译运行《幽灵行者2》，新画面加载时卡顿](https://www.jiecs.top/archives/5771df32/): undefined
+- [PVE 在裸金属机上通过 ALSA 播放声音](https://www.jiecs.top/archives/8fd95410/): undefined
+- [三相电源的理解](https://www.jiecs.top/archives/a997eaac/): undefined
+- [PlatformIO 内存级调试-解析栈回溯](https://www.jiecs.top/archives/8b0ec425/): undefined
+- [Fedora Silverblue 命令行 rebase 升级到新发行版，遇到 RPM-Fusion 冲突](https://www.jiecs.top/archives/1695f709/): undefined
+- [半波整流电压 0.45 常数的来源和含义](https://www.jiecs.top/archives/1164c913/): undefined
+- [3D 打印小技巧](https://www.jiecs.top/archives/cd79a4e3/): undefined
+- [关于自平衡三角-迷你三棱柱复现](https://www.jiecs.top/archives/3edc7153/): undefined
+- [Flash 和 DRAM](https://www.jiecs.top/archives/e9eab5fd/): undefined
+- [万用表的运作原理](https://www.jiecs.top/archives/b516c161/): undefined
+- [关于 LuatOS ESP32-C3 开发板在 PlatformIO 上串口无响应](https://www.jiecs.top/archives/1071b9e9/): undefined
+- [各种连接器总结](https://www.jiecs.top/archives/e023069a/): undefined
+- [梅林固件与 ShellCrash 的冲突 - 关于 iptables 与 Dnsmasq](https://www.jiecs.top/archives/6b93c6c3/): undefined
+- [Azure 中通过负载均衡器零成本开启 IPv6 支持](https://www.jiecs.top/archives/90ab79b3/): undefined
+- [让你的（类）原生安卓和你心意 - 开源解决方案/应用推荐](https://www.jiecs.top/archives/be95ed72/): undefined
+- [LSOCP Minecraft 整合包升级至最新 1.20.1 - 足迹与故事](https://www.jiecs.top/archives/f9d2abb9/): undefined
+- [别再用 Telegram 了！快换到真开源的 Martix — 搭建 mautrix-telegram 桥接](https://www.jiecs.top/archives/2a3d3c6c/): undefined
+- [加密货币交易 - 你要知道的一切](https://www.jiecs.top/archives/9cfeac56/): undefined
+- [无限可能的定制 ROM - 即使是未开源内核的新机（或没有 Device Tree）](https://www.jiecs.top/archives/58fc3f75/): undefined
+- [新项目 - Collector 作业助手](https://www.jiecs.top/archives/dd7e9d99/): undefined
+- [GNOME 还能这么干！？你绝对不知道的 GNOME 桌面技巧](https://www.jiecs.top/archives/a6d8538a/): undefined
+- [自由的 Linux，好用吗？- Windows 换到 Ubuntu 遇到的几个问题和提示](https://www.jiecs.top/archives/cdffddf1/): undefined
+- [Hypixel 常用命令](https://www.jiecs.top/archives/6ca856d/): undefined
+- [更换托管平台为 Github Pages](https://www.jiecs.top/archives/8034c1ba/): undefined
+- [江泽民逝世](https://www.jiecs.top/archives/e7973ac4/): undefined
+- [零成本的博客高可用多冗余方案](https://www.jiecs.top/archives/1771d434/): undefined
+- [Telegram Instant View 即时预览适配](https://www.jiecs.top/archives/47708b20/): undefined
+- [部署 Trojan-Go + WS + Cloudflare 时遇到的坑](https://www.jiecs.top/archives/8ab5a33c/): undefined
+- [准备重整博客](https://www.jiecs.top/archives/f2b38fdc/): undefined
+- [LSOCP 免费 Minecraft 我的世界整合包升级至最新 1.19.2 - 荒野更新](https://www.jiecs.top/archives/e47263f6/): undefined
+- [我还活着](https://www.jiecs.top/archives/7faa64b/): undefined
+- [最近搞了个大项目 - TOVALua手册](https://www.jiecs.top/archives/3eab65a6/): undefined
+- [2022.6.29 我的博客是这样崩的](https://www.jiecs.top/archives/8ae69b12/): undefined
+- [[LSOCP] Minecraft 轻量超级优化客户端整合包全新升级](https://www.jiecs.top/archives/7eb365b6/): undefined
+- [数据丢失，杰出兽安卓APP完全弃坑](https://www.jiecs.top/archives/c357c2fc/): undefined
+- [博客域名续费](https://www.jiecs.top/archives/bfcbf805/): undefined
+- [Heroku-PagerMaid 现已支持新 Pyrogram 内核](https://www.jiecs.top/archives/198b4d7c/): undefined
+- [关于在 Termux 中安装 Wrangler 遇到的问题](https://www.jiecs.top/archives/238e5292/): undefined
+- [BetterUptime 歇逼了](https://www.jiecs.top/archives/4111e586/): undefined
+- [BetterUptime 太牛皮了](https://www.jiecs.top/archives/ae6ef8a4/): undefined
+- [又做了个新项目](https://www.jiecs.top/archives/38b5ee82/): undefined
+- [ServerLess 真香](https://www.jiecs.top/archives/16593c53/): undefined
+- [最近开了个新项目，杰出兽安卓APP再次推迟](https://www.jiecs.top/archives/b8eaad1a/): undefined
+- [让你的博客网站遵从 DNT 自动禁用统计跟踪](https://www.jiecs.top/archives/fa22932c/): undefined
+- [安卓APP解耦合](https://www.jiecs.top/archives/1f6f413d/): undefined
+- [个推集成研究完了，搞了个个推 API](https://www.jiecs.top/archives/26f4dff7/): undefined
+- [CloudflarePages 有中国节点？](https://www.jiecs.top/archives/917494f0/): undefined
+- [杰出兽安卓APP又要咕咕咕了](https://www.jiecs.top/archives/596dae1c/): undefined
+- [图床源站又又从 Vercel 迁移到 Netlify](https://www.jiecs.top/archives/8f7754ac/): undefined
+- [图床源站又从 Netlify 迁移到 Vercel](https://www.jiecs.top/archives/2ca623f1/): undefined
+- [七牛云太恶心了，还是继续用 Gitlab](https://www.jiecs.top/archives/e5fde9dc/): undefined
+- [在你的博客更新文章后自动推送到 Telegram 频道 - 基于 IFTTT](https://www.jiecs.top/archives/abfb43e/): undefined
+- [Status 状态页使用 BetterUptime](https://www.jiecs.top/archives/5aec3ea7/): undefined
+- [vConsole 是不是有些兼容性问题？](https://www.jiecs.top/archives/604e720e/): undefined
+- [www.jiecs.top 启用境内外分流](https://www.jiecs.top/archives/479b33fc/): undefined
+- [要不要换到又拍云](https://www.jiecs.top/archives/b0c57b7a/): undefined
+- [关于 Lua 中判断 table 是否相等遇到的一堆大坑](https://www.jiecs.top/archives/89bc3611/): undefined
+- [动态的状态应该要定下来了](https://www.jiecs.top/archives/4607b0ab/): undefined
+- [部分图片迁移到七牛云](https://www.jiecs.top/archives/43682061/): undefined
+- [说说再次调整，最近还在看怎么搞合适](https://www.jiecs.top/archives/dfad5606/): undefined
+- [FusionApp2 2022 归档](https://www.jiecs.top/archives/acc42394/): undefined
+- [WebView上传文件 格式优化版 不含 when](https://www.jiecs.top/archives/869d14fc/): undefined
+- [[代码片段] [TG独享] RecyclerView 滚动监听](https://www.jiecs.top/archives/4cf59103/): undefined
+- [[代码片段] AndroLua 实现MD5摘要计算](https://www.jiecs.top/archives/17b689b3/): undefined
+- [[代码片段] [TG独享] 今日人品核心算法](https://www.jiecs.top/archives/e28f487a/): undefined
+- [[代码片段] 小鸡词典编辑器格式转HTML](https://www.jiecs.top/archives/3fcd804b/): undefined
+- [[代码片段] 无需ROOT读写Android_data](https://www.jiecs.top/archives/e802abcd/): undefined
+- [[代码片段] 自动添加.nomedia文件小脚本](https://www.jiecs.top/archives/64c394ba/): undefined
+- [[代码片段] 由下载链接获取文件名正则](https://www.jiecs.top/archives/b85ba42/): undefined
+- [代码片段_获取MaterialAlertDialog各控件_对话框控件ID](https://www.jiecs.top/archives/e158ebd2/): undefined
+- [杂项_TG独享_Workoto_使用_Cloudflare_Workers_搭建一言_WebAPI_服务](https://www.jiecs.top/archives/bc788ed5/): undefined
+- [FusionApp2 2022 归档](https://www.jiecs.top/archives/acc42394/): undefined
+- [又双叒叕更换了说说动态系统](https://www.jiecs.top/archives/499fdd1b/): undefined
+- [Hello World](https://www.jiecs.top/archives/4a17b156/): undefined
+- [RVM 在中国的安装](https://www.jiecs.top/archives/816/): undefined
+- [[MFWL]免费解锁 Minecraft for Windows （MCBE）一键脚本更新](https://www.jiecs.top/archives/764/): undefined
+- [AndroLua 反编译与 Lua 反函数序列化](https://www.jiecs.top/archives/748/): undefined
+- [Steam 被墙了](https://www.jiecs.top/archives/731/): undefined
+- [Java Log4j2](https://www.jiecs.top/archives/722/): undefined
+- [杰出兽安卓APP 2.0 发布](https://www.jiecs.top/archives/710/): undefined
+- [使你的Web站点全局变成黑白](https://www.jiecs.top/archives/701/): undefined
+- [杰出兽安卓APP 2.0 预览](https://www.jiecs.top/archives/695/): undefined
+- [使用 CloudflareWorkers 搭建简易一言服务](https://www.jiecs.top/archives/686/): undefined
+- [关于在 FusionApp 上使用 WebViewClient 对 WebView 的加载监听的具体操作](https://www.jiecs.top/archives/680/): undefined
+- [Lua 控件透明度动画效果](https://www.jiecs.top/archives/668/): undefined
+- [杰出兽安卓 APP 2.0](https://www.jiecs.top/archives/651/): undefined
+- [杰出兽安卓 APP](https://www.jiecs.top/archives/649/): undefined
+- [闲的蛋疼](https://www.jiecs.top/archives/609/): undefined
+- [头条极速版shortcuts](https://www.jiecs.top/archives/604/): undefined
+- [两种看上去很低创实际上也很低创视频制作步骤](https://www.jiecs.top/archives/601/): undefined
+- [Lua 格式化 URL 链接](https://www.jiecs.top/archives/595/): undefined
+- [百度网盘 服务条款 / 隐私政策](https://www.jiecs.top/archives/554/): undefined
+- [FA重置版停更](https://www.jiecs.top/archives/549/): undefined
+- [CSDN](https://www.jiecs.top/archives/547/): undefined
+- [杰出兽安卓APP不提供蓝奏云](https://www.jiecs.top/archives/527/): undefined
+- [Lua 不使用 lfs 库获取文件夹大小](https://www.jiecs.top/archives/522/): undefined
+- [BiliBili国际版](https://www.jiecs.top/archives/519/): undefined
+- [呐呐呐](https://www.jiecs.top/archives/515/): undefined
+- [AI 续写-彩云小梦](https://www.jiecs.top/archives/498/): undefined
+- [----](https://www.jiecs.top/archives/480/): undefined
+- [WinXP是20年前的系统了](https://www.jiecs.top/archives/478/): undefined
+- [MAGISK IS BACK](https://www.jiecs.top/archives/468/): undefined
+- [萌国ICP备案](https://www.jiecs.top/archives/464/): undefined
+- [超级优化懒人包-Minecraft高版本Fabric生存](https://www.jiecs.top/archives/394/): undefined
+- [城通盘+IDM](https://www.jiecs.top/archives/454/): undefined
+- [蓝奏云禁止分卷压缩](https://www.jiecs.top/archives/444/): undefined
+- [石选之人](https://www.jiecs.top/archives/379/): undefined
+- [停电了](https://www.jiecs.top/archives/370/): undefined
+- [Minecraft-Text-Sinicization](https://www.jiecs.top/archives/366/): undefined
+- [Minecraft版本整理](https://www.jiecs.top/archives/337/): undefined
+- [Lua语言真的优雅](https://www.jiecs.top/archives/331/): undefined
+- [B站支持杜比视界](https://www.jiecs.top/archives/326/): undefined
+- [MIUI圣经](https://www.jiecs.top/archives/318/): undefined
+- [特殊的日子](https://www.jiecs.top/archives/299/): undefined
+- [PR崩了](https://www.jiecs.top/archives/295/): undefined
+- [MIX4防丢无卡联网](https://www.jiecs.top/archives/275/): undefined
+- [win11更新时时间预估](https://www.jiecs.top/archives/266/): undefined
+- [MIUI启动应用过快](https://www.jiecs.top/archives/262/): undefined
+- [杰出兽适配新域名/网站](https://www.jiecs.top/archives/225/): undefined
+- [杰出兽动态更新](https://www.jiecs.top/archives/214/): undefined
+- [世界，您好！](https://www.jiecs.top/archives/1/): undefined
+- [免费用CDN加速你的网站-海内外自动分流](https://www.jiecs.top/archives/44/): undefined
+- [权 限 管 理](https://www.jiecs.top/archives/237/): undefined
+- [传染到推特了](https://www.jiecs.top/archives/236/): undefined
+- [免费解锁 Minecraft for Windows10 （MCBE）](https://www.jiecs.top/archives/42/): undefined
+- [麻了](https://www.jiecs.top/archives/235/): undefined
+- [MIUI祖传设计元素对比起Windows还真是小巫见大巫](https://www.jiecs.top/archives/234/): undefined
+- [修复软件bug.](https://www.jiecs.top/archives/233/): undefined
+- [GitHub Copilot](https://www.jiecs.top/archives/231/): undefined
+- [我也查了下win11](https://www.jiecs.top/archives/230/): undefined
+- [合着tor一点用都没](https://www.jiecs.top/archives/226/): undefined
+- [win11支持安卓应用](https://www.jiecs.top/archives/225/): undefined
+- [今日人品算法最终版](https://www.jiecs.top/archives/218/): undefined
+- [发个动态。。。](https://www.jiecs.top/archives/217/): undefined
+- [关于手机发热问题](https://www.jiecs.top/archives/216/): undefined
+- [日程倒计时](https://www.jiecs.top/archives/215/): undefined
+- [回形针B站个人页面的标识](https://www.jiecs.top/archives/214/): undefined
+- [最近在做一个小软件](https://www.jiecs.top/archives/213/): undefined
+- [Flychat飞聊-闭源软件心坏的很](https://www.jiecs.top/archives/212/): undefined
+- [b站可能会____, 但绝不会____](https://www.jiecs.top/archives/211/): undefined
+- [端午不能说“快乐”?](https://www.jiecs.top/archives/206/): undefined
+- [广州中考延期到7月进行](https://www.jiecs.top/archives/210/): undefined
+- [QQ学TG？](https://www.jiecs.top/archives/203/): undefined
+- [outlook的人机验证](https://www.jiecs.top/archives/209/): undefined
+- [知乎金句分享卡片的小bug](https://www.jiecs.top/archives/208/): undefined
+- [为什么一堆人骂加密货币](https://www.jiecs.top/archives/207/): undefined
+- [Doki Doki Literature Club Plus!](https://www.jiecs.top/archives/205/): undefined
+- [现在的机器人这么厉害的嘛](https://www.jiecs.top/archives/202/): undefined
+- [双键布局](https://www.jiecs.top/archives/201/): undefined
+- [放三天](https://www.jiecs.top/archives/200/): undefined
+- [马上放暑假了](https://www.jiecs.top/archives/199/): undefined
+- [周三](https://www.jiecs.top/archives/198/): undefined
+- [今天高考](https://www.jiecs.top/archives/197/): undefined
+- [大家为什么都喊高考加油](https://www.jiecs.top/archives/196/): undefined
+- [杰出兽动态超一百条](https://www.jiecs.top/archives/195/): undefined
+- [百度收录！](https://www.jiecs.top/archives/194/): undefined
+- [网站宝塔面板更新](https://www.jiecs.top/archives/193/): undefined
+- [小思考](https://www.jiecs.top/archives/192/): undefined
+- [地震监测志愿者](https://www.jiecs.top/archives/191/): undefined
+- [机场到期了](https://www.jiecs.top/archives/190/): undefined
+- [高考加油](https://www.jiecs.top/archives/189/): undefined
+- [不会吧](https://www.jiecs.top/archives/188/): undefined
+- [推特一周年](https://www.jiecs.top/archives/187/): undefined
+- [7分充满4000毫安电池](https://www.jiecs.top/archives/186/): undefined
+- [马上六一了](https://www.jiecs.top/archives/185/): undefined
+- [发现全站在tx都蓝i了](https://www.jiecs.top/archives/184/): undefined
+- [今天是爷的生日！](https://www.jiecs.top/archives/183/): undefined
+- [FusionApp-所有网页都是客户端](https://www.jiecs.top/archives/41/): undefined
+- [B站见到了两年古楼](https://www.jiecs.top/archives/182/): undefined
+- [文章预告](https://www.jiecs.top/archives/181/): undefined
+- [网易云音乐 主导颜色](https://www.jiecs.top/archives/180/): undefined
+- [好家伙](https://www.jiecs.top/archives/179/): undefined
+- [杰出兽动态总浏览量破1000](https://www.jiecs.top/archives/178/): undefined
+- [能量加油站](https://www.jiecs.top/archives/177/): undefined
+- [一次带走俩](https://www.jiecs.top/archives/176/): undefined
+- [关于杂交水稻之父袁隆平](https://www.jiecs.top/archives/175/): undefined
+- [今天是“饮茶日”](https://www.jiecs.top/archives/174/): undefined
+- [“你是机器人吗”](https://www.jiecs.top/archives/173/): undefined
+- [“市场剧烈波动”](https://www.jiecs.top/archives/172/): undefined
+- [coolapk越来越多伞兵了](https://www.jiecs.top/archives/171/): undefined
+- [Magisk开发者加入Android安全开发团队](https://www.jiecs.top/archives/170/): undefined
+- [“当前充电速度慢”](https://www.jiecs.top/archives/169/): undefined
+- [让你的博客支持Emoji?](https://www.jiecs.top/archives/40/): undefined
+- [还是输入法了解我](https://www.jiecs.top/archives/168/): undefined
+- [文章](https://www.jiecs.top/archives/167/): undefined
+- [今天周日](https://www.jiecs.top/archives/166/): undefined
+- [建党100](https://www.jiecs.top/archives/165/): undefined
+- [fufu](https://www.jiecs.top/archives/164/): undefined
+- [吃瓜](https://www.jiecs.top/archives/163/): undefined
+- [不发表意见](https://www.jiecs.top/archives/162/): undefined
+- [对标狗狗币的SHIB](https://www.jiecs.top/archives/161/): undefined
+- [关于搞机助手破解](https://www.jiecs.top/archives/160/): undefined
+- [第七次全国人口普查主要数据将于5月11日公布](https://www.jiecs.top/archives/159/): undefined
+- [今天折腾了好多东西](https://www.jiecs.top/archives/158/): undefined
+- [为什么会收到这种电话😂](https://www.jiecs.top/archives/157/): undefined
+- [太离谱了](https://www.jiecs.top/archives/156/): undefined
+- [五一最后一天](https://www.jiecs.top/archives/155/): undefined
+- [就离谱](https://www.jiecs.top/archives/154/): undefined
+- [最近在折腾软件](https://www.jiecs.top/archives/153/): undefined
+- [续费服务器](https://www.jiecs.top/archives/152/): undefined
+- [方便地切换跳转网站](https://www.jiecs.top/archives/34/): undefined
+- [五一只放了一天](https://www.jiecs.top/archives/151/): undefined
+- [一天到晚是日历上没有的节日](https://www.jiecs.top/archives/149/): undefined
+- [腾讯就这？太没排面了](https://www.jiecs.top/archives/146/): undefined
+- [支持Emoji✌️](https://www.jiecs.top/archives/145/): undefined
+- [南博崩溃了](https://www.jiecs.top/archives/144/): undefined
+- [跑了个分](https://www.jiecs.top/archives/142/): undefined
+- [动态分站修改每页文章数](https://www.jiecs.top/archives/140/): undefined
+- [主站背景更改api](https://www.jiecs.top/archives/138/): undefined
+- [尝试做备份云盘](https://www.jiecs.top/archives/132/): undefined
+- [他们给的实在是太多了](https://www.jiecs.top/archives/131/): undefined
+- [哈](https://www.jiecs.top/archives/129/): undefined
+- [鸡汤可以喝,但别砖一块不搬,鸡汤就一碗碗地干](https://www.jiecs.top/archives/127/): undefined
+- [impact或存在后门](https://www.jiecs.top/archives/126/): undefined
+- [非常离谱，魔怔了​](https://www.jiecs.top/archives/125/): undefined
+- [垃圾tx](https://www.jiecs.top/archives/123/): undefined
+- [tx有完没完了](https://www.jiecs.top/archives/121/): undefined
+- [tx是吃了屎了？](https://www.jiecs.top/archives/120/): undefined
+- [看看疼训现在在干什么](https://www.jiecs.top/archives/118/): undefined
+- [QQ差点又没了](https://www.jiecs.top/archives/115/): undefined
+- [发布会缩略](https://www.jiecs.top/archives/109/): undefined
+- [快进到干翻酷安](https://www.jiecs.top/archives/107/): undefined
+- [小预告](https://www.jiecs.top/archives/103/): undefined
+- [一个问题的解决](https://www.jiecs.top/archives/38/): undefined
+- [加密货币暴跌？](https://www.jiecs.top/archives/94/): undefined
+- [Cloudflare真就减速CDN](https://www.jiecs.top/archives/91/): undefined
+- [好烦](https://www.jiecs.top/archives/87/): undefined
+- [酷安人不多吧](https://www.jiecs.top/archives/86/): undefined
+- [免费启用HTTPS-使你的网站更安全](https://www.jiecs.top/archives/36/): undefined
+- [免费配置Cloudflare CDN](https://www.jiecs.top/archives/35/): undefined
+- [启用SSL证书，换用Cloudflare CDN](https://www.jiecs.top/archives/84/): undefined
+- [发现酷安小铃铛的小红点也能拖灭](https://www.jiecs.top/archives/75/): undefined
+- [ETH再创新高](https://www.jiecs.top/archives/70/): undefined
+- [iPhone既是对手亦是朋友](https://www.jiecs.top/archives/66/): undefined
+- [越更越垃圾](https://www.jiecs.top/archives/64/): undefined
+- [这文章真nm高级](https://www.jiecs.top/archives/61/): undefined
+- [苹果发布会](https://www.jiecs.top/archives/59/): undefined
+- [小米营销鬼才](https://www.jiecs.top/archives/57/): undefined
+- [搞机助手跑路失败](https://www.jiecs.top/archives/55/): undefined
+- [让你的博客收到评论后通知你](https://www.jiecs.top/archives/32/): undefined
+- [启用邮件回复](https://www.jiecs.top/archives/52/): undefined
+- [新文章预告](https://www.jiecs.top/archives/51/): undefined
+- [这字体气泡真你妈好玩](https://www.jiecs.top/archives/50/): undefined
+- [清理B站动态](https://www.jiecs.top/archives/45/): undefined
+- [搞机助手跑路](https://www.jiecs.top/archives/42/): undefined
+- [绿逗群炸了](https://www.jiecs.top/archives/39/): undefined
+- [昨晚狗凡被骂](https://www.jiecs.top/archives/35/): undefined
+- [发了新的文章](https://www.jiecs.top/archives/32/): undefined
+- [送戒指？？？](https://www.jiecs.top/archives/34/): undefined
+- [如何提取网站logo图标](https://www.jiecs.top/archives/31/): undefined
+- [第一条评论(?)](https://www.jiecs.top/archives/31/): undefined
+- [雷总天天送东西](https://www.jiecs.top/archives/29/): undefined
+- [今天雷总送冰淇淋](https://www.jiecs.top/archives/27/): undefined
+- [哔哩漫游ci更新](https://www.jiecs.top/archives/23/): undefined
+- [小米商城米粉节](https://www.jiecs.top/archives/21/): undefined
+- [新的支持方式](https://www.jiecs.top/archives/19/): undefined
+- [火币？](https://www.jiecs.top/archives/18/): undefined
+- [QQ复读机的神奇功能](https://www.jiecs.top/archives/15/): undefined
+- [安卓即时通讯软件-Nekogram X](https://www.jiecs.top/archives/30/): undefined
+- [预告](https://www.jiecs.top/archives/13/): undefined
+- [网站宝塔面板更新](https://www.jiecs.top/archives/12/): undefined
+- [QQ上的Java脚本机器人](https://www.jiecs.top/archives/9/): undefined
+- [emoji支持](https://www.jiecs.top/archives/8/): undefined
+- [特别的日子](https://www.jiecs.top/archives/5/): undefined
+- [杰出兽动态上线](https://www.jiecs.top/archives/3/): undefined
+- [QQ无解一笔画红包](https://www.jiecs.top/archives/29/): undefined
+- [如何获得属于自己的博客](https://www.jiecs.top/archives/28/): undefined
+- [欢迎使用 Typecho](https://www.jiecs.top/archives/45/): undefined
