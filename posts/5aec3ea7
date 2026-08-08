@@ -1,0 +1,3 @@
+博客下方的状态页现在使用 BetterUptime 来监控，BetterUptime 在全球都有节点（虽然仍然没有之前的 Cloudflare Workers 多），而且有更强的拓展性（能简单地连接到 Zapier），也有极其细致的事件系统。但 BetterUptime 免费只能添加最多十个监视器，而且可能有一些其它的隐性限制，而且状态页没有中文（免费也没法添加自定义 JS）
+状态页：https://jiecs-status.betteruptime.com
+由 Zapier 驱动的 RSS 订阅：https://zapier.com/engine/rss/12241775/status

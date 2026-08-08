@@ -1,0 +1,95 @@
+## 首先
+从实用主义的角度考虑，最简单的方法是 GVT-g 拆分核显，GRUB 里添加个参数就能用，也能实现一定程度上的硬件加速，比如 Chrome 解码视频。
+
+但拆分核显得到的核显是“无头”，或者说没法绑定显示器的。一些软件，比如 Sunshine 串流。使用虚拟显示器时，出于 Sunshine 方面的问题，**无法通过 QSV 进行硬件加速编码**。
+RustDesk 是能实现无头核显硬件加速的，但是 RustDesk 的使用体验比较糟糕。
+
+于是最后只能考虑将整个核显进行穿透，不进行拆分。
+
+## 过程
+G4560 属于 7 代 Kaby Lake。经过一番搜寻，比较可靠、直接的核显穿透方案是 <https://github.com/lixiaoliu666/intel6-14rom/tree/qemu7-9>。
+其中 `master` 分支下的 README 仅适用于 QEMU 10，需要换到作者提供的 QEMU、KVM 包（<https://github.com/lixiaoliu666/pve-anti-detection>）
+而 `qemu7-9` 分支下的 README **适用于 QEMU 9.2**，这样就不需要换 KVM，对原 PVE 环境的影响更小。所以选择这个分支。
+我的环境是
+```bash
+root@400g3pve:~# pveversion 
+pve-manager/8.4.1/2a5fa54a8503f96d (running kernel: 6.8.12-11-pve)
+root@400g3pve:~# qemu-system-x86_64 --version
+QEMU emulator version 9.2.0 (pve-qemu-kvm_9.2.0-5)
+Copyright (c) 2003-2024 Fabrice Bellard and the QEMU Project developers
+```
+
+具体配置方式，在作者 李晓流 的专栏，以及 README 里以及写得很清楚了。也可以部分参考 <https://imacos.top/2025/06/09/pve-intel-6-14-q35>。
+
+总之：主要参考 <https://www.bilibili.com/opus/1067771179546181639> 里 **qemu 9.2** 的部分。
+
+---
+注意：
+- `hostpci0` 里不需要 `legacy-igd=1`。
+- 下载 .rom 文件的时候要下载 Releases 里 V1.0 的，即 <https://github.com/lixiaoliu666/intel6-14rom/releases/tag/v1.0-20250413-161986>，这个版本才支持 QEMU 9.2，V2.0 是 QEMU 10 的。就下载 `6-14.rom` 大全版本即可，放到 `/usr/share/kvm/` 目录下。
+---
+
+我最终的 .conf 如下
+
+```bash
+agent: 1
+args: -set device.hostpci0.bus=pcie.0 -set device.hostpci0.addr=02.0 -set device.hostpci0.x-igd-gms=0x2 -set device.hostpci0.x-igd-opregion=on
+boot: order=scsi0;net0;ide0
+cores: 4
+cpu: host
+hostpci0: 0000:00:02.0,pcie=1,romfile=6-14.rom,x-vga=1
+machine: q35
+memory: 4096
+meta: creation-qemu=9.2.0,ctime=1749979104
+name: win
+net0: virtio=BC:24:11:44:71:AA,bridge=vmbr0,firewall=1
+numa: 1
+ostype: l26
+scsi0: local-lvm:vm-103-disk-1,discard=on,iothread=1,size=32G,ssd=1
+scsihw: virtio-scsi-single
+smbios1: uuid=8072d170-12f0-4aa5-86ef-f10471bb4282
+sockets: 1
+tpmstate0: local-lvm:vm-103-disk-2,size=4M,version=v2.0
+vmgenid: 0288c536-37d1-4615-95f9-69e1663584a7
+```
+
+接着，你会发现我的配置里没有 `bios:ovmf`，这意味着它会以默认的 SeaBIOS 进行 Legacy 启动。
+
+这是因为我这台 G4560 和作者 README 里描述的情况一致：
+
+>有些机器他还是有小bug的，会和这个项目 [https://github.com/my33love/gk41-pve-ovmf](https://github.com/my33love/gk41-pve-ovmf) 中的描述症状一样：WIN10 直通安装没有任何问题，可以正常直通到物理显示器，但是一旦**装了UHD驱动就黑屏**了，只能RDP远程进去，暂时没找到解决办法！ubuntu测试完美，直通安装与安装完显示器都能在4K 60HZ下工作。我在j4105机器上遇见一样的问题，不管是用最新的6-10代核显驱动还是2019年及以前发布的6-10代核显驱动，只要一驱动了必黑屏。这是前人源代码埋下来的坑，快4年了无人解决，我也解决不了，找我没用。有网友反馈**驱动黑屏问题是因为硬盘分区表问题，用mbr就可以了**，我估计4-10代如果安装核显后驱动黑屏，大家可以试下安装的时候硬盘用mbr，实在不会就选择ide硬盘给win10虚拟机试试，如果能解决记得反馈。
+>
+>[（原文）](https://github.com/lixiaoliu666/intel6-14rom/tree/qemu7-9#:~:text=%E4%BD%86%E6%98%AF%E5%91%A2%E6%9C%89%E4%BA%9B,%E8%A7%A3%E5%86%B3%E8%AE%B0%E5%BE%97%E5%8F%8D%E9%A6%88%E3%80%82)
+
+即设备管理器里可以看到物理视频口所输出的显示器，但显示器就是不显示，没信号，黑屏。然后 RDP 能显示，而 Sunshine 串流也是和物理显示器一样直接串出个黑屏。
+
+所以为了解决这个问题，Windows VM 的硬盘分区表必须是 MBR，这也意味着 Windows 必须不能是 GPT+OVMF (UEFI) 启动的，而必须是 MBR+SeaBIOS (Legacy) 启动的。
+
+对于已经装好了的 Windows，实际上有很多方式可以无损从 UEFI 转到 Legacy。这里进行介绍。
+
+## 把 PVE 里的 Windows VM 从 GPT 无损转为 MBR
+
+主要麻烦的就是 PVE 的 VirtIO SCSI 驱动，很多 PE 不支持，没法认出 Windows 系统磁盘。
+
+调整分区和引导方式的时候，建议把之前核显直通的配置先删掉，改用默认显示。
+我这里使用 [Edgeless](https://down.edgeless.top) 没有问题。微 PE 精简太多了，VirtIO SCSI 的驱动支持有问题。
+
+> Edgeless 可以直接用设备管理器装好驱动。而另外，理论上也能通过 Dism/Dism++ 直接把驱动做到 PE 镜像里，但要拆 ISO 什么的，我没成功过
+
+上 PE 需要和以往一样添加一个 IDE 的 CD/DVD 驱动器，把 Edgeless 的 .iso 挂载上去。并在选项里调整引导顺序（也可在开机时按 Esc 选择启动项）
+
+Edgeless 里要添加 VirtIO SCSI 驱动是很简单的：
+1. 确保先也通过 CD/DVD 驱动器的方式挂载了 virtio 驱动的 .iso（例如 virtio-win-0.1.271.iso）
+2. 设备管理器里，找到那个未识别的 SCSI 控制器。
+3. 右键，更新驱动程序，浏览我的电脑以查找驱动程序。
+选择这个 `vioscsi` 驱动
+![选择目录 E:\vioscsi\win10\amd64](https://cdn.jiecs.top/img/2025/07/%E6%88%AA%E5%9B%BE_2025-07-24_03-18-37.png)
+4. 装上驱动之后，就能通过 DiskGenius 将分区表改为 MBR
+5. 如下图，可以把前面两个 FAT32 和“XENIX”的 EFI 小分区删掉，Legacy 启动不需要小分区
+![四个分区，分别是 EFI 分区、Microsoft 保留分区 (MSR)、系统 C 盘、WinRE 分区](https://cdn.jiecs.top/img/2025/07/%E6%88%AA%E5%9B%BE_2025-07-24_00-51-09.png)
+6. 同理，pve vm 的 .conf 里的 `efidisk: local-lvm:vm-103-disk-0,efitype=4m,size=4M` 这行也可以删掉了。`efidisk` 是给 EFI 用的
+7. 然后，使用 Edgeless 的 IQI 引导修复即可一键恢复 Legacy 引导。如果修复不了，尝试使用“理顺盘符”，要确保 C 盘在 PE 里的盘符也的确是 C 盘
+
+引导修复完成，先尝试进一下看看 Windows 能不能启动。然后就可以恢复之前核显直通的配置，重新 `display: none`。
+
+再次启动 Windows，理论上物理显示器就能看到 Windows 的画面了。还是无信号、黑屏的话就插拔一下 DP 线，反正我是可以了。
