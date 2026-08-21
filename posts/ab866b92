@@ -1,0 +1,92 @@
+## 首先
+> 我很期待一个以 Flatpak 或者 Homebrew 发行的 `ll-cli`。
+
+如意玲珑虽然宣称是支持各种发行版，但实际目前还是比较混乱，尤其不适合 [Bluefin](https://projectbluefin.io) 和 [VanillaOS](https://vanillaos.org) 这种不可变系统，因此还是需要 distrobox
+## 安装
+> 系统环境为 Bluefin Linux (based-on Fedora Silverblue)
+
+创建 distrobox 使用的是这个 image
+```bash
+distrobox create --image ghcr.io/ublue-os/ubuntu-toolbox:latest --name box-ubuntu --init --no-entry
+```
+当前的 latest 应该是 26.04 (LTS)
+这里用的 `ubuntu-toolbox` 是 ublue 项目优化后的 ubuntu image，原版 ubuntu image 应当也没有大问题
+distrobox 的 flag 根据需求设置：
+- `--init` 添加 systemd 支持
+- `--no-entry` 不为容器添加专门桌面条目
+
+进入容器命令行之后，正常 apt install 即可
+
+但是玲珑的生态还是太乱了，目前 `ci.deepin.com` 官方源还不支持 ubuntu 26，还停留在 ubuntu 25.10，软件源上次更新是 3 月 19 日
+
+由于 HanHan666666/linglong-installer 的图形化安装器在容器下运行也有些乱七八糟的问题
+这里参考 https://github.com/HanHan666666/linglong-installer/blob/4dd23bb575c74d35e903bb1372c4a1147ddff048/scripts/distros/ubuntu_26.04.sh
+提供以下在 ubuntu 26.04 安装如意玲珑的命令，不需要图形化安装器
+```bash
+sudo install -d -m 0755 /usr/share/keyrings
+curl -fsSL https://obs-ci.odata.cc/obs-mirror/xUbuntu_26.04/Release.key \
+  | gpg --dearmor | sudo tee /usr/share/keyrings/obs-ubuntu2604.gpg >/dev/null
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/obs-ubuntu2604.gpg] \
+https://obs-ci.odata.cc/obs-mirror/xUbuntu_26.04/ ./" \
+| sudo tee /etc/apt/sources.list.d/obs-ubuntu2604.list
+sudo apt update
+sudo apt install -y linglong-bin
+📦[chen@box-ubuntu ~]$ ll-cli list
+ID                                         名称                             版本            渠道            模块        描述
+```
+
+## Post-fix & Workaround
+
+### 第一个问题：安装时没法正确鉴权
+
+解决方案参考： <https://gitee.com/spark-store-project/spark-store/issues/IBML1L>
+即在 distrobox 容器内执行
+```bash
+echo '#!/bin/sh
+sudo "$@"' | sudo tee /usr/local/bin/pkexec
+sudo chmod +x /usr/local/bin/pkexec
+
+echo '#!/bin/sh
+sudo "$@"' | sudo tee /usr/bin/pkexec
+sudo chmod +x /usr/bin/pkexec
+```
+将 pkexec 偷梁换柱为普通 sudo
+
+这是因为原本正常安装的玲珑，应当在安装过程中通过 `pkexec` 提升到 root 权限，因为这样可以跳出一个 askpass 图形界面请求用户输入密码。而在容器中一般直接使用 `sudo`，`pkexec` 由于各种原因往往没法正常工作。不是完全不可以，但挺麻烦的
+
+所以以上命令能替换 `/usr/local/bin/pkexec` 的内容为一个脚本，直接原地将命令丢给 sudo
+
+同时呢，有些应用比如 OpenCode Desktop 的安装过程会写死 pkexec 的目录，因此我们需要同时替换 `/usr/local/bin/pkexec` 和 `/usr/bin/pkexec` 两个目录
+
+### 第二个问题：钉钉跑起来界面没有
+
+钉钉能跑，但界面没有
+
+在我的情况下是 mesa 驱动啥的有问题，不是 distrobox 的问题
+跳过 `/opt/apps/com.alibabainc.dingtalk/files/Elevator.sh` 直接
+
+```bash
+ll-cli run com.alibabainc.dingtalk -- bash
+cd /opt/apps/com.alibabainc.dingtalk/files/7.6.45-Release.5032501
+LIBGL_ALWAYS_SOFTWARE=1 ./com.alibabainc.dingtalk
+````
+
+可以解决
+
+但是玲珑版的钉钉已经年久失修了，还是 7.6.45.5032502，官方版的钉钉也有一套自己的容器兼容层，容器套容器有问题
+当前建议用 AUR 的钉钉，目前是 8.1.0.6021101，distrobox arch 容器开箱即用没有任何问题
+#### 第三个问题：玲珑客户端应用商店提示玲珑没装
+
+com.dongpl.linglong-store.v2 这个 V2 客户端应用商店依赖 dbus 啥的总之就是不行
+办法就是没有办法，玲珑生态就是一坨
+用 `ll-cli` 去吧，不带图形化界面也能用
+
+---
+
+折腾玲珑一天的结论就是 玲珑不是啥好东西
+- 生态分裂，一个应用商店分出 V1 V2 极速版
+- 全靠社区，至今 ubuntu 26 lts 的支持居然还要靠 `odata.cc` 这个社区自己建的 repo，deepin 官方不知道干什么吃的管生不管养， `ci.deepin.com` 还停留在 ubuntu 25.10，软件源上次更新是 3 月 19 日
+- 下载慢，没多线程，而且也是从 `obs-ci.odata.cc` 下的
+
+还是老老实实用星火应用商店吧，也不要用 APM/ACE 容器，星火应用商店本身对 distrobox 的支持还是不错的，起码考虑过在容器里跑

@@ -1,0 +1,35 @@
+现在你可以通过订阅 Telegram 频道来获取本博客的文章更新信息，在博客页脚的 Follow 里就能获取到 Telegram 频道链接，这也许能降低他人关注你博客的门槛，毕竟现在用 RSS 的人确实不多
+
+自动推送用到了 IFTTT。IFTTT 是 IF This Then That 的所缩写，可以非常方便简单地完成简单的自动化操作。而且零代码开发。只需要注册个账号，所有的 if 就会在云上监控，根据你的设置自动完成。能实现的操作有很多，例如：
+
+* 如果室外下雨，就关闭窗户
+* 如果关注的 Youtube 频道更新，就收藏到印象笔记
+* 如果这台设备收到了短信，就转发到另一台设备
+
+等等
+
+自然也能实现“如果博客有新文章，就广播到 Telegram 频道”
+
+先[创建了一个 Telegram bot](https://core.telegram.org/bots#3-how-do-i-create-a-bot)（事实上 IFTTT 也提供了一个 Telegram bot，你可以用它提供的，但我想自己控制这个 bot）将它添加到你的频道里
+
+然后打开 IFTTT 创建一个程序：
+
+if 可以设为博客的 RSS 更新。如果是 Wordpress 也可以直接用它提供的 new post，更新也许会比 RSS 快一点吧（IFTTT 的 RSS 监听大概是一小时一次），IFTTT 也有许多其它博客的事件，比如 Blogger
+
+then 设为 WebHook 的 Make a web request 来调用 Telegram API。如果用 IFTTT 的 bot 可以直接用它的事件
+
+URL 为 `https://api.telegram.org/bot{botId}:{botKey}/sendMessage`，创建 bot 后 BotFather 会告诉你 botId 和 botKey
+Method 设为 POST。不直接用 GET 然后加查询字符串是因为查询字符串要转义成 URL 编码，事情多
+Content Type 设为 application/json
+Body 为 JSON 格式的数据，例如：
+
+```json
+{
+  "chat_id": "@jiecsChannel",
+  "text": "{{EntryTitle}}\n{{EntryUrl}}"
+}
+```
+
+还有一些其它的参数参考 [Telegram API 文档](https://core.telegram.org/bots/api#sendmessage)
+
+然后更新 IFTTT 程序应该就可以了

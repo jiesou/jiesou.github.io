@@ -1,0 +1,117 @@
+{% note danger %}
+我刚发现这篇文章是在瞎鸡巴扯完全过时的东西，请不要看我逼逼，直接跳到[更新](#更新)
+{% endnote %}
+
+## 起因
+
+大概是太多人拿 Cloudflare Workers 翻墙，Cloudflare Workers 的 <workers.dev> 域名最近被墙了
+
+而本博客的必应图片背景（即上面的这一片风景图）中的跳转部分就是由 Cloudflare Workers 搭建的。而且我还用 Cloudflare Wokers 搭建了许多别的服务，比如一言
+
+再骂几次万恶的 GFW 也无济于事，还是只能换一个 ServerLess 平台。想了想决定用 Vercel
+
+Vercel 的部署是相对简单方便的，不用 30 秒即可直接使用 Vercel CLI 创建项目并部署到生产环境。Vercel CLI 的安装也十分简单，可以直接用 `npm/yarn` 安装，没有任何问题
+
+我之前部署 Cloudflare Workers 是用的 PC 浏览器打开 Playground 直接编写代码，然而在手机上，Playground 的体验十分糟糕
+
+![布局混乱，光标乱跳](https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-11-19-13-139-edit_com.microsoft.emmx.jpg)
+
+我甚至无法全选复制出代码
+
+还好 Cloudflare Workers 也提供一个命令行部署方式，可以用命令行把代码提取下来。命令行工具叫 Wrangler CLI
+
+## 开始
+
+我按照 [Wrangler 文档](https://developers.cloudflare.com/workers/wrangler/cli-wrangler/install-update/)里的安装方式使用 npm 安装：
+
+![Error: Unsupported platform: Linux arm64](https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-18-32-20-441_com.termux.png)
+
+很快啊，就出问题了！定睛一看，这 Wrangler 居然没有 arm64 的预编译二进制可执行文件！
+
+### 使用 Cargo 自行编译安装
+
+好吧，官方文档还提供了自己编译安装的方法。先切到了 proot 的 Ubuntu
+
+{% note light %}
+安装并切换到 proot 的 Ubuntu：
+```bash
+pkg install proot-distro
+proot-distro install ubuntu
+proot-distro login ubuntu
+```
+然后安装点必要的东西
+```bash
+apt update
+apt install curl wget git
+```
+{% endnote %}
+
+#### 安装 Rust
+
+照着指示安装了 Rust：`curl https://sh.rustup.rs -sSf | sh`，然后用 Cargo 编译安装：`cargo install wrangler`
+
+#### 安装 GCC
+
+很快又出了问题：
+
+![error: linker 'cc' not found](https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-19-18-09-473_com.tencent.tim.png)
+
+这是 GCC 编译器没有安装，`apt install gcc` 即可
+
+#### 安装 Perl
+
+还有问题：
+
+![Can't locate FindBin pm in @INC](https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-19-40-30-793_com.tencent.tim.png)
+
+必应一下找到了：<https://github.com/openssl/openssl/issues/13761>
+
+明明已经装了 Perl，不过不知道为什么确实还是要用 apt 再装一下：`apt install perl`
+
+#### 安装 make
+
+人生哪有一帆风顺，问题：
+
+![No such file or directory](https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-19-47-21-571_com.tencent.tim.png)
+
+必应：<https://github.com/nushell/nushell/issues/5379>
+
+解决：`apt install make`
+
+#### 真的可以安装了
+
+终于可以 `cargo install wrangler` 了
+
+哎？但是？
+
+![-bash: wrangler: command not found](https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-20-15-52-075-edit_com.termux.jpg)
+
+`/root/.cargo/bin/wrangler` 指向了
+`/tmp/cargo-install223hTj/release/deps/.l2s.wrangler-df5343ad789ada3c0001` 这个又指向了 `.l2s.wrangler-df5343ad789ada3c0001.0001` 但这个又指向的文件不存在
+
+这里我也不知道为啥，总之我是先把 `/root/.cargo/bin/wrangler` 这个软链接删掉，然后再重新安装一次就没问题了：
+
+![wrangler 1.19.12](https://cdn.jiecs.top/img/2022/05/Screenshot_2022-05-15-21-04-29-578-edit_com.termux.jpg)
+
+## 总结
+
+先进入 proot，然后：
+
+```bash
+curl https://sh.rustup.rs -sSf | sh
+source $HOME/.cargo/env
+apt install gcc perl make -y
+cargo install wrangler
+```
+
+## 更新
+
+请**不要**听上面的
+
+请**不要** `npm install -g @cloudflare/wrangler`
+
+这是 wrangler 1 的安装方法
+
+你应该 `npm install -g wrangler`
+
+就没有任何问题了，也完美支持 arm64

@@ -1,0 +1,2 @@
+发现图床用了 Netlify + 百度云加速 之后一天到晚 522 或者超时，很是不稳定，可套了个百度云加速之后源站是什么正常来讲应该影响不大吧，我只能再把源站从 Netlify 换到 Vercel，和主站一样，只是图片放在 Gitlab 仓库里（主站在 Github）
+<https://jiecs-status.betteruptime.com/incident/80699>
