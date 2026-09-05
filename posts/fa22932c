@@ -1,0 +1,83 @@
+## Why
+
+DNT 即 `Do Not Track`。是一个让用户可以通过设置浏览器，使浏览器向网站发起的 HTTP 请求头包含特定字段，让网站得知用户是否不想被追踪的**约定**。详细可以[参见 W3C 的文档](https://www.w3.org/TR/tracking-dnt/)。
+
+这里的追踪器我认为也包括 百度统计、Google Analytics 等统计模块
+
+## How
+
+只需要在你的统计模块代码上添加一个判断即可：
+
+```javascript
+let dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack || '';
+if (!dnt.startsWith('1') && !dnt.startsWith('yes') && !dnt.startsWith('on')) {
+  // add your analytics code here
+}
+```
+
+如果是 Google Analytics 需要一个单独的 `<script src=...>` 的话可以这样：
+
+```javascript
+// Google Analytics
+let sc=document.createElement('script');
+sc.async=true;
+sc.src='https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+document.body.appendChild(sc);
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXXXXXXXX');
+```
+
+如果用到了多个统计模块则可以将多个 `<script>` 标签合并成一个：
+
+```javascript
+let dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack || '';
+if (!dnt.startsWith('1') && !dnt.startsWith('yes') && !dnt.startsWith('on')) {
+
+  // Microsoft Clarity
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "xxxxxxxxxx");
+
+  // 百度统计
+  var _hmt = _hmt || [];
+  (function () {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+
+  // Google Analytics
+  let sc=document.createElement('script');
+  sc.async=true;
+  sc.src='https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+  document.body.appendChild(sc);
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+}
+```
+
+DNT 有点类似于对爬虫约定的 robots.txt，但目前尊重、支持 DNT 的网站少之又少。我认为有以下几点原因：
+
+* 添加支持需要稍微花一些时间 _许多爬虫库遵从 robots.txt 只需要设置一个布尔值甚至是默认遵从_
+
+* 许多浏览器、脚本插件都默认设置了 DNT 却未问过用户的想法，这让 DNT 约定毫无意义
+
+* 遵从 DNT 似乎对网站所有者没有好处，只会让统计信息不准确
+
+这里还要要点名批评几个浏览器：
+
+* 小米（安卓） - 有所谓的跟踪器防护却没有 DNT 设置，一点都不“隐私保护”
+
+* 360安全、IE等 - 默认开启 DNT
+
+* via、X浏览器等（安卓） - 有 DNT 设置，却是坏的
+
+**对于部分默认开启 DNT 的浏览器：**
+如果大家都默认开启，那这约定还有谁去遵守？

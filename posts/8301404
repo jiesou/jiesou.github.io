@@ -1,0 +1,34 @@
+> 参考
+> https://github.com/storaged-project/udisks/issues/1177
+> https://github.com/storaged-project/udisks/issues/1368
+> https://github.com/biglinux/usb-dirty-pages-udev
+
+默认情况下，Linux 的 `udisks2` 或内核对 USB 设备的缓存策略比较激进。
+- **现象**：向 U 盘拷贝大文件时，进度条速度会有 100M/s 多非常离谱的数据，但随后弹出 U 盘，系统会告诉用户不能拔，还要拷贝很久，中间系统会用 sync 死等，都看不到传输进度。
+- 实际情况下：拷贝特别大的文件，比如超过 1.6G 的时候，会看到那个非常离谱的速度逐渐降下来，就是内存逐步回写到 U 盘里，但往往还是传输完成还要等很久回写，依然很烦
+### 原理
+
+通过 `udev` 规则干预内核的 **BDI (Backing Device Info)** 参数：
+- **`max_bytes`**: 限制该设备在内存中最多能积压的脏数据量（本方案设为 **16MiB**）
+- **`strict_limit`**: 强制执行上述限制。如果不开启，系统可能会因为内存充足而允许超过 `max_bytes` 的限制
+
+## 实现
+
+1. 创建 udev rules
+```
+sudo -E nano /etc/udev/rules.d/99-udisk-flush-max-bytes.rules
+```
+
+2. 填入
+```rules
+# See: https://www.jiecs.top/archives/8301404, https://github.com/storaged-project/udisks/issues/1177#issuecomment-3914044213
+ACTION=="add", SUBSYSTEM=="block", ENV{ID_BUS}=="usb", ENV{DEVTYPE}=="partition", \
+RUN+="/bin/sh -c ' \
+    DEVICE_MAJOR_MINOR=$$(cat /sys/class/block/%k/../dev); \
+    echo 16777216 > /sys/class/bdi/$$DEVICE_MAJOR_MINOR/max_bytes; \
+    echo 1 > /sys/class/bdi/$$DEVICE_MAJOR_MINOR/strict_limit \
+'"
+```
+
+3. 更新应用
+`sudo udevadm control --reload && sudo udevadm trigger` 或者 `systemctl restart systemd-udev-trigger`
