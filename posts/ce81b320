@@ -1,0 +1,158 @@
+来源： https://www.reddit.com/r/YoutubeMusic/comments/1ekc7rw/comment/mfoxe1a
+> 由 AI 和我修改
+
+YouTube Music 网页版实际上是有淡入淡出的功能的，但是要 Premium，或者也许是灰度/风控什么的。总之这个 userscript 通过各种 Hook 实现了丝滑的暂停播放、切歌时的淡入淡出
+reddit 老哥原版只有暂停播放的淡入淡出，我在其基础上实现了切歌的淡入淡出
+
+```javascript
+// ==UserScript==
+// @name         YouTube Music Ultimate Fade
+// @details      Origin from: https://www.reddit.com/r/YoutubeMusic/comments/1ekc7rw/comment/mfoxe1a, modified by Claude
+// @match        *://music.youtube.com/*
+// @grant        none
+// @run-at       document-start
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    let userVolume = 0.5;
+    const FADE_TIME_NORMAL = 800;
+    const FADE_TIME_QUICK = 300;
+
+    // 强制锁：在动画期间屏蔽冲突操作
+    let isFading = false;
+    // --- 核心淡入淡出引擎 ---
+    function fade(video, target, duration) {
+        return new Promise(resolve => {
+            if (video._fadeController) video._fadeController.abort();
+            const controller = new AbortController();
+            video._fadeController = controller;
+
+            const startVolume = video.volume;
+            const startTime = performance.now();
+            const intervalTime = 16; // 约 60fps
+
+            const interval = setInterval(() => {
+                if (controller.signal.aborted) {
+                    clearInterval(interval);
+                    return resolve(false);
+                }
+                const elapsed = performance.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 2);
+
+                video.volume = Math.max(0, Math.min(1, startVolume + (target - startVolume) * ease));
+
+                if (progress >= 1) {
+                    clearInterval(interval);
+                    video._fadeController = null;
+                    resolve(true);
+                }
+            }, intervalTime);
+        });
+    }
+
+    const originalPause = HTMLVideoElement.prototype.pause;
+    const originalPlay = HTMLVideoElement.prototype.play;
+
+    // --- 核心 Hook：采用硬性延迟策略 ---
+    HTMLVideoElement.prototype.pause = function() {
+        if (this._isInternalAction || this.paused) return originalPause.apply(this);
+
+        if (isFading) return; // 动画中禁止二次触发
+        isFading = true;
+
+        fade(this, 0, FADE_TIME_NORMAL).then(() => {
+            this._isInternalAction = true;
+            originalPause.apply(this);
+            this._isInternalAction = false;
+            // 硬延迟：确保 UI 状态机稳定后再解锁
+            setTimeout(() => { isFading = false; }, 100);
+        });
+    };
+
+    HTMLVideoElement.prototype.play = function() {
+        if (this._isInternalAction) return originalPlay.apply(this);
+
+        isFading = false; // 播放请求强制中断淡出锁
+        if (this._fadeController) this._fadeController.abort();
+
+        const res = originalPlay.apply(this);
+        if (this.volume < 0.1) {
+            fade(this, userVolume, FADE_TIME_NORMAL);
+        }
+        return res;
+    };
+
+    // --- 处理点击：下一首、列表切歌等 ---
+    document.addEventListener('click', async (e) => {
+        if (e._isCustom) return;
+
+        const target = e.target.closest(
+            'ytmusic-player-queue-item, ytmusic-play-button-renderer, .next-button, .previous-button, [aria-label*="Next"], [aria-label*="Previous"]'
+        );
+
+        if (target) {
+            const video = document.querySelector('video');
+            if (video && !video.paused) {
+                // 拦截原生点击，先做淡出
+                e.preventDefault();
+                e.stopPropagation();
+
+                await fade(video, 0, FADE_TIME_QUICK);
+
+                // 彻底停止当前，防止切歌爆音
+                video._isInternalAction = true;
+                originalPause.apply(video);
+                video._isInternalAction = false;
+
+                // 重新派发点击
+                const newClick = new MouseEvent('click', {
+                    bubbles: true, cancelable: true, view: window, detail: 1
+                });
+                newClick._isCustom = true;
+                target.dispatchEvent(newClick);
+            }
+        }
+    }, true);
+
+    // --- MediaSession (系统通知栏/线控) ---
+    const _setActionHandler = navigator.mediaSession.setActionHandler.bind(navigator.mediaSession);
+    navigator.mediaSession.setActionHandler = function(action, handler) {
+        const wrappedHandler = async (details) => {
+            const video = document.querySelector('video');
+            if ((action === 'nexttrack' || action === 'previoustrack') && video && !video.paused) {
+                await fade(video, 0, FADE_TIME_QUICK);
+            }
+            if (handler) handler(details);
+        };
+        return _setActionHandler(action, wrappedHandler);
+    };
+
+    // --- 视频初始化 ---
+    function patchVideo(video) {
+        if (video._isPatched) return;
+        video._isPatched = true;
+
+        video.addEventListener('volumechange', () => {
+            if (!video._fadeController && video.volume > 0) {
+                userVolume = video.volume;
+            }
+        });
+
+        video.addEventListener('loadstart', () => {
+            if (video._fadeController) video._fadeController.abort();
+            isFading = false;
+            video.volume = 0;
+        });
+    }
+
+    const observer = new MutationObserver(() => {
+        const video = document.querySelector('video');
+        if (video) patchVideo(video);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+})();
+```

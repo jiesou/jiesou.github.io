@@ -1,0 +1,333 @@
+## 前言
+
+比起微信 QQ 那种毒瘤，Telegram 已是降维打击。然而现在 Telegram 也正变得越来越封闭，加入了频道广告还有 Telegram Premium，对免费用户的限制越来越多
+
+最关键的是 Telegram 的开源开放程度也在一点点地降低，而且 Telegram 本身的端到端加密对话没法云同步，群聊频道都不支持，根本没想让你日常使用。Telegram 的服务器端并不开源，从*技术上来说* Telegram 对用户的消息是有**完全掌控权**的，他们想干嘛都可以，与微信 QQ 没有本质区别
+
+更何况 Telegram 客户端的开源程度有一点点的在降低，对三方客户端的限制越来越多。包括不能注册、限速下载以及严格的风控
+
+这也正导致一些主打去中心化、开源开放的即时通讯软件/协议越来越活跃起来。Matrix 就是相对知名且功能完善的
+
+## 简介
+
+[Matrix](https://matrix.org) 本身只是一种去中心化的通讯协议，逻辑类似电子邮箱
+
+电子邮箱中你可以选择不同的服务商：Gmail、QQ邮箱，而在 Matrix 中你也可以选不同的 Homeserver。比如一个形似 `@chen_this:matrix.org` 的用户名中，`:` 后的域名就表示这个用户所属的 Homeserver
+
+就像电子邮箱中一样，**不同 Homeserver** 之间的消息也可以**互通**，而且每个 Homeserver 提供商都可以设置自己的规则，管理自己的用户。即使某个 Homeserver 宕机了，使用其他 Homeserver 的人也不会受到影响。而且协议本身也没法被墙之类的
+
+同样，就像电子邮箱本身只是个协议，需要一个客户端，使用 Matrix 也**要一个客户端**。现在最为流行的就是 [Element](https://element.io)（以前叫 Riot.im）。下载安装直接注册即可，注册 Matrix 账户不用手机号，通常需要电子邮箱，取决于 Homeserver 的设置
+
+Matrix 对群聊对话的数量限制几乎没有，消息都是云同步，能发送贴纸表情、各种媒体，什么投票定位权限管理一应俱全。美中不足的是大多数 Homeserver 都只允许你上传单个最大 100M/200M 的文件
+
+## 桥接
+
+Matrix 还有一个特性就是能与其他即时通讯软件桥接。就像 Telegram 有 EH Forwarder Bot。然而 Telegram 的 EFB 确实问题挺多，经常动不动离线
+
+Matrix 的各种 Bridges 能让你和 Telegram、Discord 甚至微信 QQ 桥接，直接在 Matrix 上收发其他平台的消息，而且体验相当无缝。这篇文章主要讲的就是 [mautrix-telegram](https://github.com/mautrix/telegram)，支持 Matrix - Telegram 双向映射，当然主要是 Telegram to Matrix
+
+### 预备条件
+
+- 服务器
+- 域名
+- 域名的 SSL 证书
+
+不同于 Telegram 可以直接调用 Core API，由于 Matrix 的去中心化，要想在 Matrix 上和别人收发消息，你还**需要搭建自己的 Homeserver**
+
+当然 Homeserver 也可以在 Docker 中运行，但要搭建它你还需要一个域名。最好是二级域名而不是三级或以上（example.com 而不是 matrix.example.com）
+
+还需要有这个域名的 SSL 证书，[certbot](https://certbot.eff.org) 申请的 Let's Encrypt 即可。安装 certbot 后运行 `sudo certbot certonly --standalone` 并根据说明操作
+
+### Docker Compose 部署
+
+整个桥以及配套环境都建议使用 [Docker Compose](https://docs.docker.com/compose/) 部署，一条命令就能开关，容器与外界隔离，不用担心依赖、兼容问题
+
+#### 大体流程
+
+以下是我根据官方配置自己写的 docker-compose.yaml，把需要的服务都揉到了一起，供参考：
+
+```yaml
+services:
+  synapse:
+    image: docker.io/matrixdotorg/synapse:latest
+    restart: unless-stopped
+    environment:
+      - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
+    volumes:
+      - ./synapse:/data
+      - /etc/letsencrypt:/etc/cert:ro
+    depends_on:
+      - db
+    ports:
+      - 8448:8448/tcp
+
+  mautrix-telegram:
+    image: dock.mau.dev/mautrix/telegram:latest
+    restart: unless-stopped
+    volumes:
+      - ./mautrix-telegram:/data
+    depends_on:
+      - db
+  
+  db:
+    image: docker.io/postgres:12-alpine
+    environment:
+      - POSTGRES_USER=matrix
+      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+    volumes:
+      - ./schemas:/var/lib/postgresql/data
+```
+
+1. 在需要的位置`mkdir matrix-service` 创建文件夹然后进入
+2. 在文件夹中创建 `docker-compose.yaml` 文件，粘贴以上配置，修改 POSTGRES_PASSWORD
+3. `docker compose up` 首次运行生成配置文件
+4. 调整配置后 `docker compose up -d` 持续运行
+
+以下一点点解释
+
+#### Homeserver - Synapse
+
+Matrix 使用最广泛的 Homeserver 实现就是 [Synapse](https://github.com/matrix-org/synapse)，[官方提供 docker-compose.yaml](https://github.com/matrix-org/synapse/blob/develop/contrib/docker/docker-compose.yml)
+
+虽然 Synapse 也支持 SQLite，但建议无论如何都要使用 PostgreSQL。这不会笨重多少，而 SQLite 后期维护起来会相当麻烦，性能也很差
+
+##### 配置文件
+
+首次运行生成配置文件后，进入 `./synapse` 目录即可看到 `homeserver.yaml`。[配置文件文档](https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html)
+
+要添加/修改的有这么几个
+
+###### server_name
+
+直接填写你的 Homeserver 域名
+
+```yaml
+server_name: "example.com"
+```
+
+###### listeners
+
+填写监听端口
+
+8448 对外开放，已在 docker-compose.yaml 中配置端口映射，如果云服务器有**防火墙也要允许**。其中 tls: true 需要 SSL 证书
+
+8008 仅用于和 mautrix-telegram 桥的容器内网沟通，不必启用 tls
+
+```yaml
+listeners:
+  - port: 8448
+    type: http
+    tls: true
+    resources:
+     - names: [client, federation]
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: true
+    resources:
+      - names: [client, federation]
+        compress: false
+```
+
+要启用 tls，需要在配置文件中配置证书的位置
+
+certbot 申请的证书默认放在 /etc/letsencrypt。docker-compose.yaml 中已将 /etc/letsencrypt 映射到容器内的 /etc/cert
+
+```yaml
+tls_certificate_path: "/etc/cert/live/example.com/fullchain.pem"
+tls_private_key_path: "/etc/cert/live/example.com/privkey.pem"
+```
+
+> /etc/letsencrypt/live/example.com 路径中的证书文件实际上是对 /etc/letsencrypt/archive 的软链接。所以必须将整个 /etc/letsencrypt 映射过去，而不能只映射单个域名
+
+###### database
+
+```yaml
+database:
+  name: psycopg2
+  args:
+    user: matrix
+    password: changeme
+    database: synapse
+    host: db
+    port: 5432
+    cp_min: 5
+    cp_max: 10
+```
+
+配置连接到 PostgreSQL 的信息
+
+密码需要与 docker-compose.yaml 中 POSTGRES_PASSWORD 相同
+
+一般来讲，database `synapse` 不会被自动创建，可以在编辑好配置后统一创建
+
+###### app_service_config_files
+
+```yaml
+app_service_config_files:
+  - /data/mautrix-telegram-registration.yaml
+```
+
+用来管理 app_service。各种桥接程序都属于 app_service，需要在这里注册配置，说明自己需要的用户名和管理权限等。例如 mautrix-telegram 默认 bot 用户名是 @telegrambot:example.com，需要 @**telegram:example.com 的用户名
+
+首次运行 mautrix-telegram 后会在 `./mautrix-telegram` 目录中生成 registration.yaml，需要将它**复制**到此处
+
+> 修改 mautrix-telegram 的配置后，registration.yaml 可能会发生变化。建议先修改其配置再复制注册文件
+
+> 注册文件只能复制，移动会被重新生成
+
+#### Bridge - mautrix-telegram
+
+[官方部署文档](https://docs.mau.fi/bridges/general/docker-setup.html?bridge=telegram)
+
+同样也支持 SQLite，但建议 PostgreSQL
+
+首次运行会生成 config.yaml，再次运行生成 registration.yaml
+
+##### 配置文件
+
+能改的东西非常多，要注意的有这么几个，其他的根据喜好改即可
+
+###### homeserver
+
+```yaml
+homeserver:
+    address: http://synapse:8008
+    domain: example.com
+```
+
+其中 http://synapse 这类 URL 是 Docker 容器间内网通讯的方式，放在一个 Docker Compose 中的容器可以直接这么通讯
+
+domain 直接填 Homeserver 的域名即可，没有改过端口就保持默认
+
+###### appservice
+
+```yaml
+appservice:
+     address: http://mautrix-telegram:29317
+     database: postgres://matrix:changeme@db/mautrix_telegram
+```
+
+address 会用于生成 registration.yaml
+
+database 部分参考 [Synapse 的 database 配置](#database)。是 URI 形式。注意 dbname 不支持中划线，所以是 `mautrix_telegram` 而不是 `mautrix-telegram`
+
+###### telegram
+
+```yaml
+telegram:
+    api_id: 12345
+    api_hash: abcd
+    bot_token: 1234:abcd
+```
+
+从 <https://my.telegram.org/apps> 获取 api_id 和 api_hash
+
+bot_token 用于将陌生 Matrix 用户的消息通过 relay bot 转发到 Telegram 实现双向映射，如果只是个人使用**可以不用填写**。可以从 <https://t.me/BotFather> 中申请一个 bot，获取 bot_token
+
+#### 数据库初始化
+
+如[前文](#database)所言，首次运行时通常不会在 PostgreSQL 中自动创建 database，但我们可以手动进入其实例来创建
+
+##### 1. 进入实例环境
+
+先确保 docker compose 正在运行，使用 `docker ps` 来检查正在运行的容器
+
+这个 Docker Compose 中，PostgreSQL 的容器名通常为 `matrix-service-db-1`（取决于你的命名）
+
+然后根据容器名运行
+
+```shell
+docker exec -it matrix-service-db-1 bash
+```
+
+进入实例环境
+
+##### 2. 创建 database
+
+在实例环境中运行
+
+```shell
+psql -U matrix
+```
+
+进入 PostgreSQL 命令行。-U 取决于 PostgreSQL 的用户名，我的 docker-compose.yaml 默认即 matrix
+
+然后运行
+
+```sql
+CREATE DATABASE synapse;
+CREATE DATABASE mautrix_telegram;
+```
+
+创建数据库
+
+可以运行
+
+```sql
+SELECT datname FROM pg_database;
+```
+
+来检查有没有正确创建
+
+##### 3. 完成
+
+依次输入 `\q` `exit` `exit` 来退出
+
+#### 之后可做的
+
+配置完一切之后运行 `docker compose up -d` 来持续运行，-d 用于断开与会话的连接（在后台运行）
+
+使用 `docker compose logs --tails 20` 来检查它有没有正常运行，--tails 20 用来限制输出的长度
+
+然后打开你的 Matrix 客户端，例如 Element。根据你的 Homeserver 域名搜索 `@telegrambot:example.com`，bot 应该会发送一条欢迎消息
+
+_Hello, I'm a Telegram bridge bot.
+Use `help` for help or `login` to log in._
+
+恭喜你成功部署 mautrix-telegram 🎉
+
+telegrambot 的使用可以参考[文档](https://docs.mau.fi/bridges/python/telegram/authentication.html)
+
+#### 在自己的 Homeserver 上注册用户
+
+你可以在自己的 Homeserver 上创建一个管理用户，可以像 matrix.org 一样和其他用户收发消息。也可以管理 Homeserver。参考[文档](https://matrix-org.github.io/synapse/latest/setup/installation.html#registering-a-user)
+
+根据容器名运行
+
+```shell
+docker exec -it matrix-service-synapse-1 register_new_matrix_user
+```
+
+即可在容器中执行注册，根据说明操作即可
+
+注册后同样通过客户端来登录，然后在客户端当中获取访问令牌，管理用户可以通过访问令牌来访问 [Admin API](https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/index.html)
+
+#### 配置定时清理脚本
+
+Matrix Homeserver 会承载用户发送的所有聊天记录、媒体文件，尤其是 ./synapse/media_store 没过几天就会占几十 G。Synapse 提供一个 Admin API 可以删除管理这些媒体。[参考文档](https://matrix-org.github.io/synapse/latest/admin_api/media_admin_api.html)
+
+媒体分本地和远程媒体。远程媒体是指在其他 Homeserver 上也存在这些媒体，可以直接删。本地媒体如果删了就没了
+
+我定时执行这串命令来清理过时媒体
+
+```shell
+auth_token="syt_admin_auth_token"
+api_endpoint="http://localhost:8008/_synapse/admin/v1"
+before_ts=$(date -d '12 hours ago' +%s000)
+
+# delete old local media
+docker exec matrix-service-synapse-1 \
+  curl --header "Authorization: Bearer $auth_token" \
+  -X POST "$api_endpoint/media/delete?before_ts=$before_ts"
+
+# delete old remote media
+docker exec matrix-service-synapse-1 \
+  curl --header "Authorization: Bearer $auth_token" \
+  -X POST "$api_endpoint/purge_media_cache?before_ts=$before_ts"
+```
+
+需要注意的是，只能使用官方的 API 或者一些专用清理工具来清理。无论如何你都尽量**不要删除数据库**，除非你真的再也不想用了
+
+由于 Matrix 的去中心化，即使你将本地数据库删了，在其他 Homeserver 上仍然会存在很多信息。你的数据库和其他的对不上，就会导致更多问题。通常你要把其他 Homeserver 上存在的会话记录也一并删掉才行。参考[文档](https://matrix-org.github.io/synapse/latest/usage/administration/admin_faq.html#i-have-a-problem-with-my-server-can-i-just-delete-my-database-and-start-again)

@@ -1,0 +1,151 @@
+## 前言
+
+很久之前我搞过个 [超级优化懒人包-Minecraft高版本Fabric生存](https://www.jiecs.top/archives/394/)
+
+但那个的 1.17.1 版本实在有点老了，现在 1.19 都出了，很多模组都大变。
+
+{% note light %}
+比如体素地图(VoxelMap)停更、IRIS 自带汉化，完全兼容钠，自带光影配置（而不需要 IRIS Starline）、铟(Indium)步入正式版等等
+{% endnote %}
+
+我没有 1.18.x 的需求，就懒得支持 1.18.x 了，直接 1.19
+
+既然都跳过一个版本了，那干脆**改个名字**
+
+{% note success %}
+改叫 **LSOCP**
+即  **L**ight **S**uper **O**ptimiz **C**lient **P**ackage
+轻量超级优化客户端整合包
+{% endnote %}
+
+名字确实挺长的
+
+主要特点不会差多少，就是有些模组仅限更替之类的。然后对原先因博客迁移导致格式错误的表格进行重置
+
+## 特点
+
+- 懒人包 内置 PCL 2 启动器和 JDK 17 等环境，各种模组配置已调试好。只需下载一个 ZIP 即可开玩
+- Fabric 整合包，轻量
+- 不含 Optfine，使用开源且效果更好的 钠(Sodium) ~~及一堆元素周期表~~替代。连接材质等特性也有实现
+- 附带常用光影、资源包（材质）
+- 面向客户端，不含向游戏内添加元素的模组
+- 绝大多数内容均有汉化
+
+## 下载
+
+整合包分 FULL 和 MINI 两个版本
+
+- [城通网盘](http://ctpan.jiecs.top/d/32856022-49594170-e70ac6) 两个版本都包含
+- [OneDrive](https://jiecs-my.sharepoint.com/:f:/g/personal/i_jiecs_onmicrosoft_com/EuAKe2HDM6tMnv-LonYePj0BcfwlBwmxWaPlOgnCw3Ku6g?e=vDbxDQ) 两个版本都包含
+- [蓝奏云](https://wwt.lanzouj.com/b01jna01a) 密码 jiecs.top。因单文件大小限制，只有 MINI 版本
+
+### FULL
+
+FULL 包含了上述的运行环境，以及 Minecraft 本体、资源文件等。占用空间大，下载耗时长
+
+大小 911MB，解压后 1.12 GB
+
+### MINI
+
+MINI 没有上述运行环境，Minecraft 本体、资源文件等也不包含，PCL2 文件补全时需要联网
+
+大小 77.8 MB，解压后 131 MB
+
+## 内容物
+
+### 环境
+
+| 名称 | 说明 | 链接 | 备注 |
+| - | - | - | - |
+| **Plain Craft Launcher 2** _Release 2.3.0(257.50)_ | 知名 Minecraft Java 启动器 | [爱发电](https://afdian.net/@LTCat) [MCBBS](https://www.mcbbs.net/thread-719579-1-1.html) | |
+| **Java SE** _17.0.3.1-windows-64x_ | Minecraft Java 必备运行环境 | [Oracle](https://download.oracle.com/java/17/archive/jdk-17.0.3.1_windows-x64_bin.zip) | 源文件形式无需安装 |
+| **.NET Framework** _4.8-Runtime-Offline Installer_ | Plain Craft Launcher 2 必备运行环境 | [Microsoft](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net48) | 离线 exe 安装包，大多数系统自带 |
+
+### 模组
+
+#### 功能
+
+| 名称 | 说明 | 链接 | 备注 |
+| - | - | - | - |
+| **自动钓鱼** Autofish _0.9.5_ | 可配置的自动钓鱼 | [Github](https://github.com/MrTroot/autofish) | |
+| **Xaero的世界地图** Xaero's World Map _1.24.0_ | 自动缓存、性能不错的地图 | [官网](https://chocolateminecraft.com/worldmapdownload.php) [CurseForge](https://www.curseforge.com/minecraft/mc-mods/xaeros-world-map) | 闭源 |
+| **Xaero的小地图** Xaero's Minimap _22.10.1_ | 联动 Xaero的世界地图 的小地图 | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/xaeros-minimap) | 依赖 Xaero的世界地图；闭源 |
+| **回放** ReplayMod _2.6.6_ | 录制游戏内容并可编辑、渲染 | [官网](https://www.replaymod.com) [Github](https://github.com/ReplayMod/ReplayMod) | FFmpeg 版本 5.0.1 essentials |
+| **一键背包整理Next** Inventory Profiles Next _1.5.3_ | 简单的一键背包整理 | [Github](https://github.com/blackd/Inventory-Profiles) | |
+| **缩放** Zoomify _5.0.0_ | C 键放大，可进行许多配置 | [Github](https://github.com/isXander/Zoomify) | 依赖 Fabric Language Kotlin |
+
+#### 前置
+
+| 名称 | 说明 | 链接 | 备注 |
+| - | - | - | - |
+| **Fabric API** _0.57.0_ | Fabric 基础 API | [官网](https://fabricmc.net) [Github](https://github.com/FabricMC/fabric) | 移除将导致绝大多数模组无法工作 |
+| **模组菜单** Mod Menu _4.0.0_ | 模组列表且是许多模组的配置屏幕 UI | [Github](https://github.com/TerraformersMC/ModMenu) | 更好的F3、动态FPS 等 9 个模组的配置 GUI 依赖此 |
+| **Cloth Config API** _1.0.72_ | 部分模组的配置屏幕 API | [Github](https://github.com/shedaniel/cloth-config) | 更好的F3、动态FPS 等 4 个模组的配置 GUI 依赖此和模组菜单  |
+| **Cloth API** _4.0.65_ | 部分模组的 API | [Github](https://github.com/shedaniel/cloth-api) | 界面微调 依赖此 |
+| **Architectury API** _5.7.28_ | Forge 和 Fabric 的抽象化调用 API | [Github](https://github.com/architectury/architectury-api) | 界面微调 依赖此 |
+| **Fabric Language Kotlin** _1.8.1_ | 提供 Fabric 中 Kotlin 语言支持的 API | [Github](https://github.com/FabricMC/fabric-language-kotlin) | 缩放 依赖此  |
+| **铟** Indium _1.0.6_ | 让 Fabric Render API 与 钠 兼容 | [Github](https://github.com/comp500/Indium) | Lambda的更好的草方块、连接纹理 依赖此 |
+
+#### 效果
+
+| 名称 | 说明 | 链接 | 备注 |
+| - | - | - | - |
+| **Iris Shaders** _1.2.5_ | 在 Fabric 中与 钠 搭配兼容部分 Optfine 的光影 | [官网](https://irisshaders.net) [Github](https://github.com/IrisShaders/Iris) | 在 模组菜单 或 钠 的视频设置中有可配置选项 |
+| **动态声音滤波器** DynamicSoundFilters _1.3.0_ | 根据场景对游戏音效添加混响等 | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/dynamic-sound-filters) [Bitbucket](https://bitbucket.org/andre111/dynamicsoundfilters) | 在 模组菜单 中有可配置选项 |
+| **连接纹理** Continuity _2.0.0_ | 玻璃等材质边缘的连接 | [Github](https://github.com/PepperCode1/Continuity) | 依赖 铟 |
+| **更多动画** Not Enough Animations _1.6.0_ | 增加如划船、看地图等时的玩家模型动画 | [Github](https://github.com/tr7zw/NotEnoughAnimations) |
+| **Lambda的动态光源** LambDynamicLights _2.1.2_ | 比 Optfine 许多细节更好的动态光源 | [Github](https://github.com/LambdAurora/LambDynamicLights) | 在 模组菜单 中有可配置选项 |
+| **Lambda的更好的草方块** LambdaBetterGrass _1.3.0_ | 比 Optfine 许多细节更好的草方块 | [Github](https://github.com/LambdAurora/LambdaBetterGrass) | 依赖 铟；在 模组菜单 中有可配置选项 |
+| **界面微调** Slight Gui Modifications _2.2.0_ | 优化界面切换、截图等 UI 动画 | [Github](https://github.com/shedaniel/slight-gui-modifications) | 依赖 Cloth API、Cloth Config API、Architectury API |
+
+#### 显示
+
+| 名称 | 说明 | 链接 | 备注 |
+| - | - | - | - |
+| **物品栏HUD+** Inventory HUD+ _3.4.2_ | 显示药水效果、盔甲耐久等 | [Github](https://github.com/briansemrau/InventoryHUD) | 独立配置界面 |
+| **更好的F3** BetterF3 _1.3.1_ | 多语言、彩色且可自定义的 F3 | [Github](https://github.com/cominixo/BetterF3) | 在 模组菜单 中有可配置选项（依赖 Cloth Config API） |
+| **伤害显示** ToroHealth Damage Indicators _1_ | 显示攻击掉血和生物血条 | [Github](https://github.com/ToroCraft/ToroHealth) | 配置文件位于 ./config/torohealth.json 参考[此处](https://www.mcmod.cn/post/2258.html) |
+| **苹果皮** AppleSkin _2.4.0_ | 显示饱和度和食物可恢复饥饿值等 | [Github](https://github.com/squeek502/AppleSkin) | 在 模组菜单 中有可配置选项（依赖 Cloth Config API） |
+| **燃料信息** FuelInfo _1.0_ | 显示燃料/烈焰棒剩余可烧物品/酿造药水数量 | [Github](https://github.com/Luligabi1/FuelInfo) | |
+
+#### 优化
+
+| 名称 | 说明 | 链接 | 备注 |
+| - | - | - | - |
+| **钠** Sodium _0.4.2_ | 极大地提升帧率并修复许多图形问题 | [Github](https://github.com/CaffeineMC/sodium-fabric) | |
+| **锂** Lithium _0.8.0_ | 优化各类计算机制 | [Github](https://github.com/CaffeineMC/lithium-fabric) | |
+| **磷** Phosphor _0.8.1_ | 优化光照引擎 | [Github](https://github.com/CaffeineMC/phosphor-fabric) | |
+| **铁氧体磁芯** FerriteCore _5.0.0_ | 减少内存占用并牺牲一些帧率 | [Github](https://github.com/malte0811/FerriteCore) | 可能导致帧率不稳定 |
+| **氪** Krypton _0.2.0_ | 优化网络堆栈 | [Github](https://github.com/astei/krypton) | |
+| **C2ME** _0.2.0_ | 优化区块和 IO 加载性能 | [Github](https://github.com/RelativityMC/C2ME-fabric) [Modrinth](https://modrinth.com/mod/c2me-fabric) | 可能导致帧率不稳定 |
+| **DFU载入优化** LazyDFU _0.1.3_ | 优化跨版本升级数据流程来加速游戏启动和载入 | [Github](https://github.com/astei/lazydfu) | |
+| **实体渲染机制优化** Entity Culling Fabric _1.5.2_ | 跳过渲染不可见的实体 | [Github](https://github.com/tr7zw/EntityCulling) | 与许多需要渲染大量实体的模组冲突 |
+| **动态FPS** Dynamic Fps _2.2.0_ | 自动降低游戏窗口在未聚焦时的渲染帧数 | [Github](https://github.com/juliand665/Dynamic-FPS) | 在 模组菜单 中有可配置选项（依赖 Cloth Config API）；可能使部分 AFK 失效 |
+| **更好的树叶渲染优化** CullLessLeaves _1.0.2_ | 自定义需要渲染的树叶层数 | [Github](https://github.com/isXander/CullLessLeaves) | 在 模组菜单（依赖 Cloth Config API）或 钠 的视频设置中有可配置选项 |
+| **更好的床** Better Beds _1.2.0_ | 移除床的实体渲染 | [Github](https://github.com/TeamMidnightDust/BetterBeds) | 与部分床相关的模组冲突 |
+| **快速箱子渲染** FastChest _1.3_ | 移除箱子的动态模型 | [Github](https://github.com/FakeDomi/FastChest) | 在模组菜单中有可配置选项；与修改箱子状态的资源包冲突 |
+| **崩溃优化** Not Enough Crashes _4.1.6_ | 游戏崩溃时提供更多信息，并能回到标题页面而不需要重新启动游戏 | [Github](https://github.com/natanfudge/not-enough-crashes) [CurseForge](https://www.curseforge.com/minecraft/mc-mods/not-enough-crashes) | 据 MCMOD 评论反馈兼容性较差 |
+| **输入法冲突修复** IMBlockerFabric _1.0.19_ | 在输入法开启时根据场景自动处理输入法输入 | [Github](https://github.com/mrjesen/ImBlockerFabric) | |
+| **禁用聊天举报** No Chat Reports _1.2.3_ | 禁用 1.19 中多人游戏新增的聊天举报 | [Github](https://github.com/Aizistral-Studios/No-Chat-Reports) [CurseForge](https://www.curseforge.com/minecraft/mc-mods/no-chat-reports) | |
+
+### 资源包
+
+#### 功能
+
+| 名称 | 说明 | 链接 | 备注 |
+| - | - | - | - |
+| **生物悬浮血条** Entity Healthbars _3.0_ | 如 伤害显示 的世界血条与光影冲突可使用 | [CurseForge](https://www.curseforge.com/minecraft/texture-packs/entity-healthbars) | |
+| **RTX 16x** _v6_ | 仿基岩版 RTX PBR 法线材质，可搭配光影实现光追 | [CurseForge](https://www.curseforge.com/minecraft/texture-packs/rtx-16x-for-java) | |
+
+#### 汉化
+
+| 名称 | 说明 | 链接 | 备注 |
+| - | - | - | - |
+| **汉化游戏文本+** _1.1_ | 汉化闪烁标语、终末之诗等，并添加了许多条闪烁标语 | [Github](https://github.com/jiesou/Minecraft-Text-Sinicization) | |
+| **Xaeros 地图汉化** _210826_ | 汉化 Xaeros 地图系列 | [哔哩哔哩](https://www.bilibili.com/read/cv11613668) | 新兵Sinbing 制作 |
+
+### 光影
+
+| 名称 | 说明 | 链接 | 备注 |
+| - | - | - | - |
+| **Complementary Shaders** _v4.5_ | 魔改自 BSL 的全能光影 | [官网](https://www.complementary.dev) [CurseForge](https://www.curseforge.com/minecraft/customization/complementary-shaders) | 默认关闭 |

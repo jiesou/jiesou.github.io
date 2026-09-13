@@ -1,0 +1,1 @@
+在 AndroLua 上集成了个推，能云端推送通知消息给应用，将作为杰出兽安卓APP新版的一项新功能。还把个推的 API 封装简化了下，去掉了复杂的鉴权，可以直接用一个 http post 群发消息：<https://github.com/jiesou/Geitui>

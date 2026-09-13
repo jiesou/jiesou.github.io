@@ -1,0 +1,9 @@
+我发现我完全用不到服务器了
+
+Heroku 搭建了 FreshRSS、PagerMaid
+
+Vercel 搭建了博客评论后端、RSShub、个推后端、图片加速代理、域名托管
+
+CloudflareWokers 搭建了一言管理系统、lolicon API、必应壁纸 API、pixiv 反代
+
+还有博客用了各种 Pages，博客评论数据库用的 LeanCloud，图床用的 Netlify

@@ -1,0 +1,18 @@
+自己搞的分站，不搞别的了，直接放文件
+┉┉┉┉┉┉┉┉┉┉
+<img src="https://i.loli.net/2021/04/27/BpUeLHQE9vMFGAX.jpg"  style="zoom: 30%;"/>
+本地环境
+┉┉┉┉┉┉┉┉┉┉
+<img src="https://i.loli.net/2021/04/27/vtrGgRM8mNVnOhP.jpg"  style="zoom: 50%;"/>
+<img src="https://t.jiecs.xyz/usr/uploads/2021/04/1903395707.png"  style="zoom: 70%;"/>
+正常上传
+┉┉┉┉┉┉┉┉┉┉
+<img src="https://t.jiecs.xyz/usr/uploads/2021/04/3846202535.png"  style="zoom: 50%;"/>
+<img src="https://i.loli.net/2021/04/27/6Y32yIugHrsbVc1.jpg"  style="zoom: 70%;"/>
+正常下载(无法多线程)
+┉┉┉┉┉┉┉┉┉┉
+<img src="https://t.jiecs.xyz/usr/uploads/2021/04/2554321445.jpg"  style="zoom: 50%;"/>
+CDN预热后下载
+┉┉┉┉┉┉┉┉┉┉
+<img src="https://i.loli.net/2021/04/30/LW9tdmYx5K7ghMv.jpg"  style="zoom: 70%;"/>
+CDN预热后多线程下载
