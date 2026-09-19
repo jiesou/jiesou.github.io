@@ -1,0 +1,12 @@
+<img src="https://img.vim-cn.com/fa/8558b7f5443720495e1b4e5b79b72868dc443d.png"  style="zoom: 30%;"/><img src="https://img.vim-cn.com/93/228982127a275bfa5e30375db20aba41c74d1a.png"  style="zoom: 30%;"/>
+
+Xiaomi Redmi K30 5G (8+128)arm64-v8a/Android 11(API 30)/MIUI 21.6.7/Magisk 23.0/Riru v25.4.4/LSPosed v1.4.5 API 93
+没刷清温控,改内核的模块，就看了会儿B站,刷了刷酷安,改了改代码
+打开微信就烫成这样，图二是环境温度，没开空调,开了窗
+手机/MIUI问题肯定有
+但我觉得更是因为因为微信优化差，然后我又没开微信自启动，冷启动微信
+其实很多阿里腾讯的软件都卡，一个个启动一遍手机得炸，真不知道怎么做到把信息流做掉帧的
+以下是开了一堆垃圾在后台，没操作别的(后台再开就杀了)
+<img src="https://img.vim-cn.com/cc/fd86b3f24a5b2c57af63ea2183c6f15f474b18.jpg"  style="zoom: 70%;"/>
+直接起飞(这是KWGT小组件获取的电池温度，手机管家的好像最高显示46)
+<img src="https://img.vim-cn.com/d5/5302f98cc42580989a9ee49b723e1d00c46b6a.png"  style="zoom: 70%;"/>

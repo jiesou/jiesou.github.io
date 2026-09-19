@@ -1,0 +1,14 @@
+```lua
+--by: jiecs jies辰 @chen_this
+--没什么好说的
+
+archives_recycler.addOnScrollListener(luajava.override(RecyclerView.OnScrollListener,{
+  onScrolled=function(_,view,X,Y)
+    print(X,Y)
+  end}))
+
+archives_recycler.addOnScrollListener(luajava.override(RecyclerView.OnScrollListener,{
+  onScrollStateChanged=function(_,view,newState)
+    print(newState)
+  end}))
+```

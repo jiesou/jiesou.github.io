@@ -1,0 +1,23 @@
+原因是有些游戏的中文环境写死了微软雅黑，我目前发现存在这个问题的游戏（公司）有：
+- 城市天际线
+- Ndemic Creations 包括瘟疫公司、反叛公司等
+- Jutsu Games 包括 911 接线员、112 接线员等
+### 方案一
+用游戏（城市天际线）本身的 Font Changer 类模组指定字体到思源黑体
+### 方案二
+在 wine 前缀
+drive_c/windows/Fonts/ 下把思源、Noto 等其他字体，软链接或者复制到 msyh.ttf msyh.ttc 等的名字 
+
+还是不行就，复制一个 Windows 安装下 C:\Windows\Fonts 里的 **全部** 内容（尤其是msyh、simhei、simsun 等）到 wine 前缀
+
+或者从 Steam Proton 的这两个路径偷字体也可以：
+```
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Proton - Experimental/files/share/fonts
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Proton - Experimental/files/share/wine/fonts
+```
+
+Lutris 由于支持 UMU，因此也带有微软的字体：
+```
+~/.var/app/net.lutris.Lutris/data/lutris/runners/proton/ge-proton/files/share/fonts
+/var/home/chen/.var/app/net.lutris.Lutris/data/lutris/runners/proton/ge-proton/files/share/wine/fonts
+```

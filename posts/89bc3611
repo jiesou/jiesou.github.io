@@ -1,0 +1,236 @@
+在 Lua 中判断 table 是否相等，看上去挺简单的个问题，没想到能这么麻烦
+
+探究问题的过程不与文章完全相同，中间有受到了一位大佬帮助才解决的问题
+
+[最终代码](#最终代码)
+
+## 开始
+
+直接比较是不行的，估计比较的是内存位置什么的
+
+dump/json 序列化后比较也不行，因为 Lua 中的 key 可以是无顺序的，序列化后的字符串也是无顺序的
+
+而且好像并没有类似 table.equal 的函数，所以似乎只能自己写一个
+
+懒得自己写，百度一下确实有我要的内容，但我一眼看了看代码就发现有一堆很大的问题
+这是必应第一条结果中的代码：
+
+<details>
+<summary>展开</summary>
+
+```lua
+print("haicoder(www.haicoder.net)\n")
+t1 = {1, 3, 5, 7, 9}
+t2 = {[0]=1, 1, 3, 5, 7, 9}
+if #t1 ~= #t2 then
+	print("not equal!")
+	return
+end
+for i in pairs(t1) do
+	if t1[i] ~= t2[i] then
+		print("not equal!")
+		return
+	end
+end
+for i in pairs(t2) do
+	if t1[i] ~= t2[i] then
+		print("not equal!")
+		return
+	end
+end
+print("equal!")
+```
+
+</details>
+
+{% note light %}
+我不想点名的，但这网站还厚颜无耻的把 URL 塞在代码里，估计还是爬虫爬来批量替换的
+这里只把原来的变量名 arr 和 arr1 换成了 t1 和 t2，其它的都没变
+{% endnote %}
+
+首先很明显最大的问题是他直接用 `t1[i]~=t2[i]` 判断 table 中的值，这显然不支持嵌套的 table，比如 `{ {1},2,3}` 这种
+
+<a id="重复比较两个 table">我还注意到他不仅使用 t1 的 key 查找 t2 比较，还用 t2 的 key 查找了 t1，这完全是浪费时间，据他说是如果出现这种情况：</a>
+
+```lua
+t1 = {1, 3, 5, 7, 9}
+t2 = {[0]=1, 1, 3, 5, 7, 9}
+```
+
+只从 t1 查找 t2 就会出错，我当时也没细看
+
+## 自己写判断
+
+于是，根据经过一段时间的琢磨，写出了这个 table 判断
+
+```lua
+table.equal=function(...)
+  local function equal2(t1,t2)
+    if #t1~=#t2 return false end
+    for key,value in pairs(t1)
+      if type(value)=="table" and type(t2[key])=="table"
+        if not equal2(value,t2[key])
+          return false
+        end
+       else
+        if value~=t2[key]
+          return false
+        end
+      end
+    end
+    return true
+  end
+  for eachKey,eachTable in ipairs{...}
+    for eachKey2,eachTable2 in ipairs{...}
+      if eachKey~=eachKey2 and not equal2(eachTable,eachTable2)
+        return false
+      end
+    end
+  end
+  return true
+end
+```
+
+主要实现逻辑是大函数里套了一个小函数，**小函数只比较两个 table 是否一样，大函数接收不定量的若干个 table，然后两两配对给小函数去比较**
+
+这里的两两配对是：
+
+`A - B - C`
+
+`A-B, A-C, B-A, B-C, C-A, C-B`
+
+但这两两配对显然造成了资源的浪费，但即使不进行重复的比较，也会变成：
+
+`A-B, A-C, B-C`
+
+但既然已经 A-B, A-C 了，那 B 不是肯定等于 C 吗？于是把代码改成
+
+<details>
+<summary>小函数同上面一样</summary>
+
+```lua
+table.equal=function(...)
+  local function equal2(t1,t2)
+    if #t1~=#t2 return false end
+    for key,value in pairs(t1)
+      if type(value)=="table" and type(t2[key])=="table"
+        if not equal2(value,t2[key])
+          return false
+        end
+       else
+        if value~=t2[key]
+          return false
+        end
+      end
+    end
+    return true
+  end
+```
+
+</details>
+
+```lua
+  for _,eachTable in ipairs{...}
+    if not equal2({...}[1],eachTable) then
+      return false
+    end
+  end
+  return true
+end
+```
+
+这时的两两配对就变成了：
+
+`A-B, A-C`
+
+但这时我再去试试<a href="#重复比较两个 table">之前的</a>那个错误例子发现居然真的返回 true，可两个 table 明显不一样啊，照着他在小函数里加上
+
+```lua
+for key,value in pairs(t2)
+  if type(value)=="table" and type(t1[key])=="table"
+    if not equal2(value,t1[key])
+      return false
+    end
+   else
+    if value~=t1[key]
+      return false
+    end
+  end
+end
+```
+
+果然又可以了
+
+在一位大佬的帮助下终于发现了问题。那两个 table 的长度不一样，正常情况下应该在第一步就抛出 false，可这里却没有
+
+原来是因为 **Lua 使用 # 获取 table 长度的时候是使用 iparse 实现**，而这要求 table 的 key 从 1 开始，且是顺序递增的，否则就会在失去顺序的地方停止计数
+
+这下就柳暗花明了。另外我还注意到 AndroLua 的 table 库还有个 table.size 的方法可以获取 table 的真实长度（parse）。不过原生 Lua 没有这个方法，我们可以自己实现一个，也不复杂：
+
+```lua
+table.size=function(t)
+  local count = 0
+  for _ in pairs(t) do count = count + 1 end
+  return count
+end
+```
+
+然后将小函数中 # 获取 table 长度的部分换成 table.size
+
+```lua
+if table.size(t1)~=table.size(t2) then return false end
+```
+
+## 最终代码
+
+整理一下，加入主动抛出错误的最终代码如下
+
+```lua
+-- AndroLua 中的 table.size 在原生 Lua 中不可用，所以自己实现一个
+-- 用 AndroLua 的可以去掉
+table.size=function(t)
+  if type(table)~="table" then error("bad argument #1 to 'size' (table expected got "..type(table)..")") end
+  local count=0
+  for _ in pairs(t) do count=count + 1 end
+  return count
+end
+
+table.equal=function(...)
+  local allTable={...}
+  local function equalTwo(t1,t2)
+    if t1==t2 then return true end
+    if table.size(t1)~=table.size(t2) then return false end
+    for key,value in pairs(t1) do
+      if type(value)=="table" and type(t2[key])=="table" then
+        if not equalTwo(value,t2[key]) then
+          return false
+        end
+       else
+        if value~=t2[key] then
+          return false
+        end
+      end
+    end
+    return true
+  end
+  for index=2,#allTable do
+    if not equalTwo(allTable[1],allTable[index]) then
+      return false
+    end
+  end
+  return true
+end
+
+local t2={1,[3]=2,[4]={3},["5"]=4,["6"]={{{"5"}}}}
+local t2={1,[3]=2,[4]={3},["5"]=4,["6"]={{{"5"}}}}
+local t3={1,[3]=2,[4]={3},["5"]=4,["6"]={{{"5"}}}}
+print(table.equal(t1,t2,t3))
+
+local t1={1,2,3,4,5}
+local t2={[0]=1,1,3,4,5}
+print(table.equal(t1,t2))
+
+--主动抛出错误测试
+--print(table.equal(t1,1,t2,t3))
+--print(table.size(1))
+```

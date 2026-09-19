@@ -1,0 +1,9 @@
+```bash
+sudo rpm-ostree rebase fedora:fedora/33/x86_64/silverblue \
+      --uninstall rpmfusion-free-release-32-1.noarch \
+      --uninstall rpmfusion-nonfree-release-32-1.noarch \
+      --install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-33.noarch.rpm \
+      --install https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-33.noarch.rpm
+```
+
+像这样即可在更新到新发行版的同时，切换 RPM-Fusion 版本

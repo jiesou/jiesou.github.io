@@ -1,0 +1,98 @@
+## 背景知识
+
+Azure 中 IP、负载均衡器 等产品都分 SKU（Stock Keeping Unit），可以理解为等级。SKU 通常分为 基本（Basic） 和 标准（Standard）。标准的功能会相对好一点，例如：
+
+| 产品 | 基本 SKU  | 标准 SKU  |
+| - | - | - |
+| 公共 IP |  动态分配，静态要额外收钱 | 静态分配 |
+| 负载均衡器 | 健康探针仅支持 TCP、HTTP，不提供 SLA 保证 | 健康探针支持 TCP、HTTP、HTTPS |
+
+**基本 SKU 的服务通常免费** 或相对便宜，而标准的则要贵许多。而对大多数个人而言，标准 SKU 多出的功能、可靠性并不值得多花那么多钱，一般都会选择 基本 SKU
+
+{% note light %}
+最近 Azure 又发了个[ *公告* ](https://azure.microsoft.com/zh-cn/updates/upgrade-to-standard-sku-public-ip-addresses-in-azure-by-30-september-2025-basic-sku-will-be-retired)说要在 2025 年弃用 基本 SKU 的公共 IP、负载均衡器等产品，但起码目前还能用
+{% endnote %}
+
+## 思路
+
+此前，恶心的 Azure 都把 IPv6 和 IPv4 视为同一标准计费，还很贵，直到最近才[免费开放了 IPv6 的公共 IP](https://azure.microsoft.com/en-us/updates/azure-public-ipv6-offerings-are-free-as-of-july-31)（无论基础 SKU 还是标准 SKU）
+
+Azure VM 实际上支持接入网络接口（NIC）的 IPv6 原生网络，此类教程[文档](https://learn.microsoft.com/zh-cn/azure/virtual-network/ip-services/add-dual-stack-ipv6-vm-portal)已有很多了，但接入原生 IPv6 虽然免费， **网络接口绑定的 IPv6 却仅支持标准 SKU** ，而同一网络接口又 **不支持不同类 SKU 的 IP 接入** 。
+
+这精准的刀法就意味着：除非你部署纯 IPv6 服务，否则只要你需要 IPv4，那 IPv4 就必须也选 标准 SKU，就必须多花一堆钱。
+
+标准 SKU 的 IP 要按使用时间计费，而且售价不菲。[$0.005/小时](https://azure.microsoft.com/zh-cn/pricing/details/ip-addresses)相当于一年 $43.8
+
+那网络接口绑定的 IPv6 既然仅支持标准 SKU，那基本 SKU 的 IPv6 又是干嘛用的呢？[微软的答复](https://learn.microsoft.com/en-us/answers/questions/1467982/unable-to-add-basic-ipv6-to-network-interface)是说，可以绑定到基本 SKU 的 负载均衡器 上
+
+同时可以注意到虽然 标准 SKU 的 负载均衡器 收费，但基本 SKU 的 负载均衡器 同样是[免费](https://azure.microsoft.com/zh-cn/pricing/details/load-balancer)的（通过价格计算器可以看到）。那就是说公共 IP 地址也不一定要绑定到 网络接口 上作原生 IP，也可以绑定到 负载均衡器 上，并把 负载均衡器 再绑定到 网络接口 上。把 负载均衡器 作为网络转发器变相支持 IPv6/v4 双栈网络
+
+## 操作
+
+### 配置 虚拟网络、网络接口
+
+前半段操作和在网络接口上绑定原生 IPv6 是一样的，可以参考[文档](https://learn.microsoft.com/zh-cn/azure/virtual-network/ip-services/add-dual-stack-ipv6-vm-portal)。要注意的有：
+
+- 添加资源时注意最好加到和虚拟机同个资源组里，放在同个区域，方便管理
+- 资源相关命名随意，网络接口的主 IP 配置通常不允许重命名
+- IPv6 公共 IP 也支持设置一个 xxx.xxx.cloudapp.azure.com 的 DDNS 域名，可以在之前 IPv4 的域名前加个 `ipv6-` 作为新域名
+- 文档中地址空间设为了 `2404:f800:8000:122::/63`，而实际上这设成任意 IPv6 都行，可以搜一个 RFC4193 Generator
+
+创建公共 IPv6 地址后，在网络接口的 IP 配置中，添加 IPv6 的配置时，如图所示 **不要勾选 公共 IP 地址** 。因为这里要把这个 IP 绑到 负载均衡器上去
+
+![网络接口 - IP 配置 - Ipv6config](https://cdn.jiecs.top/img/2024/01/Screenshot_20240105-220450_Brave.webp)
+
+### 创建负载均衡器
+
+直接搜索，按流程创建 [负载均衡器](https://portal.azure.com/#view/Microsoft_Azure_Network/LoadBalancingHubMenuBlade/~/loadBalancers) 即可
+
+创建时注意：
+
+- SKU 选择 基本，标准型收费
+- 类型 建议选择 公共。公共 或 内部 的区别参考[文档](https://learn.microsoft.com/zh-cn/azure/load-balancer/basic/overview#load-balancer-types)。要注意的是内部型[完全不支持 IPv6 浮动 IP](https://learn.microsoft.com/zh-cn/azure/load-balancer/load-balancer-floating-ip#limitations)，而公共型支持非双栈情况下的 IPv6 浮动。创建后无法修改。计费相同
+- 前端 IP 配置和后端池都可以在创建后修改
+
+### 配置负载均衡器
+
+IPv4/v6 双栈需要添加两个前端 IP 配置，分别绑定之前的 IPv4 和 IPv6 公共 IP
+
+![负载均衡器 - 前端 IP 配置](https://cdn.jiecs.top/img/2024/01/Screenshot_20240105-221926_Brave~2.webp)
+
+因为我们不是真的有多台机子需要负载均衡器来负载均衡，所以 负载均衡规则、运行状况探测 都不需要添加（真的有需求另说）。关键是 **设置 入站 NAT 规则** 把 负载均衡器 当网络转发用
+
+先在后端池中加入 网络接口的 各 IP 配置。我是把 IPv4 IPv6 拆成了两个后端池：
+
+![负载均衡器 - 后端池](https://cdn.jiecs.top/img/2024/01/Screenshot_20240105-223024_Brave.webp)
+
+然后最关键的就是在 入站 NAT 规则 里添加你需要的入站规则（即转发哪些流量），浮动 IP 不支持双栈网络中的 IPv6，可参考[文档](https://learn.microsoft.com/zh-cn/azure/load-balancer/load-balancer-floating-ip#limitations)。比如这里开放了 222 端口在 IPv4 上 TCP 的流量转发
+
+![添加 入站 NAT 规则](https://cdn.jiecs.top/img/2024/01/1704465851948~2.webp)
+
+入站 NAT 规则很蛋疼的一点就是没法设置端口范围、IPv4 IPv6 UDP TCP 都要分开设置
+
+{% note light %}
+另外值得注意的是，这与 网络接口 网络安全组 中的安全规则并不冲突或互相影响。流量经负载均衡器转发才能到网络接口上
+即如要开放流量，那要在 网络安全组 上开放 安全规则 的 **同时** 也在 负载均衡器 上设置对应的 入站 NAT 规则
+{% endnote %}
+
+### 关于 SSH
+
+配置完这一切后，你会发现你连不上你机器的 SSH 了。不要慌不要怕，这又是想坑你钱的 Azure 在作祟。
+
+如果按照[官方文档的快速入门](https://learn.microsoft.com/zh-cn/azure/load-balancer/basic/quickstart-basic-public-load-balancer-portal)创建负载均衡器，那你会被要求在创建负载均衡器前，先在 虚拟网络 中配置 [Azure Bastion](https://learn.microsoft.com/zh-cn/azure/bastion/bastion-overview)，为了所谓的「安全地管理虚拟机」。
+
+Azure Bastion 即通过一台堡垒管理虚拟网络内的设备，这项服务显然是收费的，且售价不菲。而最为恶心的是，虚拟机用负载均衡器公开的 **SSH 连接必须通过 Bastion 进行** ，否则会说“无法配置先决条件”。直接将公共 IP 地址绑定到 网络接口 上则无此限制。你可以在虚拟机的 连接 页看到这一点：
+
+![无法配置先决条件](https://cdn.jiecs.top/img/2024/01/IMG_20240105_230148_691.webp)
+
+而这所谓 标准 JIT（just-in-time）策略 还需要 Microsoft Defender for Cloud，参考[文档](https://learn.microsoft.com/zh-cn/azure/defender-for-cloud/just-in-time-access-usage)。Azure 处处想忽悠你点钱
+
+幸运的是，要绕过 Azure 的“安全措施”，你只需要简单地 **把 SSH 端口改掉** 就行了。不要用虚拟机 连接 页上更改端口的功能，可以直接用 串行控制台 更改虚拟机操作系统上的 SSH 配置。如 Ubuntu 是修改 `/etc/ssh/sshd_config`
+
+把 SSH 端口改成 222 之类的之后，同步修改 网络安全组 上的 安全规则 和负载均衡器 上的 入站 NAT 规则。你还可以在 入站 NAT 规则 中把前端的 22 端口转发到后端的 222 端口上
+
+## 完成
+
+🎉 连上 SSH 后，你就会发现这台机子已经支持 IPv6 了。现在多数操作系统也不需要你再手动配置 IPv6，可以通过 `ifconfig` 检查 eth0 是否有 inet6 配置
+
+出网请求和原生 IPv6 的机子无异。也可通过 `ping -6 ip.sb` 确认你的 IPv6 可用性

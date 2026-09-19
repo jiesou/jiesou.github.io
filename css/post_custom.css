@@ -1,0 +1,53 @@
+/* 修复无评论时滚动条 */
+article.post-content,article.page-content {
+  padding-bottom: 70px;
+}
+
+/* 图片和视频自适应：不超屏幕宽/高 */
+.markdown-body img,
+.markdown-body video {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+}
+
+/* 设置 Waline 样式 */
+:root {
+  /* 主题色 */
+  --waline-theme-color: #2196f3 !important;
+  --waline-active-color: #80d6ff !important;
+  /* 边框色 */
+  --waline-border-color: #ddd;
+  /* 选中输入框时的背景 */
+  --waline-bgcolor-light: var(--waline-bgcolor) !important;
+  /* 提交中按钮背景 
+  --waline-disable-bgcolor: #444 !important; 
+  --waline-color: #fff; */
+  /* 博主/置顶徽章背景 */
+  --waline-badge-color: var(--waline-theme-color) !important;
+}
+/* 修复评论链接换行 */
+.v[data-class="v"] .vcard .vcontent {
+  word-break: break-all;
+}
+/* 提交按钮文本 */
+div.vfooter > div.vinfo > button.vbtn.primary {
+  color: var(--waline-white) !important;
+}
+/* 博主的网站链接旁的绿勾勾小图标 */
+svg.verified-icon {
+  display: none;
+}
+/* 竖的虚线 */
+div.vquote {
+  border-left-color: var(--waline-border-color) !important;
+}
+/* Markdown 徽标 */
+.vfooter > a {
+  margin-top: 4px !important;
+  margin-right: 10px !important;
+}
+/* 字数统计 */
+.vinfo {
+  flex: 0 0 auto !important;
+}

@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Allow: /archives
+Allow: /categories
+Allow: /tags
+Allow: /projects/
+Allow: /about/
+Disallow: /js
+Disallow: /css
+Disallow: /img
+Disallow: /admin
+Disallow: /vercel.json
+Sitemap: https://www.jiecs.top/sitemap.xml

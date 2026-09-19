@@ -1,0 +1,47 @@
+https://oshwhub.com/bonus/mi-ni-zi-ping-heng-san-ling-zhu-2
+
+```mermaid
+flowchart LR;
+    %% Main components
+    MTG["自平衡三角-迷你三棱柱复现"]
+    MTG ----> MCU["MCU (LGT8F32P)"]
+    MTG ---> Power["电源管理"]
+    Power --> Battery[("3.7V-4.2V 电池")]
+    Battery ---> DCDC5V["5V 升压 DCDC"]
+    Battery ---> DCDC12V["12V 升压 DCDC"]
+    Battery -.-> NoteBatt(["电池重量比较影响功能"])
+    DCDC5V -. 供电 .-> MCU
+    DCDC5V -. 供电 .-> IMU
+    DCDC5V -. 供电 .-> SCREEN
+    
+    %% Sensors
+    MCU <--> IMU["MPU6050 位姿感测"]
+    MCU --> SCREEN["SSD1309 IIC 小屏幕"]
+    SCREEN -.-> NoteScreen(["用于在没有无线通讯功能时显示数据参数"])
+    
+    %% Algorithms
+    MCU --> PID["PID"]
+    PID --> PidSim["PID 模拟 pid-simulator-web.skythinker.top"]
+    PID --> PIDImpl["需要串级 PID，速度环PD、位置环 PI"]
+    PIDImpl --> PIDImplDesc["I（积分累计）反映对持续干扰的控制能力，对于自平衡三角是必要的，因为稳态的三角不能来回摇摆"]
+    PID -...-> OtherAlgos["其他控制算法"]
+    OtherAlgos --> LQR["LQR (线性二次调节器)"]
+    OtherAlgos --> MPC["MPC (模型预测控制)"]
+    
+    %% Power details
+    DCDC12V --> Cap12V["12V 滤波电容"]
+    Cap12V -.- NoteCap(["比较重要，电机启动负载大，电池拖不动，会导致电机有时能启动有时不能启动"])
+    DCDC12V -. 供电 .-> Moter["12V 8p 带编码器无刷电机"]
+    PID -..-> Moter
+
+```
+
+电池重量很影响平衡效果
+PID 的 I 不能完全丢掉，稳态是需要单方向持续运转的
+PID 模拟学习： https://pid-simulator-web.skythinker.top
+
+需要从合适位置摆入，有合适初始状态，才能稳定
+
+只用PID?加上前馈解决95%的问题！ UP主: 华南小虎队 - https://www.bilibili.com/video/BV19T411t7du
+
+除了PID还有各种算法：PID、LQR、MPC实时控制倒立摆仿真对比 UP主: 西格螺丝 - https://www.bilibili.com/video/BV17j41167RL
