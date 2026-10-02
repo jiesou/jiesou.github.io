@@ -1,0 +1,49 @@
+PlatformIO 默认构建即包含了调试信息
+可以手动添加编译参数，输出 .map：
+```ini
+build_flags =
+    -Wl,-Map,${BUILD_DIR}/firmware.Map
+    -Wl,--cref  ; 生成交叉引用
+    -fno-inline ; 禁止内联优化
+build_type = debug ; 这个可能比较重要
+```
+#### **方案一：直接解析崩溃地址（无需工具链）**
+用文本编辑器打开 `output.map`，搜索崩溃地址 **去掉前两位**（ESP32-C3 的 Flash 地址是 `0x42xxxxxx`，实际偏移是后6位）：
+- 例如 `0x420012d2` → 搜索 `0012d2`，或者往前一位位找
+- 重点查看 `.text` 段附近的符号
+
+#### **方案二：在线反编译**：
+https://godbolt.org （选择 XTensa 架构）
+
+#### **方案三：反编译工具链：**
+安装工具集（通常已安装过）
+```bash
+pio platform update
+pio platform install espressif32
+```
+工具链位置：`~/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-`
+##### **addr2line 精确定位**
+```bash
+xtensa-esp32-elf-addr2line -pfiaC -e .pio/build/XXX/firmware.elf 0x[内存后四位]
+```
+
+```bash
+#.pio/build/esp32s3dev/firmware.elf <Address1> <Address2> ...
+
+# 示例（使用 Backtrace）：
+esp_addr2line -pfiaC -e .pio/build/esp32dev/firmware.elf 0x40081e7d 0x400d2398 0x400d2870 0x40082725 0x4008434a 0x400d2766 0x400d0752 0x40082269 0x40085955 0x40085a3c 0x400d02ea 0x40080644
+
+```
+##### **nm 查看符号**
+```bash
+xtensa-esp32-elf-nm -n .pio/build/XXX/firmware.elf | grep -C 10 0000[内存后四位]
+```
+
+##### Espressif IDF Monitor 自动解析
+如果你使用 idf.py monitor 或在 PlatformlO 中使 用其内置的串口监视器，很多情况下它会自动尝试解析栈回溯。
+或者在 PlatformIO 上，可以尝试
+```ini
+build_type = debug
+monitor_filters = esp8266_exception_decoder
+monitor_filters = esp32_exception_decoder
+```

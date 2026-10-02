@@ -1,0 +1,33 @@
+```lua
+--by: jiecs jies辰
+--传入任意内容（种子）返回 0-100 伪随机数（根据输入的内容计算）
+--每天同种子返回的伪随机数都不一样
+--没有种子时使用设备的 Android ID
+import "java.security.MessageDigest"
+import "android.provider.Settings$Secure"
+function updateJrrp(something)
+  local timeTable=os.date("*t")
+  timeTable.hour,timeTable.min,timeTable.sec=0,0,0
+  local timeStamp=tostring(os.time(timeTable))
+  if something then
+    input=timeStamp..something
+   else
+    input=timeStamp..Secure.getString(activity.getContentResolver(),Secure.ANDROID_ID)
+  end
+  local md5Result=StringBuffer()
+  local bytes=MessageDigest.getInstance("md5").digest(String(input).getBytes())
+  for _,n in ipairs(luajava.astable(bytes)) do
+    temp=Integer.toHexString(n&255)
+    if #temp==1 then md5Result.append("0") end
+    md5Result.append(temp)
+  end
+  local utf8code=1
+  for position,code in utf8.codes(tostring(md5Result)) do
+    utf8code=utf8code*code
+  end
+  local output=utf8code%101
+  return output
+end
+
+print(updateJrrp())
+```
