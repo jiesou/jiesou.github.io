@@ -1,0 +1,27 @@
+```lua
+--目录下添加 .nomedia 文件可将该文件夹标记为非相册，不会被添加进相册里
+task(function()
+  import "java.io.File"
+  import "android.util.Log"
+  function addNomedia(file)
+    local listFiles=file.listFiles()
+    if listFiles
+      for _,child in ipairs(luajava.astable(listFiles))
+        if child.isDirectory()
+          Log.i("findPath",child.toString())
+          addNomedia(child)
+         else
+          if String(child.name).matches(".+\\.(png|jpeg|jpg|webp|gif|mp4|avi|flv|ts)")
+            local addFileStr=file.toString().."/.nomedia"
+            io.open(addFileStr,"w"):write("")
+            Log.i("addPath",addFileStr)
+          end
+        end
+      end
+    end
+  end
+
+  addNomedia(File("/sdcard/Download/jiesou.github.io/node_modules/"))
+  print("ok")
+end)
+```

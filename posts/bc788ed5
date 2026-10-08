@@ -1,0 +1,92 @@
+```javascript
+/*
+by: jiecs jies辰 @chen_this
+[Workoto] 使用 Cloudflare Workers 免费搭建一言 WebAPI 服务。Http 返回值为 json 形式，与 hitokoto.cn 完全一致
+还有简易接口管理后台，可以使用 HttpPOST 请求便捷地添加、编辑、删除一言，支持自定义来源、作者，也便于扩展
+
+由于全部一言是直接以 JSON 字符串的形式存储，所以不适合存储特别大量的一言（我存储 200 条左右还是没问题的）
+
+开始：
+    一言以 JSON 字符串形式存储在 Workers KV 中，请创建一个命名空间，并将命名空间绑定为 HITOKOTO 变量
+    命名空间需要添加两个键值对：
+        jsonHitokoto：存储一言的 JSON 字符串
+            格式：
+            每条一言必须有 hitokoto。from、from_who 空时为 null，不能不存在（不是字符串的 null）
+            [{"hitokoto":"一条一言","from":"来自","from_who":"作者"},{"hitokoto":"另一条一言","from":null,"from_who":null}]
+        jsonHitokotoBAK：存储一言的 JSON 字符串的备份（每次使用接口管理后台操作一言时会将之前的内容完整备份，以便恢复误操作）
+    还需要添加一个环境变量：
+        HITOKOTO_PASSWORD：用于访问接口管理后台的密码，可以加密存储
+    然后将本 JS 代码复制粘贴到 Workers 脚本中即可
+
+使用：
+    HttpGET 直接请求即可获取随机一言，返回值为 json 形式，与 hitokoto.cn 完全一致
+
+    接口管理后台：
+        使用 HttpPOST 请求操作（事实上除了 GET 都行）。在 headers 的 password 里填密码（HITOKOTO_PASSWORD 环境变量），body 里以 JSON 形式传参（不支持键值对）
+            格式：{"control":0,"hitokoto":"想要编辑 、添加成的一言​","from":"来自","from_who":"作者"}
+        如果没有 password 或者 password 错了就返回 405
+        如果 password 对上了就在 body 中以 JSON 形式传参，操作一言：
+            如果什么都没有，只有 {} 就直接显示当前全部的一言（jsonHitokoto 的值，事实上它还会对 jsonHitokoto 进行一次复写并复制一份到 jsonHitokotoBAK 备份）
+            如果有 hitokoto 就把请求的那些 hitokoto、from、from_who 都添加到所有一言的最后，然后显示添加后全部的一言
+            如果 control 是数字（是字符串也会尝试转为数字），那就是把第 control 个一言替换成请求的一言
+            如果 control 是数字，但没有请求的一言，那就把第 control 个一言直接删掉
+            如果 control 是负数就是从后往前数第 control 个一言，正数就是从前往后数，0 就是在最后添加，没有 control 默认为 0
+            如果 control 是“bak”这三个字母，就会显示之前备份的所有一言（但不会自动回退，只会显示给你）
+            只有一个备份，任何接口管理后台的有效操作（除了上面的显示备份）都会直接覆盖原先的备份
+*/
+
+addEventListener("fetch", (event) => {
+    event.respondWith(
+      handleRequest(event.request).catch(
+        (err) => new Response(err.stack, { status: 500 })
+      )
+    );
+  });
+  
+  async function handleRequest(request) {
+    const workersKV = await HITOKOTO.get("jsonHitokoto")
+    const workersKV_json = JSON.parse(workersKV)
+    if (request.method == "GET") {
+      const output = JSON.stringify(workersKV_json[Math.floor(Math.random()*(workersKV_json.length))])
+      return new Response(output)
+    } else {
+      const password = request.headers.get("password")
+      if (password != HITOKOTO_PASSWORD) {
+        return new Response("Only GET is supported.", { status: 405 })
+      } else {
+        const request_json = await request.json()
+        data = {hitokoto: request_json.hitokoto}
+        if (typeof(request_json.from) == "undefined") {
+          data.from = null
+        } else {
+          data.from = request_json.from
+        }
+        if (typeof(request_json.from_who) == "undefined") {
+          data.from_who = null
+        } else {
+          data.from_who = request_json.from_who
+        }
+        control = request_json.control
+        if (isNaN(control)) {
+          num =  workersKV_json.length
+        } else if (control < 1) {
+          num =  workersKV_json.length + Number(control)
+        } else {
+          num = control - 1
+        }
+        if (control=="bak") {
+          workersKV_bak = await HITOKOTO.get("jsonHitokotoBAK")
+          return new Response(workersKV_bak)
+        } else if (typeof(data.hitokoto) =="string") {
+          workersKV_json[num] = data
+        } else {
+          workersKV_json.splice(num,1)
+        }
+        await HITOKOTO.put("jsonHitokotoBAK",workersKV)
+        const workersKV_new = JSON.stringify(workersKV_json)
+        await HITOKOTO.put("jsonHitokoto",workersKV_new)
+        return new Response(workersKV_new)
+      }
+    }
+  }
+```

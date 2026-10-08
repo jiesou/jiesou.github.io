@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>杰出兽的小宇宙</title>
+    <link>https://www.jiecs.top/</link>
+    <description>混沌世界</description>
+    <language>zh-CN</language>
+    <copyright>All rights reserved 2026, Jiecs</copyright>
+    <lastBuildDate>Thu, 08 Oct 2026 22:57:21 GMT</lastBuildDate>
+    <generator>Hexo</generator>
+    <image>
+      <url>https://www.jiecs.top/favicon.ico</url>
+      <title>杰出兽的小宇宙</title>
+      <link>https://www.jiecs.top/</link>
+    </image>
+    <atom:link href="https://www.jiecs.top/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>修复 Linux 下语音输入闲置后按键吃字</title>
+      <link>https://www.jiecs.top/archives/6e2b2b9a/</link>
+      <description>
+        <![CDATA[<blockquote>
+<p>参考<br><a href="https://github.com/xifan2333/fcitx5-vinput">https://github.com/xifan2333/fcitx5-vinput</a><br><a href="https:]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      <category domain="https://www.jiecs.top/tags/%E6%95%99%E7%A8%8B/">教程</category>
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      <category domain="https://www.jiecs.top/tags/TipsTricks/">TipsTricks</category>
+      <category domain="https://www.jiecs.top/tags/AI/">AI</category>
+      <pubDate>Fri, 04 Sep 2026 17:21:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<blockquote><p>参考<br><a href="https://github.com/xifan2333/fcitx5-vinput">https://github.com/xifan2333/fcitx5-vinput</a><br><a href="https://xifan2333.github.io/fcitx5-vinput/zh-cn/settings/#%E5%BD%95%E9%9F%B3%E9%A2%84%E7%83%AD%E4%B8%8E%E9%9A%90%E7%A7%81">https://xifan2333.github.io/fcitx5-vinput/zh-cn/settings/#录音预热与隐私</a></p></blockquote><p>默认情况下，PipeWire 会在声卡闲置几秒后把它挂起省电。</p><ul><li><strong>现象</strong>：fcitx5-vinput 按语音键第一次慢，连着按很快，闲置半分钟再按又变慢，还吃开头几个字。配了 <code>VINPUT_CAPTURE_IDLE_DESTROY_MS=300000</code> 也没用，体感还是 15 秒。</li><li>实际情况下：<code>stream_reused=1</code>，预热明明生效了，流根本没被销毁，慢的是设备唤醒。</li></ul><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>vinput 的录音预热只保得住自己的 PipeWire 连接（停录后保持 connected-but-inactive，宽限内下次按键走 <code>set_active(true)</code>，0ms 返回）。<br>但保不住系统把麦下电：WirePlumber 的 <code>suspend-node</code> 在节点 idle 超过 <code>session.suspend-timeout-seconds</code>（默认 <strong>5 秒</strong>）后发 Suspend，声卡下电。<br>下次按键时连接是热的，设备是冷的，恢复加音频图重启约 200ms（实测首包 <code>first buffer after 206 ms</code>，短间隔热态只有 6ms），这段没声所以吃字。<br>Windows 上同类问题在 USB 选择性暂停和声卡驱动电源管理里，WASAPI 本身不这么激进。</p><h3 id="排查手段"><a href="#排查手段" class="headerlink" title="排查手段"></a>排查手段</h3><p>开 <code>VINPUT_DEBUG=1</code>（user unit 里加 <code>Environment=VINPUT_DEBUG=1</code> 后 <code>daemon-reload + restart</code>），日志看三行：<br><code>stream_reused=0/1</code>（走冷还是热路径）、<code>create_stream_ms</code>、<code>capture first buffer after</code>（设备唤醒耗时）。<br>注意两个坑：daemon 日志在 journal 里的标识是 <code>flatpak[PID]</code>，<code>journalctl -u</code> 看不到，要全库 grep；外层 <code>bwrap</code> 进程 environ 是空的，要读最内层 daemon 进程的才准。</p><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ol><li>创建 WirePlumber 用户配置</li></ol><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">nano ~/.config/wireplumber/wireplumber.<span class="hljs-keyword">conf</span>.d/<span class="hljs-number">51</span>-mic-<span class="hljs-keyword">no</span>-<span class="hljs-keyword">suspend</span>.<span class="hljs-keyword">conf</span><br></code></pre></td></tr></table></figure><ol start="2"><li>填入（只匹配输入节点，超时延到 300 秒，和 vinput 的 5 分钟预热对齐；设成 0 为永不挂起）</li></ol><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs abnf">monitor.alsa.rules <span class="hljs-operator">=</span> [<br>  &#123;<br>    matches <span class="hljs-operator">=</span> [ &#123; node.name <span class="hljs-operator">=</span> <span class="hljs-string">&quot;~alsa_input.*&quot;</span> &#125; ]<br>    actions <span class="hljs-operator">=</span> &#123; update-props <span class="hljs-operator">=</span> &#123; session.suspend-timeout-seconds <span class="hljs-operator">=</span> <span class="hljs-number">300</span> &#125; &#125;<br>  &#125;<br>]<br></code></pre></td></tr></table></figure><ol start="3"><li>更新应用<br><code>systemctl --user restart wireplumber</code>，用 <code>pw-dump</code> 确认节点多了 <code>session.suspend-timeout-seconds = 300</code>。<br>代价是麦克风闲置时不再下电，台式机无感，笔记本会多耗一点电。</li></ol>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>Google 年龄验证
+自动化验证工具</title>
+      <link>https://www.jiecs.top/archives/ac8d0914/</link>
+      <description>
+        <![CDATA[<p><a href="https://age.tokawa-sakiko.xyz/">https://age.tokawa-sakiko.xyz</a><br>2026 08 25 实测可用</p>]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      <pubDate>Tue, 25 Aug 2026 15:45:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<p><a href="https://age.tokawa-sakiko.xyz/">https://age.tokawa-sakiko.xyz</a><br>2026 08 25 实测可用</p>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>vps测试记录</title>
+      <link>https://www.jiecs.top/archives/9093f436/</link>
+      <description>
+        <![CDATA[<p>2026.8.1<br>tg:&#x2F;&#x2F;openmessage?user_id&#x3D;6562000596&amp;message_id&#x3D;1542450</p>
+<p>前几个月别人测的 ByteVirt HK<br><a href="https:]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      <pubDate>Sun, 09 Aug 2026 15:38:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<p>2026.8.1<br>tg:&#x2F;&#x2F;openmessage?user_id&#x3D;6562000596&amp;message_id&#x3D;1542450</p><p>前几个月别人测的 ByteVirt HK<br><a href="https://paste.spiritlhl.net/raw/MKFkD.txt">https://paste.spiritlhl.net/raw/MKFkD.txt</a><br>自己测刚才的 ByteVirt HK<br>IPv6 也是有的，主要是测试误差<br><a href="https://paste.spiritlhl.net/raw/lZNtK.txt">https://paste.spiritlhl.net/raw/lZNtK.txt</a><br>狗云 HK<br><a href="https://paste.spiritlhl.net/raw/UUYWu.txt">https://paste.spiritlhl.net/raw/UUYWu.txt</a></p><p>2026.8.9<br>Hytron HK<br>解锁主要都是靠 AKDNS，很多是测试误差<br><a href="https://paste.spiritlhl.net/raw/B4U5n.txt">https://paste.spiritlhl.net/raw/B4U5n.txt</a></p>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>靠谱中转站</title>
+      <link>https://www.jiecs.top/archives/a5d4533e/</link>
+      <description>
+        <![CDATA[<p>sui-xiang.com<br>随想 AI<br>限制并发数比较难受。kimi k3 有 x0.2</p>
+<p>modelflare.dev<br>Modelflare<br>计费透明，美元计价</p>
+<p>akrouter.com<br>中转站聚合<br>推特广告<]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      <pubDate>Sat, 01 Aug 2026 23:49:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<p>sui-xiang.com<br>随想 AI<br>限制并发数比较难受。kimi k3 有 x0.2</p><p>modelflare.dev<br>Modelflare<br>计费透明，美元计价</p><p>akrouter.com<br>中转站聚合<br>推特广告</p><p>priceai.cc<br>PriceAl<br>PriceAI | AI 低价卡网订阅与中转 API 比价雷达<br>gemini订阅也有</p>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>VPS 资源横评排行榜站点</title>
+      <link>https://www.jiecs.top/archives/655323ea/</link>
+      <description>
+        <![CDATA[<p><a href="https://digvps.com/review">https://digvps.com/review</a><br>部分功能要付费。<br>可以用 Firecrawl 全站爬下来，交给 AI 处理</p>
+<p><a href="https://www]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      <pubDate>Sat, 01 Aug 2026 23:44:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<p><a href="https://digvps.com/review">https://digvps.com/review</a><br>部分功能要付费。<br>可以用 Firecrawl 全站爬下来，交给 AI 处理</p><p><a href="https://www.idcjk.com/forum">https://www.idcjk.com/forum</a><br>免费可以看，全而不精，社区舆情分析很有用。<br>只能扫 whmcs 和魔方<br>建议筛选改成最近更新，这样比较公平<br>也不要看他的风险分，认领的都是绿色的</p>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>逃离 Termius 的屎山，解放你的数据</title>
+      <link>https://www.jiecs.top/archives/8d40c1de/</link>
+      <description>
+        <![CDATA[<h2 id="为什么我在用-Termius"><a href="#为什么我在用-Termius" class="headerlink" title="为什么我在用 Termius"></a>为什么我在用 Termius</h2><ol start="0">
+<li><stron]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E7%AE%80%E5%8D%95%E6%8A%80%E6%9C%AF/">简单技术</category>
+      <category domain="https://www.jiecs.top/tags/%E6%8A%80%E6%9C%AF/">技术</category>
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      <category domain="https://www.jiecs.top/tags/%E5%A5%BD%E8%BD%AF%E4%BB%B6/">好软件</category>
+      <pubDate>Wed, 15 Jul 2026 19:55:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<h2 id="为什么我在用-Termius"><a href="#为什么我在用-Termius" class="headerlink" title="为什么我在用 Termius"></a>为什么我在用 Termius</h2><ol start="0"><li><strong>它包含在 Github Education Benfits 里</strong></li><li><strong>移动支持、跨平台和同步</strong>——主要是确实很少有别的替代。</li><li><strong>sudo 自动输密码</strong>——确实方便。</li><li><strong>Telnet、串口支持</strong>——有用，但不是每天都要用。</li><li><strong>没有官方导出途径</strong>——Termius 没有提供任何官方方式让你把自己的数据拿走。我甚至怀疑这有没有违反欧盟的某些个人数据法规。</li></ol><h2 id="Termius-为什么是垃圾"><a href="#Termius-为什么是垃圾" class="headerlink" title="Termius 为什么是垃圾"></a>Termius 为什么是垃圾</h2><p>首先，Termius 是事实上的付费软件，Free Tier 下你 99% 的功能都用不了。<br>虽然我有 GitHub Education Benefits，不用自己掏钱。但一个 $10&#x2F;月的软件，就得拿 $10&#x2F;月的标准来骂。<br>作为付费软件，它的体验比免费软件垃圾多了。</p><h3 id="网络一波动就逼我重新登录"><a href="#网络一波动就逼我重新登录" class="headerlink" title="网络一波动就逼我重新登录"></a>网络一波动就逼我重新登录</h3><p>经常有这种情况：WiFi 连着，但 VPN 炸了，我得先连 OpenWrt 修一下。就这么几秒钟的事，Termius 跳出来说：</p><blockquote><p>不行，你必须先重新登录，才能重新访问你存在本地的数据。<br>这是为了你的安全，绝对不是因为我们怀疑你试图绕过正版购买。</p></blockquote><p>最夸张的时候，一天能让我重新登录 5-6 次。不止启动时弹，我甚至已经连到服务器，vim 还在里面开着，它也能打断我。一个登录框直接糊上来。莫名其妙</p><p><img src="https://cdn.jiecs.top/img/2026/07/1784049591970--6246946631601296268_119.webp" alt="&quot;Unlock your vault&quot; 就没有任何理由"></p><p>完全没有 Skip 的 Option。</p><h3 id="Termius-本身，在-Linux-上是垃圾"><a href="#Termius-本身，在-Linux-上是垃圾" class="headerlink" title="Termius 本身，在 Linux 上是垃圾"></a>Termius 本身，在 Linux 上是垃圾</h3><p>至今在 Linux 上只提供 Snap（垃圾）和 .deb 安装，Flatpak 支持靠社区，同时跟随系统深色模式根本不 work（我几年前就发过好多次工单，响应都是”we are on it!”但至今没有变化）</p><p><img src="https://cdn.jiecs.top/img/2026/07/1784049816990--6246946631601296270_119.webp" alt="Termius Support"></p><p>Flatpak 下 keyring 存储有乱七八糟的问题，整天告诉我”for some reason 你本地的所有数据全都 gone 了”。</p><p>说实话，2026 年了，你不能再跟我说”这是 Flatpak 的问题”。这就是软件开发商没有认真对待 Linux 用户的问题。</p><p><img src="https://cdn.jiecs.top/img/2026/07/1784049291172--6246946631601296255_119.webp" alt="&quot;Something went wrong&quot;"></p><p><img src="https://cdn.jiecs.top/img/2026/07/1784049308858--6246946631601296254_121.webp" alt="GNOME Seahorse"></p><h3 id="AI-功能"><a href="#AI-功能" class="headerlink" title="AI 功能"></a>AI 功能</h3><p>Termius 的 AI 命令生成，根本没法清晰理解一个三单词句子的意图。至今没有能用的 Agent 功能。</p><p>我很赞同 gloriaops.com 的理念。Agent 应该部署在客户端，而不是在每个 树莓派&#x2F;VPS 上装一份 Claude Code。gloriaops 方向是对的，但已经多久了还没法用？</p><p>说实话 Termius 根本不该在 AI 领域再造轮子。它应该做一个 backed by a company 的 ssh-use MCP，然后让用户自己接入 Claude Code。</p><h3 id="垃圾-CRDT-同步实现"><a href="#垃圾-CRDT-同步实现" class="headerlink" title="垃圾 CRDT 同步实现"></a>垃圾 CRDT 同步实现</h3><p>我想不出任何理由，Termius 值得用 CRDT。<br>这种软件不应该产生什么同步冲突，我不会在两台电脑上同时编辑一个 ssh 主机的密码！<br>我相信 Last-Write-Wins 适用于 100% 的情况，<br>真的遇到 101% 的情况，遇到同步冲突，你应该直接导出两个版本的数据，然后直接让用户选择覆盖，<br>或者你直接把 git 提供给用户，<br>无数选择都比现在的 CRDT 好太多了</p><p>Termius 的工程实现，很明显是随着一个个需求的增加，而越来越屎山的鲜明例子。</p><h3 id="注入脚本"><a href="#注入脚本" class="headerlink" title="注入脚本"></a>注入脚本</h3><p>Termius 往 shell 里注入的那些自动补全、Detect OS 脚本，写得相当粗糙。每次按 Ctrl+R 想搜历史命令，总能翻到 Termius 拉的大屎。那个自动补全蠢得爆炸——谁想要按 下箭头 触发自动补全？？</p><h3 id="触摸支持"><a href="#触摸支持" class="headerlink" title="触摸支持"></a>触摸支持</h3><p>滑动屏幕触发上下左右？双击屏幕是 Tab？</p><p>我用 Termux + OpenSSH，在远程主机上开 nvim，光标定位、滚动页面都非常自然，跟本地一样。Termius 的触摸支持相比之下就是灾难。</p><video controls>  <source src="https://gitlab.com/jiesou/Blog-Cdn/-/raw/main/img/2026/07/1784052661808-VID_20260715_011406_625.mp4" type="video/mp4"></video><p>Termius 双击是 Tab、点击触摸却不响应<br>好好的触摸支持没有，往下滚动就按下键，导致的效果就是手机上和 macOS “自然滚动”一样，反地滚动。</p><video controls>  <source src="https://cdn.jiecs.top/img/2026/07/1784053566468-VID_20260715_011405_051.mp4" type="video/mp4"></video><p>我不奢求多好的移动端体验。但 Termux 作为一个”正常”的终端软件，做正常的触摸支持，就非常足够了。</p><h3 id="回车"><a href="#回车" class="headerlink" title="回车"></a>回车</h3><p>移动端，回车键的行为也很迷，有时是 Ctrl+J，有时是 Ctrl+H。</p><p>中间不知道哪次更新就变了成了 Ctrl+J。别的地方看似没有问题，但 <code>nano</code> 里没法确认文件名：</p><video controls>  <source src="https://cdn.jiecs.top/img/2026/07/1784053802168-VID_20260715_022859_880.mp4" type="video/mp4"></video><p>没有任何警示，没有任何更新日志。隐式的行为变更是最可怕的。</p><hr><p>Anyway，还好前人的工作已经铺好了路：</p><ul><li><a href="https://github.com/ZacharyZcR/termius-exporter">ZacharyZcR&#x2F;termius-exporter</a> —— 完成了对 Termius 加密方案和 LevelDB 格式的逆向</li><li><a href="https://github.com/LXiuu/termius-data-exporter">LXiuu&#x2F;termius-data-exporter</a> —— 更新的 fork，支持 Termius 9.x，LevelDB 解析加身份匹配</li></ul><p>我让 LLM 加以改造：</p><p>→ <a href="https://github.com/jiesou/YATermiusExporter">YATermiusExporter</a></p><p>产出符合我自己需求格式的数据。</p><h2 id="新世界的方案"><a href="#新世界的方案" class="headerlink" title="新世界的方案"></a>新世界的方案</h2><p>告别 Termius 之后：</p><ul><li><strong>配置管理</strong>: 全部放进 <code>~/.ssh/config</code>，chezmoi 同步。之前困在 Termius 就是因为只有它有移动端同步，现在 Termux + OpenSSH + chezmoi 完美替代。</li><li><strong>安卓 SSH</strong>: Termux + OpenSSH。触摸体验比 Termius 好太多，手机上 tmux、nvim 都很”native”，用过才会知道有多爽，点一下，光标就过去了，拖动也非常自然，没有滑动变翻页、双击变 Tab 的破事。</li><li><strong>Agent 集成</strong>: 关键代码片段丢进 agent skills，LLM 自己调。可以搭好玩的东西，手机上用自然语言同时控多台机器。</li></ul><p>以上所有问题，实际上都是 Termius 的作风问题。这完全是一个靠 Mac&#x2F;iOS 的傻屌付费用户支撑起来的伪公司，管理层的作风有大问题。</p><p>不依赖任何封闭专有技术，体验比付费软件好得多。</p>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>快对资料下载</title>
+      <link>https://www.jiecs.top/archives/18d749c9/</link>
+      <description>
+        <![CDATA[<p><a href="https://github.com/JiGuroLGC/KuaiSnap">https://github.com/JiGuroLGC/KuaiSnap</a><br>这位 JiGuro 大佬的“快怼”很强<br>由于混淆，基本只适用于 6.77.0 版本]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      <pubDate>Mon, 06 Jul 2026 23:00:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<p><a href="https://github.com/JiGuroLGC/KuaiSnap">https://github.com/JiGuroLGC/KuaiSnap</a><br>这位 JiGuro 大佬的“快怼”很强<br>由于混淆，基本只适用于 6.77.0 版本的快对。可以从 APK Pure 下载 6.77 版的 快对： <a href="https://apkpure.com/cn/kuai-dui/com.kuaiduizuoye.scan/download/6.77.0">https://apkpure.com/cn/kuai-dui/com.kuaiduizuoye.scan/download/6.77.0</a></p><p><img src="https://cdn.jiecs.top/img/2026/07/1783350154170--6224036631799337494_119.webp"><br>现在快对 vip 都只能一天下载 5 张<br>这个模块直接全爬下来</p>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>金士顿 SA400 固态掉固件通病 解决</title>
+      <link>https://www.jiecs.top/archives/b45493a8/</link>
+      <description>
+        <![CDATA[<p>完整型号：Kingston SA400S37&#x2F;240GCN<br>正反贴颗粒，总共是 240G<br>主控是群联 PHISON PS3111-S11-13</p>
+<p>有掉固件通病，具体表现为：</p>
+<ul>
+<li>设备管理器&#x2F;BIOS 识别硬盘]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">简单教程</category>
+      <category domain="https://www.jiecs.top/tags/%E6%8A%80%E6%9C%AF/">技术</category>
+      <category domain="https://www.jiecs.top/tags/%E6%95%99%E7%A8%8B/">教程</category>
+      <category domain="https://www.jiecs.top/tags/%E7%94%B5%E5%AD%90/">电子</category>
+      <pubDate>Fri, 26 Jun 2026 17:08:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<p>完整型号：Kingston SA400S37&#x2F;240GCN<br>正反贴颗粒，总共是 240G<br>主控是群联 PHISON PS3111-S11-13</p><p>有掉固件通病，具体表现为：</p><ul><li>设备管理器&#x2F;BIOS 识别硬盘为 <code>SATAFIRM S11</code></li><li>Disk Genius&#x2F;磁盘管理 可以识别到硬盘，容量显示正常 240G，处于未分区状态</li><li>尝试分区格式化，软件无响应卡死报错</li></ul><p><img src="https://cdn.jiecs.top/img/2026/06/1782468902632-image.webp" alt="外壳标签"><br><img src="https://cdn.jiecs.top/img/2026/06/1782466819477-7bcce3f74b5a393bfed95e108c506276.webp" alt="硬盘PCB"><br><img src="https://cdn.jiecs.top/img/2026/06/1782466825143-a6be182bd5ffb2cbc7448a8998ac870c.webp" alt="硬盘PCB"></p><blockquote><p>以下主要参考<br><a href="https://www.chinafix.com/thread-1331348-1-1.html">https://www.chinafix.com/thread-1331348-1-1.html</a><br><a href="https://www.usbdev.ru/files/phison/ps3111fw">https://www.usbdev.ru/files/phison/ps3111fw</a><br><a href="https://www.cnblogs.com/JohnDoe8787/p/14424442.html">https://www.cnblogs.com/JohnDoe8787/p/14424442.html</a></p></blockquote><blockquote><p>这个流程 <strong>不会保留数据</strong>，仅恢复正常硬盘读写功能<br>要保留数据请找正规数据恢复，用 PC-3000 等付费专业软件</p></blockquote><h2 id="尝试过程"><a href="#尝试过程" class="headerlink" title="尝试过程"></a>尝试过程</h2><p>首先需要有一个 <strong>原生 SATA</strong> 并且设置为仿真 AHCI 总线的电脑（大多数情况都是 AHCI，就是 BIOS 里没有设置主板处理 RAID）</p><ul><li>USB 转 SATA 99% 是不行的</li><li>仿真 IDE 总线模式估计也比较困难</li></ul><h3 id="百度贴吧-简易工具"><a href="#百度贴吧-简易工具" class="headerlink" title="百度贴吧 简易工具"></a>百度贴吧 简易工具</h3><p>先尝试的百度贴吧 <a href="https://tieba.baidu.com/p/7974338490">https://tieba.baidu.com/p/7974338490</a> 分享的简易工具，参考其指引</p><blockquote><p>简易工具也可参考 <a href="https://www.bilibili.com/video/BV17s4y1y7Xy">https://www.bilibili.com/video/BV17s4y1y7Xy</a></p></blockquote><ul><li>尝试“良品固件”，启动后能识别到硬盘，识别出固件是 <code>SBFMP1W3</code>，据说固件倒数第二位W意思是写保护了。然后乱码，直接就 Done 结束了</li><li>尝试“不良品固件”，也可以识别出 <code>SBFMP1W3</code>，但随后提示：工具只适用于已 写保护（write protection）的硬盘，我的硬盘没有 write protection。不明所以</li></ul><p>总之简易工具对我的硬盘似乎不行</p><h3 id="fw-exe-方案"><a href="#fw-exe-方案" class="headerlink" title="fw.exe 方案"></a>fw.exe 方案</h3><p>然后，顺着博客园文章 <a href="https://www.cnblogs.com/JohnDoe8787/p/14424442.html">https://www.cnblogs.com/JohnDoe8787/p/14424442.html</a> 的指引</p><ul><li><p>flasher 开卡（烧录）软件<br>找到： <a href="http://vlo.name:3000/ssdtool">http://vlo.name:3000/ssdtool</a> （此链接在图吧工具箱 2026 版中也有提供）<br>这里可以下载 <a href="http://vlo.name:3000/tmph/s11-flasher.rar">Phison S11 firmware flasher v2</a> 得到 s11-flasher.rar<br>这个是适用于 S11 的固件开卡软件<br>文档在 <code>s11-flasher2-readme.txt</code> 可结合参考</p></li><li><p>固件<br>找到： <a href="https://www.usbdev.ru/files/phison/ps3111fw">https://www.usbdev.ru/files/phison/ps3111fw</a><br>下方的 <code>СКАЧАТЬ \ DOWNLOAD</code> 章节里，可以下载所有固件合集的打包  <a href="https://www.usbdev.ru/?wpfb_dl=6583">firmware_ps3111.rar</a><br>这个 usbdev.ru 俄罗斯论坛应该是对免费的游客下载有限速，只能 50k&#x2F;s 下载，也没法多线程</p></li></ul><p>下完之后，尝试博客园提到的 <code>SBFK71F1_27062019.BIN</code> 无果</p><p>想起迅维网文章： <a href="https://www.chinafix.com/thread-1331348-1-1.html">https://www.chinafix.com/thread-1331348-1-1.html</a></p><p>顺着迅维网提到的 <code>SBFMP1.3_19042021.BIN</code> 成功了！</p><blockquote><p>根据硬盘型号小变体，可以多尝试几个不同的固件</p></blockquote><h2 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h2><ol><li>解压 <code>s11-flasher.rar</code></li><li>解压 <code>firmware_ps3111.rar</code>，找到 <code>SBFMP1.3_19042021.BIN</code> 固件。重命名成 <code>fw.bin</code>，放进 s11-flasher 的文件夹里</li><li>运行 <code>s11-flasher2-micron.cmd</code>。一个黑框框闪过，它会生成（释放）一个 <code>fw.exe</code></li></ol><p>此时直接烧，在我的硬盘上不行。先进入 ROM Mode（出厂开卡模式）。具体流程：<br>4. 电脑关机拔电，用镊子短接硬盘上，最明显的两个短接点：<br><img src="https://cdn.jiecs.top/img/2026/06/1782467143203-image.webp" alt="短接点"><br>5. <strong>短接后上电</strong>：保持短接，同时电脑上电开机。上电后，开机过程中，松开短接<br>6. 开机后，设备管理器里，看到一个 PS3111 啥的设备。磁盘管理显示它的空间是 20M。即说明成功进入 ROM Mode</p><p>然后继续<br>7. 运行第三步生成出的 <code>fw.exe</code>，出现 GUI 窗口<br>8. 点大大的绿色 Upgrade Firmware。等进度走完<br>9. 出现此界面，即更新固件成功！<br><img src="https://cdn.jiecs.top/img/2026/06/1782468572872-%E7%8F%8D%E8%97%8F.webp" alt="Update Successful"><br>10. 跟随指引重启电脑，完美识别到硬盘🎉</p><p>一个下午白捡一个 240G 固态，还是很爽的😋</p><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul><li>根据硬盘型号小变体，可以多尝试几个不同的固件</li><li>有些教程说必须要在 PE 模式下运行开卡工具。实际测试下来是没有严格要求的，只是有些时候 PE 会方便一些，没有杀软干扰之类的</li></ul>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>通过 distrobox 在任何发行版安装如意玲珑</title>
+      <link>https://www.jiecs.top/archives/ab866b92/</link>
+      <description>
+        <![CDATA[<h2 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h2><blockquote>
+<p>我很期待一个以 Flatpak 或者 Homebrew 发行的 <code>ll-cli</code>。</p>]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">简单教程</category>
+      <category domain="https://www.jiecs.top/tags/%E6%97%A5%E5%B8%B8/">日常</category>
+      <category domain="https://www.jiecs.top/tags/%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91/">我的电脑</category>
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      <pubDate>Wed, 06 May 2026 18:34:59 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<h2 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h2><blockquote><p>我很期待一个以 Flatpak 或者 Homebrew 发行的 <code>ll-cli</code>。</p></blockquote><p>如意玲珑虽然宣称是支持各种发行版，但实际目前还是比较混乱，尤其不适合 <a href="https://projectbluefin.io/">Bluefin</a> 和 <a href="https://vanillaos.org/">VanillaOS</a> 这种不可变系统，因此还是需要 distrobox</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote><p>系统环境为 Bluefin Linux (based-on Fedora Silverblue)</p></blockquote><p>创建 distrobox 使用的是这个 image</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">distrobox create --image ghcr.io/ublue-os/ubuntu-toolbox:latest --name box-ubuntu --init --no-entry<br></code></pre></td></tr></table></figure><p>当前的 latest 应该是 26.04 (LTS)<br>这里用的 <code>ubuntu-toolbox</code> 是 ublue 项目优化后的 ubuntu image，原版 ubuntu image 应当也没有大问题<br>distrobox 的 flag 根据需求设置：</p><ul><li><code>--init</code> 添加 systemd 支持</li><li><code>--no-entry</code> 不为容器添加专门桌面条目</li></ul><p>进入容器命令行之后，正常 apt install 即可</p><p>但是玲珑的生态还是太乱了，目前 <code>ci.deepin.com</code> 官方源还不支持 ubuntu 26，还停留在 ubuntu 25.10，软件源上次更新是 3 月 19 日</p><p>由于 HanHan666666&#x2F;linglong-installer 的图形化安装器在容器下运行也有些乱七八糟的问题<br>这里参考 <a href="https://github.com/HanHan666666/linglong-installer/blob/4dd23bb575c74d35e903bb1372c4a1147ddff048/scripts/distros/ubuntu_26.04.sh">https://github.com/HanHan666666/linglong-installer/blob/4dd23bb575c74d35e903bb1372c4a1147ddff048/scripts/distros/ubuntu_26.04.sh</a><br>提供以下在 ubuntu 26.04 安装如意玲珑的命令，不需要图形化安装器</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> install -d -m 0755 /usr/share/keyrings<br>curl -fsSL https://obs-ci.odata.cc/obs-mirror/xUbuntu_26.04/Release.key \<br>  | gpg --dearmor | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /usr/share/keyrings/obs-ubuntu2604.gpg &gt;/dev/null<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;deb [arch=<span class="hljs-subst">$(dpkg --print-architecture)</span> signed-by=/usr/share/keyrings/obs-ubuntu2604.gpg] \</span><br><span class="hljs-string">https://obs-ci.odata.cc/obs-mirror/xUbuntu_26.04/ ./&quot;</span> \<br>| <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /etc/apt/sources.list.d/obs-ubuntu2604.list<br><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt install -y linglong-bin<br>📦[chen@box-ubuntu ~]$ ll-cli list<br>ID                                         名称                             版本            渠道            模块        描述<br></code></pre></td></tr></table></figure><h2 id="Post-fix-Workaround"><a href="#Post-fix-Workaround" class="headerlink" title="Post-fix &amp; Workaround"></a>Post-fix &amp; Workaround</h2><h3 id="第一个问题：安装时没法正确鉴权"><a href="#第一个问题：安装时没法正确鉴权" class="headerlink" title="第一个问题：安装时没法正确鉴权"></a>第一个问题：安装时没法正确鉴权</h3><p>解决方案参考： <a href="https://gitee.com/spark-store-project/spark-store/issues/IBML1L">https://gitee.com/spark-store-project/spark-store/issues/IBML1L</a><br>即在 distrobox 容器内执行</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;#!/bin/sh</span><br><span class="hljs-string">sudo &quot;$@&quot;&#x27;</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /usr/local/bin/pkexec<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> +x /usr/local/bin/pkexec<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;#!/bin/sh</span><br><span class="hljs-string">sudo &quot;$@&quot;&#x27;</span> | <span class="hljs-built_in">sudo</span> <span class="hljs-built_in">tee</span> /usr/bin/pkexec<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> +x /usr/bin/pkexec<br></code></pre></td></tr></table></figure><p>将 pkexec 偷梁换柱为普通 sudo</p><p>这是因为原本正常安装的玲珑，应当在安装过程中通过 <code>pkexec</code> 提升到 root 权限，因为这样可以跳出一个 askpass 图形界面请求用户输入密码。而在容器中一般直接使用 <code>sudo</code>，<code>pkexec</code> 由于各种原因往往没法正常工作。不是完全不可以，但挺麻烦的</p><p>所以以上命令能替换 <code>/usr/local/bin/pkexec</code> 的内容为一个脚本，直接原地将命令丢给 sudo</p><p>同时呢，有些应用比如 OpenCode Desktop 的安装过程会写死 pkexec 的目录，因此我们需要同时替换 <code>/usr/local/bin/pkexec</code> 和 <code>/usr/bin/pkexec</code> 两个目录</p><h3 id="第二个问题：钉钉跑起来界面没有"><a href="#第二个问题：钉钉跑起来界面没有" class="headerlink" title="第二个问题：钉钉跑起来界面没有"></a>第二个问题：钉钉跑起来界面没有</h3><p>钉钉能跑，但界面没有</p><p>在我的情况下是 mesa 驱动啥的有问题，不是 distrobox 的问题<br>跳过 <code>/opt/apps/com.alibabainc.dingtalk/files/Elevator.sh</code> 直接</p><pre><code class="language-bash">ll-cli run com.alibabainc.dingtalk -- bashcd /opt/apps/com.alibabainc.dingtalk/files/7.6.45-Release.5032501LIBGL_ALWAYS_SOFTWARE=1 ./com.alibabainc.dingtalk</code></pre><p>可以解决</p><p>但是玲珑版的钉钉已经年久失修了，还是 7.6.45.5032502，官方版的钉钉也有一套自己的容器兼容层，容器套容器有问题<br>当前建议用 AUR 的钉钉，目前是 8.1.0.6021101，distrobox arch 容器开箱即用没有任何问题</p><h4 id="第三个问题：玲珑客户端应用商店提示玲珑没装"><a href="#第三个问题：玲珑客户端应用商店提示玲珑没装" class="headerlink" title="第三个问题：玲珑客户端应用商店提示玲珑没装"></a>第三个问题：玲珑客户端应用商店提示玲珑没装</h4><p>com.dongpl.linglong-store.v2 这个 V2 客户端应用商店依赖 dbus 啥的总之就是不行<br>办法就是没有办法，玲珑生态就是一坨<br>用 <code>ll-cli</code> 去吧，不带图形化界面也能用</p><hr><p>折腾玲珑一天的结论就是 玲珑不是啥好东西</p><ul><li>生态分裂，一个应用商店分出 V1 V2 极速版</li><li>全靠社区，至今 ubuntu 26 lts 的支持居然还要靠 <code>odata.cc</code> 这个社区自己建的 repo，deepin 官方不知道干什么吃的管生不管养， <code>ci.deepin.com</code> 还停留在 ubuntu 25.10，软件源上次更新是 3 月 19 日</li><li>下载慢，没多线程，而且也是从 <code>obs-ci.odata.cc</code> 下的</li></ul><p>还是老老实实用星火应用商店吧，也不要用 APM&#x2F;ACE 容器，星火应用商店本身对 distrobox 的支持还是不错的，起码考虑过在容器里跑</p>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>希沃 MT11  插板式计算机内部结构分析以及不带主板开机</title>
+      <link>https://www.jiecs.top/archives/3c47b44b/</link>
+      <description>
+        <![CDATA[<p>MT11 基于 3x16&#x3D;48P 排针，非更新款标准的 OCP 接口</p>
+<h3 id="1-19V-DCIN-被正面入口处的-MOS-截掉了"><a href="#1-19V-DCIN-被正面入口处的-MOS-截掉了" class="headerlink"]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      <category domain="https://www.jiecs.top/tags/%E6%8A%80%E6%9C%AF/">技术</category>
+      <category domain="https://www.jiecs.top/tags/%E7%94%B5%E5%AD%90/">电子</category>
+      <pubDate>Wed, 29 Apr 2026 12:51:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<p>MT11 基于 3x16&#x3D;48P 排针，非更新款标准的 OCP 接口</p><h3 id="1-19V-DCIN-被正面入口处的-MOS-截掉了"><a href="#1-19V-DCIN-被正面入口处的-MOS-截掉了" class="headerlink" title="1. 19V DCIN 被正面入口处的 MOS 截掉了"></a>1. 19V DCIN 被正面入口处的 MOS 截掉了</h3><p>会导致上电一丁点电流都没有，待机5V3V也没有。应该是起到插入检测的作用防止 19V 打火什么的<br>MOS 是 AO4413 PMOS 的 G 级悬空电位 18.1V，在外侧需要端上两个点，其中靠近接口中间的是 GND，保守一点可以用 10K 去短，总之把 G 拉低导通即可：<img src="https://cdn.jiecs.top/img/2026/04/1777461558435-image.webp"><br>图源自 <a href="https://www.douyin.com/video/7446366168165797155">https://www.douyin.com/video/7446366168165797155</a> 评论区<br>G 级拉低，短上之后可以见到 6mA 左右的待机电流，以及待机 5V3V</p><h3 id="2-无开机按钮开机"><a href="#2-无开机按钮开机" class="headerlink" title="2. 无开机按钮开机"></a>2. 无开机按钮开机</h3><p>主板拆起来不是很方便，EC 在 PCB 背面，是 IT8772E<br><img src="https://cdn.jiecs.top/img/2026/04/1777461836773-image.webp"><br>如图 33 角 PANSWH 即为接电源按钮的管脚，拉低开机</p><p>然而这个管脚外面通过了一个 MOS，丝印 702，应为 2N7002，即图中的飞上线了的这颗 Q82：<br><img src="https://cdn.jiecs.top/img/2026/04/1777461311825-27b50454a70c65eba64fc11a8698a50a.webp"><br>总之需要让这个 MOS 导通才能触发 PANSWH<br>这个 MOS 连到外面 48P 连接器的某个脚上（见以上“接开关”的图），然后要给这个脚输入 5V <strong>拉高</strong> 方可开机</p><p>F2 进 BIOS，F7 进启动菜单</p>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>修复 Linux 桌面 U 盘 cache 特别激进</title>
+      <link>https://www.jiecs.top/archives/8301404/</link>
+      <description>
+        <![CDATA[<blockquote>
+<p>参考<br><a href="https://github.com/storaged-project/udisks/issues/1177">https://github.com/storaged-project/udisks/issues/117]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      <category domain="https://www.jiecs.top/tags/%E6%95%99%E7%A8%8B/">教程</category>
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      <category domain="https://www.jiecs.top/tags/TipsTricks/">TipsTricks</category>
+      <pubDate>Sat, 11 Apr 2026 14:27:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<blockquote><p>参考<br><a href="https://github.com/storaged-project/udisks/issues/1177">https://github.com/storaged-project/udisks/issues/1177</a><br><a href="https://github.com/storaged-project/udisks/issues/1368">https://github.com/storaged-project/udisks/issues/1368</a><br><a href="https://github.com/biglinux/usb-dirty-pages-udev">https://github.com/biglinux/usb-dirty-pages-udev</a></p></blockquote><p>默认情况下，Linux 的 <code>udisks2</code> 或内核对 USB 设备的缓存策略比较激进。</p><ul><li><strong>现象</strong>：向 U 盘拷贝大文件时，进度条速度会有 100M&#x2F;s 多非常离谱的数据，但随后弹出 U 盘，系统会告诉用户不能拔，还要拷贝很久，中间系统会用 sync 死等，都看不到传输进度。</li><li>实际情况下：拷贝特别大的文件，比如超过 1.6G 的时候，会看到那个非常离谱的速度逐渐降下来，就是内存逐步回写到 U 盘里，但往往还是传输完成还要等很久回写，依然很烦</li></ul><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>通过 <code>udev</code> 规则干预内核的 <strong>BDI (Backing Device Info)</strong> 参数：</p><ul><li><strong><code>max_bytes</code></strong>: 限制该设备在内存中最多能积压的脏数据量（本方案设为 <strong>16MiB</strong>）</li><li><strong><code>strict_limit</code></strong>: 强制执行上述限制。如果不开启，系统可能会因为内存充足而允许超过 <code>max_bytes</code> 的限制</li></ul><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ol><li>创建 udev rules</li></ol><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">sudo -E nano /etc/udev/rules.d/<span class="hljs-number">99</span>-udisk-flush-max-bytes.rules<br></code></pre></td></tr></table></figure><ol start="2"><li>填入</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs rules"># See: https://www.jiecs.top/archives/8301404, https://github.com/storaged-project/udisks/issues/1177#issuecomment-3914044213<br>ACTION==&quot;add&quot;, SUBSYSTEM==&quot;block&quot;, ENV&#123;ID_BUS&#125;==&quot;usb&quot;, ENV&#123;DEVTYPE&#125;==&quot;partition&quot;, \<br>RUN+=&quot;/bin/sh -c &#x27; \<br>    DEVICE_MAJOR_MINOR=$$(cat /sys/class/block/%k/../dev); \<br>    echo 16777216 &gt; /sys/class/bdi/$$DEVICE_MAJOR_MINOR/max_bytes; \<br>    echo 1 &gt; /sys/class/bdi/$$DEVICE_MAJOR_MINOR/strict_limit \<br>&#x27;&quot;<br></code></pre></td></tr></table></figure><ol start="3"><li>更新应用<br><code>sudo udevadm control --reload &amp;&amp; sudo udevadm trigger</code> 或者 <code>systemctl restart systemd-udev-trigger</code></li></ol>]]>
+      </content:encoded>
+    </item>
+    <item>
+      <title>btrfs 原子级 sanpshot 回滚全流程</title>
+      <link>https://www.jiecs.top/archives/c52efbd9/</link>
+      <description>
+        <![CDATA[<p>思路参考 btrfs-assistant</p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p><code>fdisk -l</code> 检查你的 btrfs 分区在 &#x2F]]>
+      </description>
+      <author>Jiecs</author>
+      <category domain="https://www.jiecs.top/categories/%E5%8A%A8%E6%80%81/">动态</category>
+      <category domain="https://www.jiecs.top/tags/%E6%8A%80%E6%9C%AF/">技术</category>
+      <category domain="https://www.jiecs.top/tags/%E6%95%99%E7%A8%8B/">教程</category>
+      <category domain="https://www.jiecs.top/tags/%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91/">我的电脑</category>
+      <category domain="https://www.jiecs.top/tags/Linux/">Linux</category>
+      <pubDate>Fri, 10 Apr 2026 20:41:00 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<p>思路参考 btrfs-assistant</p><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p><code>fdisk -l</code> 检查你的 btrfs 分区在 &#x2F;dev 的位置，接下来以 <code>/dev/nvme1n1p3</code> btrfs 分区为例</p><h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><ol><li>临时挂载 btrfs 顶层根</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mkdir</span> -p /mnt/btrfsroot<br><span class="hljs-built_in">sudo</span> mount -t btrfs -o subvolid=5 /dev/nvme1n1p3 /mnt/btrfsroot<br></code></pre></td></tr></table></figure><p>这样可以 live 修改</p><blockquote><p>修改的同时内核挂载的 <code>/var</code> 完全感知不到，已打开的文件描述符、dentry 缓存、mount 表都不受影响。内核挂载是绑定在 subvolid 上的，不是绑定在路径字符串上的。</p></blockquote><ol start="2"><li>临时 mv 到 <code>_backup_restore</code></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mv</span> /mnt/btrfsroot/@var /mnt/btrfsroot/@var_backup_restore<br></code></pre></td></tr></table></figure><blockquote><p>由于 snapshot 的时候嵌套 subvolume 不会自动处理，所以这里需要先 mv 一下，这样可以保留里面的嵌套 subvolume</p></blockquote><ol start="3"><li>执行恢复</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> btrfs subvolume snapshot \<br>/mnt/btrfsroot/@var_backup_restore/.snapshots/before-niri \<br>/mnt/btrfsroot/@var<br></code></pre></td></tr></table></figure><hr><p>接下来如果要恢复 home也是一样</p><ol><li>临时 mv 到 <code>_backup_restore</code></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mv</span> /mnt/btrfsroot/@home/mnt/btrfsroot/@home_backup_restore<br></code></pre></td></tr></table></figure><ol start="2"><li>执行恢复</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> btrfs subvolume snapshot \<br>/mnt/btrfsroot/@home_backup_restore/.snapshots/before-niri \<br>/mnt/btrfsroot/@home<br></code></pre></td></tr></table></figure><hr><h3 id="嵌套-subvolume-的处理"><a href="#嵌套-subvolume-的处理" class="headerlink" title="嵌套 subvolume 的处理"></a>嵌套 subvolume 的处理</h3><p>这里以 SWAP 为例：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 一般已经有一个空的 Stub 了，就删掉</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rmdir</span> /mnt/btrfsroot/@var/swap<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">mv</span> /mnt/btrfsroot/@var_backup_restore/swap /mnt/btrfsroot/@var/swap<br></code></pre></td></tr></table></figure><h2 id="收尾"><a href="#收尾" class="headerlink" title="收尾"></a>收尾</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sync</span><br><span class="hljs-built_in">sudo</span> umount /mnt/btrfsroot<br>reboot<br></code></pre></td></tr></table></figure><p>确认没问题尽快重启<br>因为重启前系统运行时对 <code>/var</code> 的所有写入都进入了旧的子卷（现在叫 <code>..._backup_restore</code>），不会出现在恢复后的 <code>var</code> 里。</p>]]>
+      </content:encoded>
+    </item>
+  </channel>
+</rss>

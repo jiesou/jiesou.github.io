@@ -1,0 +1,78 @@
+## 首先
+## 首先
+由于 WPS 直接在 distrobox 环境下运行我遇到了各种麻烦的问题，于是尝试在 distrobox 中安装星火应用商店，再安装 WPS。问题能够解决，于是顺便记录一下 distrobox 中安装星火的过程。总体上还是非常轻松的，十几分钟就能搞定
+
+## 安装
+> 系统环境为 Bluefin Linux (based-on Fedora Silverblue)
+
+创建 distrobox 使用的是这个 image
+```bash
+distrobox create --image quay.io/toolbx/ubuntu-toolbox:latest --name box-spark
+```
+当前的 latest 应该是 24.04 (LTS)
+`ubuntu-toolbox` 是精简后的 ubuntu image，亲测也足够星火运行的，用完整的 ubuntu image 应当更加没有问题
+
+默认没有 systemd 支持，而星火应用商店的更新通知（定时检查更新）依赖 systemd，可以通过 distrobox 的 `--init` flag 实现，但是这会让你[用不了中文输入法](#关于与-systemd-的不兼容问题)。所以还是建议不用 systemd
+
+进入容器命令行之后，正常 apt install [星火应用商店的 .deb](https://www.spark-app.store) 即可，星火应用商店会拖家带口把 qt、dtk、gcc 环境、工具链都装上，占用空间 600M+ 是正常的
+
+没有什么报错安装完成之后（不装 systemd 的话安装过程会有一个小报错），就可以通过 `spark-store` 运行图形化的星火应用商店
+
+## Post-fix & Workaround
+
+### 第一个问题：中文字体坏的
+
+这个很好解决：
+```bash
+sudo apt install fonts-noto-cjk
+```
+或者安装任何你喜欢的字体即可
+### 第二个问题：点击“下载并安装”，下载之后就没动作了，不会自己安装
+
+解决方案： <https://gitee.com/spark-store-project/spark-store/issues/IBML1L>
+即在 distrobox 容器内执行
+```bash
+echo '#!/bin/sh
+sudo "$@"' | sudo tee /usr/local/bin/pkexec
+sudo chmod +x /usr/local/bin/pkexec
+
+echo '#!/bin/sh
+sudo "$@"' | sudo tee /usr/bin/pkexec
+sudo chmod +x /usr/bin/pkexec
+```
+这是因为原本正常安装的星火应用商店，应当在安装过程中通过 `pkexec` 提升到 root 权限，因为这样可以跳出一个 askpass 图形界面请求用户输入密码。而在容器中一般直接使用 `sudo`，`pkexec` 由于各种原因往往没法正常工作。不是完全不可以，但挺麻烦的
+
+所以以上命令能替换 `/usr/local/bin/pkexec` 的内容为一个脚本，直接原地将命令丢给 sudo
+
+同时呢，有些应用比如 OpenCode Desktop 的安装过程会写死 pkexec 的目录，因此我们需要同时替换 `/usr/local/bin/pkexec` 和 `/usr/bin/pkexec` 两个目录
+
+由于创建容器的时候就没有用 `--root` 创建 rootful 容器，所以这个 sudo 出来的 root *应该* 也不是宿主机的 root，不需要特别在乎安全问题。只要你用 Podman 就完全是 rootless 的
+
+### 第三个问题：搜索框没法输入中文
+
+最简单的 ~~经典~~ 解决方案就是从别的地方打好字然后粘贴进去
+
+当然也可以选择一步到位。我使用 fcitx5 框架，需要在容器里安装对应前端界面（我也不知道为啥宿主机的 fcitx5 前端在容器里就不工作了）
+```bash
+sudo apt install fcitx5-frontend-all
+```
+这样安装的只是适用于 qt gtk 等程序的 fcitx5 前端，后端还是通过 D-Bus 连宿主机的（还好 distrobox 上 D-Bus 开箱即用）
+当然就是要再牺牲掉一些存储空间，fcitx5 也喜欢拖家带口
+
+#### 关于与 systemd 的不兼容问题
+如果你在创建 distrobox 的时候选择启用了 systemd (init system)，那也会无法输入中文，安装 `fcitx5-frontend-all` 也没用。这是因为[开启 systemd 之后，容器就无法访问宿主机的进程资源了](https://distrobox.it/useful_tips/#using-init-system-inside-a-distrobox)
+> Note however that in this mode, you’ll not be able to access host’s processes from within the container.
+
+你可以通过
+```bash
+dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+```
+在容器内和主机内列出可用的 DBus 来确认这个问题
+
+这个问题我还没找到解决办法。但大多数“正常”的程序都是不应该与 systemd 硬耦合的，所以就还是建议不用 systemd
+
+其他问题目前都还没遇到
+- WPS 开箱即用没有任何问题
+- 能正常用 `distrobox-export --app WPS` 将 WPS 桌面图标 .desktop 导出到宿主机
+- 通过星火应用商店安装的 ACE 兼容环境可以在命令行正常进入。这样对于适合安装到 ACE 兼容环境中的软件，问题应当又能解决很多
+再其他的问题也就是星火应用商店本身的问题了（可不是容器的问题）
