@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: jiecs.top
+Token: 5b26b716f5c59f22653693d9ce121fbeb613f225f9fcb815c24e9ea178e77fb6

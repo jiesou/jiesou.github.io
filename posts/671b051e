@@ -1,0 +1,23 @@
+1. 打开命令面板，执行 `idf.py reconfigure`
+2. 打开命令面板，执行 `ESP-IDF: Add VS Code Configuration Folder`，或者扩展面板中执行 `Add .vscode subdirectory files`
+3. 仍然飘红，在 `.vscode/c_cpp_properties.json` 的配置中添加 `"compileCommands": "${workspaceFolder}/build/compile_commands.json"`
+	形如：
+```json
+{
+  "configurations": [
+    {
+      "name": "Linux",
+      "includePath": [
+        "${workspaceFolder}/**"
+      ],
+      "defines": [],
+      "cStandard": "c17",
+      "cppStandard": "gnu++17",
+      "intelliSenseMode": "linux-gcc-x64",
+      "compilerPath": "/var/home/chen/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20250707/xtensa-esp-elf/bin/xtensa-esp32-elf-gcc",
+      "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+    }
+  ],
+  "version": 4
+}
+```

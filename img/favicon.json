@@ -1,0 +1,20 @@
+[
+  {
+    "file": "./favicon/index.json",
+    "ext": "webp"
+  },
+  {
+    "file": "./favicon.png",
+    "ext": "png",
+    "size": "512x512"
+  },
+  {
+    "file": "/favicon.ico",
+    "ext": "ico",
+    "size": "48x48"
+  },
+  {
+    "file": "./favicon.psd",
+    "ext": "psd"
+  }
+]

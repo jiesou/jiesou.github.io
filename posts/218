@@ -1,0 +1,34 @@
+> 基于AndroLua
+
+> 实现效果：每天随机输出0~99人品(数字)，同天同设备人品值相同，同天不同设备人品值不同，不同天不同设备各不相同(允许碰撞,遵循第一条规则)
+```c
+anid=Secure.getString(activity.getContentResolver(), Secure.ANDROID_ID)
+time=string.gsub(tostring(os.time({day=os.date('%d'),month=os.date('%m'),year=os.date('%Y')})),'0','')
+function ASCII(content)
+  t=0
+  for i=1,#content do
+    t=t+string.byte(content,i)
+  end
+  return t
+end
+local number=time+ASCII(anid)
+print(tointeger(number%100))
+```
+> anid 变量可自定义为任意字符串 规则则以字符串为基础
+
+> 实现逻辑：
+```c
+anid变量 = 设备安卓ID
+time变量 = 不考虑天的秒unix时间戳
+
+自定义函数 ASCII函数 接收值 = content变量
+  t变量=0
+  循环 content变量字符串长度 次    并输出 i局部变量 为循环次数
+    t变量 = t变量 + 转换 content变量 的第 i变量 位字符 为ASCII编码
+  循环 结束
+  输出 t变量
+自定义函数 结束
+
+number局部变量=time变量 + ASCII函数 输入 anid变量
+输出 number变量 取除100后的余数 并转换为整数
+```
