@@ -1,0 +1,17 @@
+```lua
+local dialog=MaterialAlertDialogBuilder(activity)
+.setTitle("Title")
+.setMessage("Message")
+.show()
+--积极按钮
+dialog.getButton(dialog.BUTTON_POSITIVE)
+--消极
+dialog.getButton(dialog.BUTTON_NEGATIVE)
+--中立
+dialog.getButton(dialog.BUTTON_NEUTRAL)
+--内容
+dialog.findViewById(android.R.id.message)
+--标题
+if activity.packageName=="net.fusionapp" then R=luajava.bindClass"net.fusionapp.R" else R=luajava.bindClass"net.fusionapp.core.R" end
+dialog.findViewById(R.id.alertTitle)
+```

@@ -1,0 +1,65 @@
+ZRAM 基本上是够用的，默认就有，默认压缩算法是 lzo-rle，大小是 1/2 的内存大小或者至少 4G。
+
+可以设置压缩算法为 zstd，相比较 lzo-rle 属于时间 (CPU) 换空间 (内存)，并且手动设置大小优化一下，如
+`/etc/systemd/zram-generator.conf`：
+```conf
+[zram0]
+zram-size = # in MiB, 1/2 ram size or 1 ram size
+compression-algorithm = zstd
+```
+即可
+
+---
+
+但内存空间确实不够的时候，ZRAM 对 OOM 无能为力，因此可以设置一个低 Priority 的小 Swapfile 用来在 OOM 的时候有腾挪空间
+
+> 当然如果要考虑休眠，那 Swapfile 还是要很大的
+
+```bash
+❯ sudo btrfs subvolume create /var/swap
+Create subvolume '/var/swap'
+
+~ 
+❯ sudo btrfs filesystem mkswapfile --size 4G /var/swap/swapfile
+create swapfile /var/swap/swapfile size 4.00GiB (4294967296)
+
+~ 
+❯ sudo -E nano /etc/systemd/system/var-swap-swapfile.swap
+# 常规方法是在 /etc/fstab 里加，但 systemd 里加更现代一点
+# systemd unit 名字不能改，应该是准确的路径转义
+[Unit]
+Description=Swapfile
+
+[Swap]
+What=/var/swap/swapfile
+Priority=10
+
+[Install]
+WantedBy=swap.target
+
+~ 
+❯ sudo systemctl daemon-reload
+
+~ 
+❯ sudo systemctl enable --now var-swap-swapfile.swap
+Created symlink '/etc/systemd/system/swap.target.wants/var-swap-swapfile.swap' → '/etc/systemd/system/var-swap-swapfile.swap'.
+
+~ 
+❯ sudo swapon -a
+
+~ 
+❯ sudo swapon
+NAME               TYPE      SIZE USED PRIO
+/dev/zram0         partition  16G   0B  100
+/var/swap/swapfile file       4G    0B  10
+
+# 到这一步就有 Swapfile 了如果要磁盘休眠还可以继续操作
+# $ sudo cat /etc/dracut.conf.d/resume.conf
+# $ rpm-ostree initramfs --enable
+# 还有更多要考虑的: SELinux, systemd-hibernate-resume...
+```
+
+参考文档：
+- https://fedoramagazine.org/update-on-hibernation-in-fedora-workstation 注意不完全全面，读下方的评论
+- https://wiki.archlinuxcn.org/wiki/Swap
+- https://wiki.archlinuxcn.org/wiki/Hibernation

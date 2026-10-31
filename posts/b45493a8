@@ -1,0 +1,86 @@
+完整型号：Kingston SA400S37/240GCN
+正反贴颗粒，总共是 240G
+主控是群联 PHISON PS3111-S11-13
+
+有掉固件通病，具体表现为：
+- 设备管理器/BIOS 识别硬盘为 `SATAFIRM S11`
+- Disk Genius/磁盘管理 可以识别到硬盘，容量显示正常 240G，处于未分区状态
+- 尝试分区格式化，软件无响应卡死报错
+
+![外壳标签](https://cdn.jiecs.top/img/2026/06/1782468902632-image.webp)
+![硬盘PCB](https://cdn.jiecs.top/img/2026/06/1782466819477-7bcce3f74b5a393bfed95e108c506276.webp)
+![硬盘PCB](https://cdn.jiecs.top/img/2026/06/1782466825143-a6be182bd5ffb2cbc7448a8998ac870c.webp)
+
+
+> 以下主要参考
+> https://www.chinafix.com/thread-1331348-1-1.html
+> https://www.usbdev.ru/files/phison/ps3111fw
+> https://www.cnblogs.com/JohnDoe8787/p/14424442.html
+
+> 这个流程 **不会保留数据**，仅恢复正常硬盘读写功能
+要保留数据请找正规数据恢复，用 PC-3000 等付费专业软件
+
+## 尝试过程
+
+首先需要有一个 **原生 SATA** 并且设置为仿真 AHCI 总线的电脑（大多数情况都是 AHCI，就是 BIOS 里没有设置主板处理 RAID）
+- USB 转 SATA 99% 是不行的
+- 仿真 IDE 总线模式估计也比较困难
+
+### 百度贴吧 简易工具
+
+先尝试的百度贴吧 https://tieba.baidu.com/p/7974338490 分享的简易工具，参考其指引
+
+> 简易工具也可参考 https://www.bilibili.com/video/BV17s4y1y7Xy
+
+- 尝试“良品固件”，启动后能识别到硬盘，识别出固件是 `SBFMP1W3`，据说固件倒数第二位W意思是写保护了。然后乱码，直接就 Done 结束了
+- 尝试“不良品固件”，也可以识别出 `SBFMP1W3`，但随后提示：工具只适用于已 写保护（write protection）的硬盘，我的硬盘没有 write protection。不明所以
+
+总之简易工具对我的硬盘似乎不行
+### fw.exe 方案
+
+然后，顺着博客园文章 https://www.cnblogs.com/JohnDoe8787/p/14424442.html 的指引
+
+- flasher 开卡（烧录）软件
+找到： http://vlo.name:3000/ssdtool （此链接在图吧工具箱 2026 版中也有提供）
+这里可以下载 [Phison S11 firmware flasher v2](http://vlo.name:3000/tmph/s11-flasher.rar) 得到 s11-flasher.rar
+这个是适用于 S11 的固件开卡软件
+文档在 `s11-flasher2-readme.txt` 可结合参考
+
+- 固件
+找到： https://www.usbdev.ru/files/phison/ps3111fw
+下方的 `СКАЧАТЬ \ DOWNLOAD` 章节里，可以下载所有固件合集的打包  [firmware_ps3111.rar](https://www.usbdev.ru/?wpfb_dl=6583)
+这个 usbdev.ru 俄罗斯论坛应该是对免费的游客下载有限速，只能 50k/s 下载，也没法多线程
+
+下完之后，尝试博客园提到的 `SBFK71F1_27062019.BIN` 无果
+
+想起迅维网文章： https://www.chinafix.com/thread-1331348-1-1.html
+
+顺着迅维网提到的 `SBFMP1.3_19042021.BIN` 成功了！
+
+> 根据硬盘型号小变体，可以多尝试几个不同的固件
+
+## 具体流程
+
+1. 解压 `s11-flasher.rar`
+2. 解压 `firmware_ps3111.rar`，找到 `SBFMP1.3_19042021.BIN` 固件。重命名成 `fw.bin`，放进 s11-flasher 的文件夹里
+3. 运行 `s11-flasher2-micron.cmd`。一个黑框框闪过，它会生成（释放）一个 `fw.exe`
+
+此时直接烧，在我的硬盘上不行。先进入 ROM Mode（出厂开卡模式）。具体流程：
+4. 电脑关机拔电，用镊子短接硬盘上，最明显的两个短接点：
+![短接点](https://cdn.jiecs.top/img/2026/06/1782467143203-image.webp)
+5. **短接后上电**：保持短接，同时电脑上电开机。上电后，开机过程中，松开短接
+6. 开机后，设备管理器里，看到一个 PS3111 啥的设备。磁盘管理显示它的空间是 20M。即说明成功进入 ROM Mode
+
+然后继续
+7. 运行第三步生成出的 `fw.exe`，出现 GUI 窗口
+8. 点大大的绿色 Upgrade Firmware。等进度走完
+9. 出现此界面，即更新固件成功！
+![Update Successful](https://cdn.jiecs.top/img/2026/06/1782468572872-珍藏.webp)
+10. 跟随指引重启电脑，完美识别到硬盘🎉
+
+一个下午白捡一个 240G 固态，还是很爽的😋
+
+## 注意事项
+
+- 根据硬盘型号小变体，可以多尝试几个不同的固件
+- 有些教程说必须要在 PE 模式下运行开卡工具。实际测试下来是没有严格要求的，只是有些时候 PE 会方便一些，没有杀软干扰之类的

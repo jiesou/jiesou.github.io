@@ -1,0 +1,172 @@
+## 前言
+
+我的博客之前一直是部署在 [Vercel](https://vercel.com) 上的，虽然 Vercel 对 SLA 有[四个 9](https://vercel.com/legal/sla) 的保证。但出于折腾的心态我还是想给博客上个冗余。我的博客可以同时托管在多个平台上（如 [Netlify](https://netlify.com)），然后在监控到博客异常时自动切换
+
+## 监控
+
+### 平台选择
+
+监控平台有很多，经过斟酌我博客选择的是 [BetterUptime](https://betteruptime.com)，免费能 3 分钟一次，附有 StatusPage，界面也比较好看
+
+不过 BetterUptime 免费是没法设置 WebHook 的，你就没法对事件设置更多自己的操作。但我注意到它支持 Zapier 能设置自己的自定义操作。[Zapier](https://zapier.com) 是一个类似 IFTTT 的平台，更面向企业等。然而很坑的是 Zapier 免费计划照样不支持 WebHook
+
+### Zapier 转发 IFTTT 来执行 WebHook
+
+总之经过各种摸索，我发现只要 Zapier 能设置通过自己的电子邮箱（授权 Gmail 等）向指定邮箱地址，发出事件的详细邮件消息。你可以在里面设置自己的格式
+
+并且 [IFTTT](https://ifttt.com) 支持接收来自指定电子邮箱的邮件，**这就能将 Zapier 触发的内容转发到 IFTTT**。你就可以用 IFTTT 进行更多自定义操作，**其中包括 WebHook**
+
+于是我在 Zapier 上弄出了这个自动化流程：
+
+![Zapier 配置](https://cdn.jiecs.top/img/2022/11/IMG_20221124_223022.webp)
+
+其中 _trigger@applet.ifttt.com_ 正是 IFTTT 的邮件接受目标地址。然后在 IFTTT 进行相应配置即可：
+
+![IFTTT 配置](https://cdn.jiecs.top/img/2022/11/Screenshot_2022-11-24-18-12-49-185_com.microsoft.emmx.webp)
+
+IFTTT 的接受邮件触发器可以参考这个[文档](https://ifttt.com/email/triggers/send_ifttt_an_email)
+
+IFTTT 的 WebHook 支持各种请求方式，也能通过 body 等方式传递数据。监控侧解决了，就可以将异常信息传递到自己的 API 了，下一步就是自己实现处理异常的 API
+
+## 回调 API 实现
+
+### 托管平台选择
+
+API 我本来是打算托管在 [Cloudflare Workers](https://workers.dev) 的。但它的命令行工具 Wrangler CLI 实在太难用了，主要是这个[问题](https://github.com/cloudflare/wrangler2/issues/1732)让我基本没法在安卓上开发。我也懒得折腾那么多问题，不如直接换个平台
+
+我最终选择的是 [Deta.sh](https://deta.sh)，它宣称永远提供免费无限量的 Node.js/Python Web 应用请求。虽然相比之下好像没那么靠谱（也没提供 SLA 保证），但综合之下只能选它了
+
+Deta 的 CLI 还是很好用的。就是本地调试麻烦点，我是用自己的 `nodemon`
+
+### 冗余的切换
+
+要实现高可用，最关键的肯定就是切换冗余。切换镜像网站最直接的方法就是换 DNS 解析。
+
+我域名用的是阿里云 DNS，他提供了一整套易用免费 DNS 处理的 OpenAPI 以及各语言 SDK。文档在[此处](https://help.aliyun.com/document_detail/29771.html)，还有一个很好用的 [在线 API 调试工具](https://next.api.aliyun.com/api/Alidns/?lang=NODEJS)（就是移动端体验不咋滴）。API 的密钥是 AccessKey，参考[文档](https://help.aliyun.com/document_detail/116401.html)来创建
+
+### 完整代码
+
+最后，以下是我在 Deta 上部署的完整代码，API 密钥等使用了环境变量，部分内容已隐去，依赖都在开头
+
+代码仅供参考，具体还是根据你的需求写
+
+<details>
+<summary>展开完整代码</summary>
+
+```javascript
+const express = require("express")
+const {default: fetch} = require("node-fetch-cjs");
+const Core = require('@alicloud/pop-core');
+
+require('dotenv').config()
+
+let app = express();
+app.use(express.json());
+
+
+const formatDate = (date) => {
+  return new Date(date)
+    .toLocaleString("zh",{
+      timeZone: "Asia/Shanghai",
+    })
+}
+
+async function sendTgMsg(incident, result) {
+  const startedTime = (incident['started_at']) ? `
+*开始时间：*${formatDate(incident['started_at'])}` : '';
+  const acknowledgedTime = (incident['acknowledged_at']) ? `
+*承认时间：*${formatDate(incident['acknowledged_at'])}` : '';
+  const resolvedTime = (incident['resolved_at']) ? `
+*解决时间：*${formatDate(incident['resolved_at'])}` : '';
+  const status = (incident.status === 'started') ? '⚠️' : ((incident.status === 'resolved') ? '✅' : '☑️');
+  await fetch(`https://api.telegram.org/${process.env.TELEGRAM_TOKEN}/sendMessage`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      "disable_web_page_preview": true,
+      "parse_mode": "Markdown",
+      "chat_id": 968510652,
+      "text": `*${status} 监控到 杰出兽 服务状态变更*
+
+_${incident.title}_：
+*状态：* ${incident.status}${startedTime}${acknowledgedTime}${resolvedTime}
+*原因：*_${incident.cause}_
+*详情：*${incident['incident_url']}
+*DNS 处置：*${result || '无'}
+`})
+  }).catch(async (_error) => {
+    return await sendTgMsg(incident, result);
+  });
+}
+
+async function aliyunDnsRecordIds() {
+  const result = await client.request('DescribeDomainRecords', {
+      "DomainName": "jiecs.top",
+      "RRKeyWord": "www"
+  }, {
+    method: 'POST',
+    formatParams: false
+  }).catch((error) => {
+    console.log(error)
+    return [];
+  });
+  return result.DomainRecords.Record;
+}
+
+async function aliyunDnsSwitch() {
+  const records = await aliyunDnsRecordIds();
+  const results = [];
+  const replaced = records[0].Value === process.env.ALIYUN_DNS_REPLACE_WITH;
+  for (const index in records) {
+    const result = await client.request('UpdateDomainRecord', {
+      "RecordId": records[index].RecordId,
+      "Line": records[index].Line,
+      "RR": "www",
+      "Type": "CNAME",
+      "Value": (replaced) ?
+        ((records[index].Line === 'default') ? '[DEFAULT_LINE_DNS_CNAME]' : '[OTHER_LINES_DNS_CNAME]') :
+          process.env.ALIYUN_DNS_REPLACE_WITH
+    }, {
+      method: 'POST',
+      formatParams: false
+    }).catch((error) => {
+      results.push(error.data.Message);
+    });
+    (result) ? results.push(result) : null;
+  }
+  return JSON.stringify(results);
+}
+
+let client;
+app.post('/[API_PATH]', async (req, res) => {
+    client = new Core({
+      accessKeyId: process.env.ALIYUN_AK_ID,
+      accessKeySecret: process.env.ALIYUN_AK_SECRET,
+      endpoint: 'https://alidns.ap-southeast-1.aliyuncs.com',
+      // 新加坡服务器
+      apiVersion: '2015-01-09'
+    });
+    const incident = req.body;
+    const result = (incident.title === 'jiecs.top' &&
+        incident.status === 'started') ? await aliyunDnsSwitch() : null;
+    await sendTgMsg(incident, result);
+    res.json(incident);
+});
+
+module.exports = app;
+// 本地调试用
+const port = process.env.PORT || 3000;
+app.listen(port, function () {
+    console.debug('Server listening on port', port);
+});
+```
+
+</details>
+
+## 总结
+
+上面代码我还加了个 Telegram 的通知，参考[文档](https://core.telegram.org/bots/api#sendmessage)
+
+至于鉴权我直接用了一个较长和复杂的 `[API_PATH]`，毕竟个人博客用不上多么安全，再说 IFTTT 也没法进行一些复杂的处理
+
+回顾一下，整个流程的部署都是零成本的。虽然各个平台间的数据交接增加了攻击面，但这也极大地减少了对单点异常造成的影响
