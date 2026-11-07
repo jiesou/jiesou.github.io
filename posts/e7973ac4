@@ -1,0 +1,12 @@
+<style>
+html {
+    filter: grayscale(100%);
+}
+#hide-text {
+    color: transparent;
+}
+</style>
+
+🕯
+
+<i id="hide-text">可惜不是你</i>

@@ -1,0 +1,50 @@
+需要使用 <https://www.home-assistant.io/integrations/command_line> 这个 commend line 集成，通过命令行输入数据。
+## 从命令行获取功耗数据
+Intel 一直支持通过 RAPL 获取 CPU 自身的耗电量（电能）
+```bash
+root@casaos:/# cat /sys/class/powercap/intel-rapl/intel-rapl:0/name
+package-0
+root@casaos:/# cat /sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj
+134021323469
+```
+这个是 package-0 域的，包含 DRAM、核显，就是整个 SoC 的功耗。
+
+而 Intel Syklake 之后的版本支持 PSYS 域，即 `intel-rapl:1`
+```bash
+root@casaos:/# cat /sys/class/powercap/intel-rapl/intel-rapl:1/name
+psys
+root@casaos:/# cat /sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj
+74239569162
+```
+基本上就是全板的功耗了，还包含 SoC 之外设备的功耗（当然不含电源适配器的损耗）
+
+## 导入 HomeAssistant
+HomeAssistant 本身命令行的环境是在容器里，各种麻烦。脱离容器最简单的方法是直接 SSH 连主机。而 `ssh` 不支持非交互式密码认证，那就是说要密钥认证。
+
+配置好主机的 SSH 密钥认证（这种网上教程太多了，就是 `ssh-keygen`）之后，把私钥粘贴到 `/config/ssh-key`
+
+> `/homeassistant` 基本就是 `/config` 的软链接，但用 `/config` 没有问题
+
+> 因为 HomeAssistant Commend Line 执行权限的问题，私钥不能拷到 `/root/.ssh` 下，虽然 `whoami` 是 root，但有各种问题
+
+然后最终就是 `configuration.yaml` 中添加：
+```yaml
+command_line:
+    # 主机功率消耗
+    # 原单位微焦（uJ），awk 乘以 6 变成焦耳（J）
+    # 连接到 casaos，通过私钥实现免密码登录
+    # -T 强制非交互式不分配伪终端，同时实现 Ubuntu 登录的欢迎消息不显示
+    # 可在命令后添加 2>&1; echo "EXIT_CODE:$?" 手动引导输出 exit code，让错误日志更丰富
+  - sensor:
+      name: "主机累计电量"
+      device_class: "energy"
+      state_class: "total_increasing"
+      unit_of_measurement: "J"
+      scan_interval: 15
+      command: >
+        ssh -i /config/ssh-key -o "StrictHostKeyChecking=no" -T root@casaos.lan
+        'cat /sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj | awk "{printf \"%.6f\n\", \$1/1000000}"'
+```
+
+具体参数设置基本比较清楚了
+建议获取到单位为焦耳的数据，然后再通过辅助元素，变化率传感器之类的算出功耗。不要直接 bash 输出最终结果

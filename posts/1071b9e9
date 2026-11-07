@@ -1,0 +1,49 @@
+**理解问题核心：USB-CDC vs. UART**
+
+- **USB-CDC（USB Communications Device Class）:** ESP32芯片可以直接通过USB端口模拟一个串口设备，无需额外的USB转串口芯片。这种方式通常在较新的ESP32芯片上使用，并以“Espressif USB JTAG/serial debug unit”的形式出现在电脑上。
+- **UART（Universal Asynchronous Receiver/Transmitter）:** ESP32芯片的UART引脚通过一个USB转串口芯片（如CH343K）连接到USB端口。这种方式在很多ESP32开发板上使用，电脑上会显示为CH343K或类似的名称。
+
+- **`ARDUINO_USB_MODE`:** 这个选项决定了ESP32的USB端口的工作模式。
+    - `0`：表示“Hardware CDC and JTAG”模式，即硬件CDC（串口）和JTAG调试模式。
+    - `1`：表示“USB-OTG”模式，即USB On-The-Go模式。
+- **`ARDUINO_USB_CDC_ON_BOOT`:** 这个选项决定了ESP32在启动时是否启用USB-CDC功能。
+    - `0`：表示禁用USB-CDC。
+    - `1`：表示启用USB-CDC。
+
+
+完整可用的 platformio.ini 配置:
+```
+[env:esp32-c3-devkitm-1]
+platform = espressif32
+board = esp32-c3-devkitm-1
+framework = arduino
+board_build.flash_mode = dio
+board_build.extra_flags =
+-D ARDUINO_USB_MODE=1
+-D ARDUINO_USB_CDC_ON_BOOT=0
+debug_tool = esp-builtin
+upload_protocol = esptool
+monitor_speed = 115200
+```
+
+某些仿的 ESP32-C3 开发板（非合宙官方）可以尝试 `board = airm2m_core_esp32c3`
+
+对于没有 UART 转串口，只通过 USB CDC 烧录的开发板，实际上也可以通过 USB 传输串口数据。需要设置 `CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG`：
+```ini
+[env:airm2m_core_esp32c3]
+platform = espressif32
+board = airm2m_core_esp32c3
+framework = arduino
+upload_protocol = esptool
+board_build.extra_flags =
+  -D ARDUINO_USB_MODE=1
+  -D ARDUINO_USB_CDC_ON_BOOT=1
+  -D CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=1
+monitor_speed = 115200
+```
+
+`ARDUINO_USB_CDC_ON_BOOT` 可以实现上电自动打开 CDC，否则需要手动在按住 BOOT 的情况下按 RST 来进入 CDC 下载模式。
+
+> 注意如果程序运行时也通过 pinMode 更新了 IO18 和 IO19 的功能，那他们就会变成普通 GPIO，没法使用 CDC。
+
+参考：https://community.platformio.org/t/broken-esp32-c3-config-build-after-moving-to-arduino-esp32-v2-0-0-rc1/22817/14

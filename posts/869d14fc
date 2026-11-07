@@ -1,0 +1,52 @@
+```lua
+--WebView上传文件 格式优化版，不含 when
+--Source: Adam·Eva Modify: jies辰
+require "import"
+
+import "android.app.Activity"
+import "android.net.Uri"
+
+uiManager=activity.getUiManager()
+webView=uiManager.getCurrentFragment().getWebView()
+
+import "android.webkit.WebChromeClient"
+webView.setWebChromeClient(luajava.override(WebChromeClient,{
+  onShowFileChooser=function(_,view,valueCallback,fileChooserParams)
+    --print(view, valueCallback, fileChooserParams)
+    uploadFile=valueCallback
+    activity.startActivityForResult(fileChooserParams.createIntent(),1)
+    return true
+  end,
+}))
+
+onActivityResult=function(requestCode,resultCode,intent)
+  if resultCode==Activity.RESULT_CANCELED and uploadFile
+    uploadFile.onReceiveValue(nil)
+  end
+  local results
+  if resultCode==Activity.RESULT_OK
+    if not uploadFile or type(uploadFile)=="number"
+      return
+    end
+    if intent
+      local dataString=intent.dataString
+      local clipData=intent.clipData
+      if clipData
+        results=Uri[clipData.itemCount]
+        for i=0,clipData.itemCount-1
+          local item=clipData.getItemAt(i)
+          results[i]=item.uri
+        end
+      end
+      if dataString
+        results=Uri[1]
+        results[0]=Uri.parse(dataString)
+      end
+    end
+  end
+  if results
+    uploadFile.onReceiveValue(results)
+    uploadFile=nil
+  end
+end
+```

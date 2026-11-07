@@ -1,0 +1,13 @@
+```lua
+import "java.security.MessageDigest"
+function md5Count(str)
+  stringBuffer=StringBuffer()
+  bytes=MessageDigest.getInstance("md5").digest(String(str).getBytes())
+  for k,n in ipairs(luajava.astable(bytes)) do
+    temp=Integer.toHexString(n&255)
+    if #temp==1 then stringBuffer.append("0") end
+    stringBuffer.append(temp)
+  end
+  return stringBuffer
+end
+```

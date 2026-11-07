@@ -1,0 +1,104 @@
+## 简介
+
+### 优点
+
+Telegram 提供有一个 _Instant View_ 功能，会在支持的网站的链接预览下面显示一个 Instant View 的按钮，中文一般叫即时预览，就是这个
+
+![即时预览按钮](https://cdn.jiecs.top/img/2022/10/Screenshot_2022-10-14-20-19-42-359_nekox.messenger.webp)
+
+点开之后能**瞬间**看到文章全部内容，没有任何等待，图片加载和格式也十分优雅。不需要跳转到浏览器，等待浏览器启动，再加载网页之类的，所有内容缓存在 Telegram 服务器上。体验连贯很多。只是浏览内容一定程度上也比打开网络更安全
+
+如果格式不完整或需要进行互动比如点赞评论这种，用户也可以点菜单的“使用其它应用打开”直接跳转浏览器
+
+![使用其它应用打开](https://cdn.jiecs.top/img/2022/10/Screenshot_2022-10-14-20-26-15-058_nekox.messenger-edit.webp)
+
+另外，在点入的正文中还能添加你的频道传送条
+
+![加入 杰出兽的小宇宙 频道](https://cdn.jiecs.top/img/2022/10/Screenshot_2022-10-14-20-40-51-966_nekox.messenger-edit.webp)
+
+用户没有加入该频道时会显示蓝色的 _加入_ 按钮，点进去直接跳转你的频道，能起到一定程度的引流作用
+
+### 缺点
+
+但实际上这个即时预览是需要开发者/网站方主动适配的，官网的介绍在[此处](https://instantview.telegram.org)。不适配则只会读取 `meta` 标签中的一些内容显示一小段预览文本，没有“即时预览”按钮
+
+而且你的适配不是对网站进行操作（比如像 PWA 一样加个 manifest），而是要在 Telegram 的后台管理界面上操作，整套后端代码也**不是开源的**。甚至就算你全做好了也没法让大家都用上你的配置，你只能在自己的频道或其它地方发 t.me 链接 `https://t.me/iv?url=https%3A%2F%2Fwww.jiecs.top&rhash=abcdefg`。要想别人直接发你的网站链接就有即时预览**要发起申请**，但我估计短时间这玩意绝对申请不到的
+
+另外，链接预览处图片**不支持 Webp**，虽然它 png、jpg 甚至视频都支持但就是不支持 Webp，直接不显示。即时预览里外都不支持 Webp，而且只要你文章里有任何一张它加载不出的图片就都没有即时预览按钮，Webp 如今作为已经广泛使用的高性能压缩格式这玩意不原生支持就很蛋疼（但本文会介绍解决办法）
+
+## 适配
+
+### 添加模板
+
+但总之这玩意还是有用的，就算频道根本没人看自己看着也舒服，大大滴提升体验
+
+这玩意的配置文件说是配置文件，实际上几乎就是一套高级编程语言，有常规的分支循环、变量、数据类型、输出，针对 DOM 元素支持 `append` `remove` 等操作，相当复杂。Telegram 官方提供了完整的配置编写[文档](https://instantview.telegram.org/docs)和配置[演示](https://instantview.telegram.org/samples)
+
+你要先到 _My Templates_ 里输入自己的网站的链接创建模板和页面。这里注意链接要是你网站的任何一篇文章，可以选格式丰富的一篇，添加好之后之后是可以直接适配全部文章的
+
+### 配置文件
+
+这里提供一下我的配置文件
+
+```yaml
+~allowed_origin: "https://www.jiecs.top"
+?path: /archives/.+
+@replace("^https://cdn.jiecs.top", "https://images.weserv.nl/?output=png&default=www.jiecs.top/img/loading.gif&url=blog-cdn-jiesou.vercel.app"): //img[contains(@src, ".webp")]/@src
+@replace("^https://cdn.jiecs.top", "https://images.weserv.nl/?output=png&url=blog-cdn-jiesou.vercel.app"): //meta[@property="og:image"][contains(@content, ".webp")]/@content
+title: //a[has-class("navbar-brand")]>storng
+author: "Jiecs"
+author_url:"https://www.jiecs.top/about/"
+channel: "@jiecsChannel"
+body: //div[has-class("markdown-body")]
+cover: //meta[@property="og:image"]/@content
+```
+
+#### 指定路径范围
+
+其中 `?path` 即对作用路径范围的限定
+
+`path` 后面是正则，例如我的文章链接是 `https://www.jiecs.top/archives/xxxx`，匹配它的正则就是 `/archives/.+`。[文档](https://instantview.telegram.org/docs#path)
+
+你在模板上添加的页面链接与此处配置不相干，那个页面链接只是让你照着那个链接开发，不是限定只能应用于那个链接。添加不同的页面就是添加不同的配置，同一模板可以作用于不同页面，`rhash` 也是相同的
+
+#### 关于前缀
+
+然后 `~allowed_origin` 以波浪 `~` 开头，表示它是个选项（option）。有不加和 `$@~?!` 之类的前缀，[文档](https://instantview.telegram.org/docs#types-of-rules)都有介绍，比如上面 `?path` 的问号即表示如果这个成立才执行下面的部分
+
+至于 `allowed_origin` 的含义则很明显了，[文档](https://instantview.telegram.org/docs#supported-options)
+
+#### 支持 Webp
+
+然后下面一大串以 `@replace` 开头的代码就是在解决上文提到的不支持 Webp 问题。<https://images.weserv.nl> 是一个开源的图片代理镜像服务，它不仅能代理图片，还能调整大小、样式之类的，也能转换格式。直接访问链接有详细的文档和介绍，我用到了 [output](https://images.weserv.nl/docs/format.html#output) 设置输出的格式，和 [default](https://images.weserv.nl/docs/format.html#default-image) 设置当请求失败时返回的默认图片，防止因一张图片挂了，导致整篇文章都没有即时预览
+
+还有它的 CDN 的 Cloudflare，虽然国内访问比较慢，但给 Telegram 的服务器肯定还是没问题的
+
+`@replace` 是 Telegram Instant View 提供的函数，[文档](https://instantview.telegram.org/docs#replace)，我用它图片链接把开头的 `https://cdn.jiecs.top` 替换成 images.weserv.nl 的链接。这里还把域名换成了 `blog-cdn-jiesou.vercel.app`，和 `cdn.jiecs.top` 是一样的，就是不知道为啥 images.weserv.nl 请求不到我的 `cdn.jiecs.top`
+
+下面的 `img[contains(@src, ".webp")]` 就是匹配所有 `src` 属性中包含 `.webp` 字符串的 `img` 元素（不用 `end-with` 是考虑到部分图片有 URL Query）。后面的 `/@src` 表示让 `@replace` 替换该元素的 `src` 属性
+
+下面重复了一遍代码，用 `meta[@property="og:image"]` 匹配替换封面图片，同理
+
+#### XPath
+
+除此之外，`//` 双斜杠开头的是 XPath 查询符，可以用来指定标题等，这里 Telegram 对 XPath 进行了一些加强，[文档](https://instantview.telegram.org/docs#extended-xpath)。比如 [`has-class`](https://instantview.telegram.org/docs#has-class) 会自动把 class 按空格分开（正常情况 XPath 是严格按照属性匹配的）。元素查询不支持 CSS 选择器
+
+#### 版本
+
+还有就是版本问题，正常情况应该要加个 `~version: "2.1"` 的，现在 2.1 是最新。但 2.0 开始把内部 `simplify` 函数~~优化~~了下，我的博客用上了就各种问题。反正不填版本默认 1.0 也能用
+
+### 在 Telegram 上查看
+
+最后，点击右上角 _VIEW IN TELEGRAM_
+
+![编辑器概览](https://cdn.jiecs.top/img/2022/10/IMG_20221014_215658.webp)
+
+会跳转到 Telegram 分享链接，分享到收藏夹提取出其中的 `rhash` 即可，链接就是 `https://t.me/iv?url=xxx&rhash=xxx`，其中 url 需要全部 url 编码
+
+## 成果
+
+![频道中的文章都能直接点开](https://cdn.jiecs.top/img/2022/10/Screenshot_2022-10-14-22-07-32-014_nekox.messenger-edit.webp)
+
+还有这里频道的同步要编码 URL，用[之前介绍的 IFTTT](https://www.jiecs.top/archives/abfb43e/) 可能不行。我是用的 Cloudflare Workers，搭配我的 [RssTelegramForwarder](https://github.com/jiesou/Workers-RssTelegramForwarder) 修改
+
+我的频道在下方 Follow 页可以找到，就是简单的同步通知频道

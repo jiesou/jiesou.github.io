@@ -1,0 +1,57 @@
+## 资料
+
+### 方老师
+
+AGM的最新版下载，需要的可以更新下 Supra下载
+https://pan.baidu.com/s/1Q-bA_pe8GVpRWMpeICmQaQ?pwd=1234 提取码：1234 (下载最新版)
+
+AGM MCU SDK下载: 链接:
+https://pan.baidu.com/s/17bp-zAnsYRuVMRTSSVHN5A?pwd=12ej 提取码:12ej （下载最新版本）
+> MCU部分的开发必须要装SDK，注意这个SDK大概率会把原先VSCode上PlatformIO的环境破坏掉
+
+了解AG32： 1. AG32开发最新文档汇总 网盘
+https://pan.baidu.com/s/1wcBnqnray7bu4IURDIoDDQ?pwd=1205 
+### 海振远
+https://hizyuan.com
+https://item.taobao.com/item.htm?abbucket=0&id=1090362165670&mi_id=0000KuIqxUODdAVtG0YllmyZOjVexiXf2OxI-gFUUEkhoto&ns=1&spm=a21xtw.29978518.product_shelf.4.635468c880959Q&xxc=taobaoSearch
+这家店对应的就是深圳海振远渠道
+![image.png](https://cdn.jiecs.top/img/2026/10/1793426937880-image.webp)
+![image.png](https://cdn.jiecs.top/img/2026/10/1793426785404-image.webp)
+AG32_资料及SDK软件
+通过网盘分享的文件：AG32_资料及SDK软件
+链接: https://pan.baidu.com/s/12eE-zghS8I4kPXt1DtnyQQ 提取码: AG32
+
+---
+![0611882356c408f464f6f3562d129faa.png](https://cdn.jiecs.top/img/2026/10/1793426652467-0611882356c408f464f6f3562d129faa.webp)
+AG32 的 FPGA 部分用 WCH-Link 的 Arm 模式是可以烧录的
+不需要特定加密link
+但是注意，WCH-Link 要装驱动
+注意某些 link 要切换模式（ModeS 按钮或者短接 TX），蓝灯常亮才是 Arm 模式
+
+---
+.ve 是 AGM 独有的引脚分配文件
+AG32VF407 的引脚在 .ve 中单独配置
+每次更改都需要 Prepare Logic、Quartus 编译、Upload Logic 连招。ve 引脚是跟随 cpld 部分的。只更新 MCU 部分不行
+
+在程序一直使用过程，可能经常涉及到目录或者文件变更。我们会让你为通过Prepare之后是可以的，实际上，有很多是没有修改的。要手动修改。
+
+---
+
+https://bbs.eeworld.com.cn/thread-1310889-1-1.html
+ # 【AG32VH407开发板】CPLD项目文件更新一些问题
+ 
+ 在程序一直使用过程，可能经常涉及到目录或者文件变更。我们会让你为通过Prepare之后是可以的，实际上，有很多是没有修改的。要手动修改。
+ 
+这里列了以下几点。
+
+1、这个alta_sim.v文件不会修改目录，其他.V也是主要修改引脚定义部分。
+
+![](https://bbs.eeworld.com.cn/data/attachment/forum/202503/31/163714l1r961r2ttoaprpr.png)
+
+ 
+
+2、platformio 里面board_logic.device = AGRV2KL100，修改后，logic的example_board.proj不会修改。Supra打开还是64.只能通过手动或者删除自动重新生成。
+
+![](https://bbs.eeworld.com.cn/data/attachment/forum/202503/31/164028z9qfqzynz8cncscz.png)
+
+  ![](https://bbs.eeworld.com.cn/data/attachment/forum/202503/31/163948gd6zodzp7gsffju5.png)

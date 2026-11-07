@@ -1,0 +1,116 @@
+## 引言
+
+一般，要给手机刷个自定义 ROM，你得等你的手机制造商把内核开源，然后有别人写它的 Device Tree 等等，又有人做了移植，你才能用上各种 TWRP 啊、LineageOS 啊。自己做 Device Tree、自己编译的难度是可想而知
+
+然而，这一切很大程度上依赖你所用机型的知名程度。如果这手机没啥名气，或者手机刚出来不久，就不会有很多刷机资源。更何况，如果设备制造商不将内核开源，那更什么都别想了
+
+所幸，现在安卓有了 GSI，GSI 具体指的是 [通用系统镜像](https://developer.android.google.cn/topic/generic-system-image)。顾名思义，就是（几乎）同时适用于所有安卓设备的系统镜像，不需要说 ROM 去单独适配每个机型。如今，安卓 9 以上大多数较新的设备都已支持 GSI
+
+本教程主要是针对 Fastbootd 模式下的刷入，你一般也可以使用自定义 Recovery 来操作（视情况而定）
+
+## 选择适合的 GSI
+
+这里有一个相对全面的 GSI 列表可供选择：
+
+<https://github.com/phhusson/treble_experimentations/wiki/Generic-System-Image-%28GSI%29-list>
+
+如果这个设备没有那么冷门。建议搜索该设备的 XDA、Telegram、Discord 社区
+
+## 预备条件
+
+- 已解锁引导加载程序（BL锁）、符合 Treble 要求（支持 GSI）的安卓设备
+- 能够运行 [Android SDK Platform-Tools](https://developer.android.google.cn/studio/releases/platform-tools)（adb、fastboot）的计算机
+- 计算机能通过数据线连接并识别到该安卓设备
+- 需要刷入的 GSI 系统镜像。通常是 **img 格式**，而不是 zip 或文件夹
+- 提前**备份数据**，刷入 ROM 的操作必须双清（data、cache）。BTW：适用于原系统的备份工具很可能不适用于你将刷的新系统
+
+## 刷入 GSI
+
+### 1. 刷入底包
+
+刷入绝大多数 GSI 前你需要先保证这个设备是能**正常进入系统**的。通常建议是设备出厂自带的系统，或者是最新且相对稳定的系统。这个步骤是**必要**的，因为 GSI 镜像不包含设备需要的全部文件，而仅包含 system 分区，需要使用原先系统的字库基带、recovery 等。原先系统也被称为底包，可以使用设备制造商提供的工具（如 MiFlash）刷入
+
+### 2. 进入 Fastbootd
+
+如果设备支持 Fastbootd（绝大多数），那么 GSI 需要在 [Fastbootd](https://source.android.google.cn/docs/core/architecture/bootloader/fastbootd?hl=zh-cn) 模式下刷入，注意不是 Fastboot。
+
+设备进入 Fastboot 后，在计算机终端输入
+
+```shell
+fastboot reboot fastboot
+```
+
+设备即可进入 Fastbootd 模式，此时设备屏幕的显示可能会有些不一样，例如显示为“FASTBOOTD”。你可以通过在终端输入以下命令来验证：
+
+```shell
+fastboot getvar is-userspace
+```
+
+返回 `yes` 即 Fastbootd 模式
+
+### 3. 刷入 System
+
+在终端运行以下命令擦除原有系统分区：
+
+```shell
+fastboot erase system
+```
+
+然后运行以下命令来将 GSI 镜像刷入系统分区
+
+```shell
+fastboot flash system [镜像位置]
+```
+
+> 提示：大多数终端和系统中，你可以通过把文件拖入终端中来自动填充文件路径
+
+此步骤可能耗时较长
+
+### 4. 双清，进入系统
+
+运行以下命令来双清：
+
+```shell
+fastboot -w
+```
+
+双清即清除 data 和 dalvik(cache) 分区。也可能清除其它必要的分区中的数据。这个步骤会清除所有已安装的应用和用户数据，但不会清除 `/sdcard/`中的数据
+
+这时，应该已经能够进入系统了。你也可以运行以下命令来重启到系统：
+
+```shell
+fastboot reboot
+```
+
+享受你的新系统吧 🎉
+
+## 附加 - 使用自定义 Recovery
+
+一般来讲，要给设备刷机、ROOT 还会刷入一个自定义 Recovery，便于刷改等。但注意这部分是**可选**的，而且这部分内容只针对 [A/B 分区](https://source.android.google.cn/docs/core/ota/ab)设备
+
+A/B 分区设备没有通常意义上的 Recovery 分区，但不是完全没有。在加载 system 分区前，系统会先加载 boot 分区，而我们仍然能在 boot 分区中动手脚
+
+### 温故知新
+
+在传统非 A/B 设备上刷入 Recovery 一般使用 `fastboot flash recovery` 命令，注意指令中的 `flash` 说明这是直接将镜像*刷入*了 Recovery 分区
+
+而在 A/B 分区设备中，我们通常是用 `fastboot boot` 命令使设备临时*启动*指定的镜像文件，注意命令中没有 `flash`，这说明这个操作并不是将镜像文件刷入设备，而只是启动它
+
+这也意味着，假如你使用 `fastboot flash boot` 命令，就会将镜像彻底刷入 boot 分区。但如果你真这么做了，你就会发现设备一开机就进入 Recovery，无法进入系统。这是因为大多数自定义 Recovery 的 boot 镜像并不能接管原先的启动逻辑，而是直接将其整个替换为了 Recovery 自己
+
+### 实操
+
+你需要先找到适合你机型、安卓版本的 Recovery，Recovery 就没有类似 GSI 那种通用镜像了，但类似设备（例如处理器相同）间可能是可以通刷的
+
+注意要确认该 Recovery 是否支持 A/B 分区，支持 A/B 分区的 Recovery 通常会提供两个镜像文件，一个标注 `BOOT`，一个标注 `RECOVERY` 或类似字样。这表示了这两个镜像所要被刷入的分区，这里需要下载标注为 `BOOT` 的
+
+设备进入 Fastboot 模式，注意现在不是上文提到的 Fastbootd 了。Fastbootd 模式下功能比 Fastboot 少
+
+运行以下命令启动到于 Boot 分区的 Recovery 中：
+
+```shell
+fastboot boot [镜像位置]
+```
+ 成功后不必手动重启，因为这个操作并不是刷入
+ 
+进入 Recovery 后，高级选项中一般还会提供一个“刷入 ramdisk”或“刷入当前 TWRP”的功能。这个功能能固化 Recovery。即将当前 Recovery 分别刷入 A/B 每一分区中的 recovery 分区，然后修改系统原先的 boot 分区，使其能完成原先启动逻辑的同时，也能进入 Recovery

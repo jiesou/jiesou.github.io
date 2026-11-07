@@ -1,0 +1,118 @@
+## 为什么我在用 Termius
+
+0. **它包含在 Github Education Benfits 里**
+1. **移动支持、跨平台和同步**——主要是确实很少有别的替代。
+2. **sudo 自动输密码**——确实方便。
+3. **Telnet、串口支持**——有用，但不是每天都要用。
+4. **没有官方导出途径**——Termius 没有提供任何官方方式让你把自己的数据拿走。我甚至怀疑这有没有违反欧盟的某些个人数据法规。
+
+## Termius 为什么是垃圾
+
+首先，Termius 是事实上的付费软件，Free Tier 下你 99% 的功能都用不了。
+虽然我有 GitHub Education Benefits，不用自己掏钱。但一个 $10/月的软件，就得拿 $10/月的标准来骂。
+作为付费软件，它的体验比免费软件垃圾多了。
+
+### 网络一波动就逼我重新登录
+
+经常有这种情况：WiFi 连着，但 VPN 炸了，我得先连 OpenWrt 修一下。就这么几秒钟的事，Termius 跳出来说：
+
+> 不行，你必须先重新登录，才能重新访问你存在本地的数据。
+> 这是为了你的安全，绝对不是因为我们怀疑你试图绕过正版购买。
+
+最夸张的时候，一天能让我重新登录 5-6 次。不止启动时弹，我甚至已经连到服务器，vim 还在里面开着，它也能打断我。一个登录框直接糊上来。莫名其妙
+
+!["Unlock your vault" 就没有任何理由](https://cdn.jiecs.top/img/2026/07/1784049591970--6246946631601296268_119.webp)
+
+完全没有 Skip 的 Option。
+
+### Termius 本身，在 Linux 上是垃圾
+
+至今在 Linux 上只提供 Snap（垃圾）和 .deb 安装，Flatpak 支持靠社区，同时跟随系统深色模式根本不 work（我几年前就发过好多次工单，响应都是"we are on it!"但至今没有变化）
+
+![Termius Support](https://cdn.jiecs.top/img/2026/07/1784049816990--6246946631601296270_119.webp)
+
+Flatpak 下 keyring 存储有乱七八糟的问题，整天告诉我"for some reason 你本地的所有数据全都 gone 了"。
+
+说实话，2026 年了，你不能再跟我说"这是 Flatpak 的问题"。这就是软件开发商没有认真对待 Linux 用户的问题。
+
+!["Something went wrong"](https://cdn.jiecs.top/img/2026/07/1784049291172--6246946631601296255_119.webp)
+
+![GNOME Seahorse](https://cdn.jiecs.top/img/2026/07/1784049308858--6246946631601296254_121.webp)
+
+### AI 功能
+
+Termius 的 AI 命令生成，根本没法清晰理解一个三单词句子的意图。至今没有能用的 Agent 功能。
+
+我很赞同 gloriaops.com 的理念。Agent 应该部署在客户端，而不是在每个 树莓派/VPS 上装一份 Claude Code。gloriaops 方向是对的，但已经多久了还没法用？
+
+说实话 Termius 根本不该在 AI 领域再造轮子。它应该做一个 backed by a company 的 ssh-use MCP，然后让用户自己接入 Claude Code。
+
+### 垃圾 CRDT 同步实现
+
+我想不出任何理由，Termius 值得用 CRDT。
+这种软件不应该产生什么同步冲突，我不会在两台电脑上同时编辑一个 ssh 主机的密码！
+我相信 Last-Write-Wins 适用于 100% 的情况，
+真的遇到 101% 的情况，遇到同步冲突，你应该直接导出两个版本的数据，然后直接让用户选择覆盖，
+或者你直接把 git 提供给用户，
+无数选择都比现在的 CRDT 好太多了
+
+Termius 的工程实现，很明显是随着一个个需求的增加，而越来越屎山的鲜明例子。
+
+### 注入脚本
+
+Termius 往 shell 里注入的那些自动补全、Detect OS 脚本，写得相当粗糙。每次按 Ctrl+R 想搜历史命令，总能翻到 Termius 拉的大屎。那个自动补全蠢得爆炸——谁想要按 下箭头 触发自动补全？？
+
+### 触摸支持
+
+滑动屏幕触发上下左右？双击屏幕是 Tab？
+
+我用 Termux + OpenSSH，在远程主机上开 nvim，光标定位、滚动页面都非常自然，跟本地一样。Termius 的触摸支持相比之下就是灾难。
+
+<video controls>
+  <source src="https://gitlab.com/jiesou/Blog-Cdn/-/raw/main/img/2026/07/1784052661808-VID_20260715_011406_625.mp4" type="video/mp4">
+</video>
+
+Termius 双击是 Tab、点击触摸却不响应
+好好的触摸支持没有，往下滚动就按下键，导致的效果就是手机上和 macOS "自然滚动"一样，反地滚动。
+
+<video controls>
+  <source src="https://cdn.jiecs.top/img/2026/07/1784053566468-VID_20260715_011405_051.mp4" type="video/mp4">
+</video>
+
+我不奢求多好的移动端体验。但 Termux 作为一个"正常"的终端软件，做正常的触摸支持，就非常足够了。
+
+### 回车
+
+移动端，回车键的行为也很迷，有时是 Ctrl+J，有时是 Ctrl+H。
+
+中间不知道哪次更新就变了成了 Ctrl+J。别的地方看似没有问题，但 `nano` 里没法确认文件名：
+
+<video controls>
+  <source src="https://cdn.jiecs.top/img/2026/07/1784053802168-VID_20260715_022859_880.mp4" type="video/mp4">
+</video>
+
+没有任何警示，没有任何更新日志。隐式的行为变更是最可怕的。
+
+---
+
+Anyway，还好前人的工作已经铺好了路：
+
+- [ZacharyZcR/termius-exporter](https://github.com/ZacharyZcR/termius-exporter) —— 完成了对 Termius 加密方案和 LevelDB 格式的逆向
+- [LXiuu/termius-data-exporter](https://github.com/LXiuu/termius-data-exporter) —— 更新的 fork，支持 Termius 9.x，LevelDB 解析加身份匹配
+
+我让 LLM 加以改造：
+
+→ [YATermiusExporter](https://github.com/jiesou/YATermiusExporter)
+
+产出符合我自己需求格式的数据。
+## 新世界的方案
+
+告别 Termius 之后：
+
+- **配置管理**: 全部放进 `~/.ssh/config`，chezmoi 同步。之前困在 Termius 就是因为只有它有移动端同步，现在 Termux + OpenSSH + chezmoi 完美替代。
+- **安卓 SSH**: Termux + OpenSSH。触摸体验比 Termius 好太多，手机上 tmux、nvim 都很"native"，用过才会知道有多爽，点一下，光标就过去了，拖动也非常自然，没有滑动变翻页、双击变 Tab 的破事。
+- **Agent 集成**: 关键代码片段丢进 agent skills，LLM 自己调。可以搭好玩的东西，手机上用自然语言同时控多台机器。
+
+以上所有问题，实际上都是 Termius 的作风问题。这完全是一个靠 Mac/iOS 的傻屌付费用户支撑起来的伪公司，管理层的作风有大问题。
+
+不依赖任何封闭专有技术，体验比付费软件好得多。
