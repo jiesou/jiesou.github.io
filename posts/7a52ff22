@@ -1,0 +1,20 @@
+在我想把 exFAT 换成 ext4 的过程中遇到了太多的坑，于是在这里记录一下
+
+首先 exFAT 设计出来，就不是能被轻松调整大小的。包括 Windows 磁盘管理、GParted，甚至傲梅分区助手都没法改它大小
+常见的，只有 DiskGenius 能改大小
+
+然后我改大小，又报各种文件系统错误，不让我改，DiskGenius 自己又没法修复 exFAT 的错误
+fsck 修掉了几个问题，留下几个问题。最后就剩一个顽固的问题。就是：
+$Bitmap中有标记为已使用的未用簇
+
+Windows 的 chkdsk 也不行，说自己修好了，但总是能检查出一样的问题
+
+翻遍网络找到这个：https://www.reddit.com/r/datarecovery/comments/tbs708/comment/ipny7b5
+好像是最接近真相的
+就是
+```batch
+chkdsk X: /f /x /freeorphanedchains
+```
+结果我试了还是不行
+
+最后，参照 Reddit 里别的帖子，用 DiskGenius 的前身 PartitionGuru 解决了问题

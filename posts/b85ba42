@@ -1,0 +1,7 @@
+```lua
+--author: FusionApp 2 公测群 - jies辰
+DownloadUrl="https://domain.com/file/%E6%96%87%E4%BB%B6.bin"
+import "java.net.URLDecoder"
+FileName=URLDecoder.decode(string.sub(string.match(DownloadUrl,".*(/.+)"),2))
+print(FileName)
+```

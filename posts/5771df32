@@ -1,0 +1,17 @@
+如果是着色器编译导致
+解决办法，设置环境变量
+`__GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1`
+
+
+然而，也可能是 Resizable BAR 的兼容性问题
+即 Linux 上的 kernel lockdown 与 PCIE Resizable BAR 是冲突的 而且开启 ReBAR 反而会大幅影响性能。就反映在那种对显存需求大的游戏上（比如《Ghostrunner 2》），加载新画面会卡好久。
+同时现在 kernel lockdown 在安全启动的电脑上，都是默认开着的。所以这个问题常常被忽略
+参见：
+```bash
+$ man kernel_lockdown.7
+提示会影响：       •  The use of direct PCI BAR access.
+```
+https://www.reddit.com/r/linux_gaming/comments/v58ts5/quick_heads_up_about_something_i_discovered
+解决办法：
+关掉 UEFI/BIOS 里的 Resizable BAR
+或者关闭安全启动（关闭 kernel lockdown）

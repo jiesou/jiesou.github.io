@@ -1,0 +1,2 @@
+发现只要在页面加载时开 [vConsole](https://github.com/Tencent/vConsole)，博客的 Waline 评论模块就会加载不出，很是神奇。而且是有概率的，有时加载了 vConsole 评论也能出来，但 vConsole 的悬浮窗不显示；大多数时候加载了 vConsole 但 Waline 评论模块加载失败，vConsole 的悬浮窗就正常显示。这个问题算是折腾了我三天
+加载失败时浏览器控制台还会有报错，不过懒得贴上来了
