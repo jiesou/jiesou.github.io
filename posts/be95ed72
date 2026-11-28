@@ -1,0 +1,99 @@
+这篇文章适用于那些尝试在国内用 Google Pixel 或 LineageOS 一类 类原生 Android 系统 的用户
+
+内容包括普通应用、解决方案、Xposed 模块 和 Magisk 模块
+
+## 系统管理
+
+### 冻结应用
+
+**[雹（Hail）](https://github.com/aistra0528/Hail)** 是个不错的开源选择，支持的授权方式超级多：
+![包括 Shizuku、超级用户在内四种授权方式和各种工作模式](https://cdn.jiecs.top/img/2023/09/Screenshot_20230924-194806_雹.webp)
+
+同时也支持锁屏冻结、创建一键打开的快捷方式
+
+### 推送
+
+**[HMS Push](https://github.com/fei-ke/HMSPush)** 是一个开源的三方 HMS Push 接收客户端（Xposed 模块），可以让国产毒瘤即使被冻结也能推送消息，蛮多软件都支持。可以把 HMS Push 的作用域应用到需要推送消息的应用上，来向该应用来伪装自己是华为设备
+
+值得一提的是，HMS Push 依赖的 HMS Core 显然不开源
+
+### 垃圾清理
+
+实际上，GApps 里的 **文件极客** 自带简易的缓存清理功能，如果对目录系统比较熟悉，大可不必过多的清理软件，文件极客足以
+
+如果确实需要，那么老牌的开源清理软件 **[SD Maid](https://github.com/d4rken-org/sdmaid-se)** 会是个不错的选择
+
+如果你觉得 SD Maid 对国内的软件环境显得有点力不从心，那还可以用久负盛名的 **[清浊](https://www.dircleaner.com)** ，包含丰富的规则、功能和可定制选项。不过，清浊是*闭源*的，而且部分功能收费（买断 9.9¥）
+
+此外，还有暴力一点的选项 **[质感清理（Material Cleaner）](https://play.google.com/store/apps/details?id=me.gm.cleaner)** 。这个软件的主要功能类似 存储空间隔离，附带了垃圾清理的功能：
+![Cleaner](https://cdn.jiecs.top/img/2023/09/Screenshot_20230924-201402_Cleaner.webp)
+它的垃圾清理是直接通过关键词匹配，清理得确实很干净，就是要小心误删。需要注意的是这个软件需要 *ROOT 且闭源*，隔离存储空间的部分功能收费
+
+### 性能调优
+
+可以选择 **[yc/Uperf 模块](https://github.com/yc9559/uperf)** 调优处理器频率、能耗，该作者还有 **[Dfps 模块](https://github.com/yc9559/dfps)** ，同样实用
+
+### 数据备份
+
+Google 提供占用 Google Drive 存储空间的云备份方案。但几乎没法备份应用数据。经常刷机折腾的，一个三方备份软件很有必要
+
+**[NeoBackup](https://github.com/NeoApplications/Neo-Backup)** 就是一个很好的选择，功能多，自定义选择丰富。关键是这类三方备份应用不受 ROM 限制，可以 MIUI 上备份，原生上恢复，非常方便
+
+这类软件还有 [Migrate](https://github.com/BaltiApps/Migrate-OSS)、 Titanium Backup（闭源）等等，但 NeoBackup 算是其中最现代，最稳定好用的了
+
+## 实用工具
+
+### 日历
+
+GApps 里的 Google 日历其实已经够用了，唯一的不足就是不支持显示**中国法定节假日的调休**一类内容。实际上，Google 日历支持订阅 .ics 日程文件，所以你可以另辟蹊径导入这些信息
+
+1. 用电脑或 PC 模式打开 <https://calendar.google.com>，点右上角的设置齿轮
+2. 找到图示设置：![Google 日历设置 - 添加日历 - 通过网址添加](https://cdn.jiecs.top/img/2023/09/Screenshot_20230924-193442_Brave~2.webp)
+3. 输入 .ics 订阅网址，法定节假日的订阅在网上能找到很多，我是用这个 [lanceliao 的](https://github.com/lanceliao/china-holiday-calender)。把 放假 和 补班分成两个日历，就能设成不同颜色显示了
+4. 在 日历 应用客户端上刷新并显示新加的日历：![Google 日历](https://cdn.jiecs.top/img/2023/09/Screenshot_20230924-194100_日历.webp)
+
+另外你还能在 日历设置 - 通用 - 备用日历 里打开**农历显示**。也能根据节假日日程设置提醒，相当于**法节闹钟**的变通办法
+
+### 天气
+
+GApps 的 Google 应用里就能显示天气，然而这天气准不准先不提，UI 是真一言难尽 ![Google 天气](https://cdn.jiecs.top/img/2023/09/Screenshot_20230924-191136_Google.webp)
+
+这里推荐 **[几何天气（GeometricWeather）](https://github.com/WangDaYeeeeee/GeometricWeather)** ，基于 Material Design，可换数据源（彩云天气准确度还不错的）。需要注意的是这个软件在 Github 上目前最新 Release 还是 2022 年 6 月更新的，但 dev 分支的代码仍在*相对*积极地更新。建议下 Github Actions 产物得到最新的几何天气，如果产物过期了可以 fork 一份用自己的 Github Actions 重新构建
+
+除了此之外，还有一个基于 几何天气 的 **[Breezy Weather](https://github.com/breezy-weather/breezy-weather)** ，上架 IzzyOnDroid（F-Droid 三方存储库）。Breezy Weather 基本包含几何天气的所有功能，还有一些自己的特色，关键它仍在非常积极地更新
+
+### 应用商店
+
+GApps 中的 Play 商店其实已完全够用，但如果确实有下国内应用的需求，**酷安** 其实就已够用。唯一的问题就是可能因为酷安后端的一些问题，有时只能下到 32 位应用，建议把设置中“安装 32 位包时提示”的选项开起来：![酷安设置 - 下载安装](https://cdn.jiecs.top/img/2023/09/Screenshot_20230924-185737_酷安.webp)
+
+此外，要更新、寻找一些开源应用， F-Droid 也是不错的选择。你还可以用 F-Droid 的三方开源客户端： **[Droid-ify](https://github.com/Droid-ify/client)** ，有现代多的 UI 和许多新功能（例如通过 Shizuku 静默安装）
+
+### 输入法
+
+安卓上能用的开源输入法属实不多，这里推荐 **[Fcitx5 for Android](https://github.com/fcitx5-android/fcitx5-android)** ，没有联网功能，基本功能完备，还有些不错的特色功能，能显示 Gbroad 上那种输入法提示。提供 F-Droid 仓库下载
+
+若是想要便利大于隐私，那闭源选择还有 **[微信输入法](https://z.weixin.qq.com)** 可用。虽然微信声名狼藉，但它的输入法在原生系统上是还算不错的了，支持跟随系统的振动反馈。而 搜狗、讯飞、百度 的振动都是稀饭
+
+## 其他实用应用
+
+### InstallerX
+
+原生自带的应用包安装器已经够用了，但如果你要更多功能，可以考虑 **[InstallerX](https://github.com/iamr0s/InstallerX)** 。能降级、多用户安装，还能按照规则，搭配酷安实现*静默安装*等。需要注意的是它 Github 上的源码被归档，但仍在 Telegram 频道中更新，处于半闭源状态
+
+### AppManger
+
+**[AppManger](https://github.com/MuntashirAkon/AppManager)** 是个完全开源的应用，提供和应用管理相关的超级超级多功能
+
+按功能性来说，相当于
+
+- 0.25 个 [LibChecker](https://github.com/LibChecker/LibChecker)（库的信息不详）
+- 0.5 个 [雹](#冻结应用)（没法定时冻结）
+- 1.5 个 [Activity Manager](https://github.com/sdex/ActivityManager)（多了创建快捷方式）
+- 0.5 个 [InstallerX](#InstallerX)（没法分应用设置规则）
+- 0.75 个 [Blocker](https://github.com/lihenggui/blocker)（规则库信息不详）
+- 0.1 个 [Shizuku](https://github.com/RikkaApps/Shizuku)（其他应用没法调用）
+- 3 个 [Logra](https://github.com/wingio/Logra)（强大得多）
+- 0.75 个 [AppOps](https://appops.rikka.app)（没法自动设置规则）
+- 还有清理垃圾、反编译 dex 等等
+
+尤其是可以管理应用的各种权限，拦截跟踪器、广告

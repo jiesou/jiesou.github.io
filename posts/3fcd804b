@@ -1,0 +1,28 @@
+```lua
+--[[
+ @author jies辰
+ @description 将小鸡词典编辑器格式转换为HTML
+ 不支持 链接 和 @ 的处理
+]]
+
+chicken="小鸡词典格式转换[加粗:加粗内容] [加粗,下划线:加粗+下划线内容] [下划线:下划线内容] 纯文本内容 (). % + - * ? [ ^ $ < >"
+message=chicken:gsub("\n","<br>")
+for strs,ends,allstyle,content in chicken:gfind("%[(.-):(.-)%]")
+  for style in allstyle:gmatch("[^,]*")
+    switch style
+     case "加粗"
+      content="<b>"..content.."</b>"
+     case "下划线"
+      content="<u>"..content.."</u>"
+     case "斜体"
+      content="<i>"..content.."</i>"
+     case "划掉"
+      content="<s>"..content.."</s>"
+     case "@"
+      content=" @"..content.." "
+    end
+  end
+  message=message:gsub(chicken:sub(strs,ends):gsub("[%(%)%.%%%+%-%*%?%[%^%$%]]","%%%1"),content)
+end
+print(message)
+```

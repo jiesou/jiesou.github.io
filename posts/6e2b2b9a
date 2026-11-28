@@ -1,0 +1,41 @@
+> 参考
+> https://github.com/xifan2333/fcitx5-vinput
+> https://xifan2333.github.io/fcitx5-vinput/zh-cn/settings/#录音预热与隐私
+
+默认情况下，PipeWire 会在声卡闲置几秒后把它挂起省电。
+- **现象**：fcitx5-vinput 按语音键第一次慢，连着按很快，闲置半分钟再按又变慢，还吃开头几个字。配了 `VINPUT_CAPTURE_IDLE_DESTROY_MS=300000` 也没用，体感还是 15 秒。
+- 实际情况下：`stream_reused=1`，预热明明生效了，流根本没被销毁，慢的是设备唤醒。
+
+### 原理
+
+vinput 的录音预热只保得住自己的 PipeWire 连接（停录后保持 connected-but-inactive，宽限内下次按键走 `set_active(true)`，0ms 返回）。
+但保不住系统把麦下电：WirePlumber 的 `suspend-node` 在节点 idle 超过 `session.suspend-timeout-seconds`（默认 **5 秒**）后发 Suspend，声卡下电。
+下次按键时连接是热的，设备是冷的，恢复加音频图重启约 200ms（实测首包 `first buffer after 206 ms`，短间隔热态只有 6ms），这段没声所以吃字。
+Windows 上同类问题在 USB 选择性暂停和声卡驱动电源管理里，WASAPI 本身不这么激进。
+
+### 排查手段
+
+开 `VINPUT_DEBUG=1`（user unit 里加 `Environment=VINPUT_DEBUG=1` 后 `daemon-reload + restart`），日志看三行：
+`stream_reused=0/1`（走冷还是热路径）、`create_stream_ms`、`capture first buffer after`（设备唤醒耗时）。
+注意两个坑：daemon 日志在 journal 里的标识是 `flatpak[PID]`，`journalctl -u` 看不到，要全库 grep；外层 `bwrap` 进程 environ 是空的，要读最内层 daemon 进程的才准。
+
+## 实现
+
+1. 创建 WirePlumber 用户配置
+```
+nano ~/.config/wireplumber/wireplumber.conf.d/51-mic-no-suspend.conf
+```
+
+2. 填入（只匹配输入节点，超时延到 300 秒，和 vinput 的 5 分钟预热对齐；设成 0 为永不挂起）
+```
+monitor.alsa.rules = [
+  {
+    matches = [ { node.name = "~alsa_input.*" } ]
+    actions = { update-props = { session.suspend-timeout-seconds = 300 } }
+  }
+]
+```
+
+3. 更新应用
+`systemctl --user restart wireplumber`，用 `pw-dump` 确认节点多了 `session.suspend-timeout-seconds = 300`。
+代价是麦克风闲置时不再下电，台式机无感，笔记本会多耗一点电。

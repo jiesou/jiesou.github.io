@@ -1,0 +1,56 @@
+思路参考 btrfs-assistant
+## 准备
+`fdisk -l` 检查你的 btrfs 分区在 /dev 的位置，接下来以 `/dev/nvme1n1p3` btrfs 分区为例
+
+## 操作
+1. 临时挂载 btrfs 顶层根
+```bash
+sudo mkdir -p /mnt/btrfsroot
+sudo mount -t btrfs -o subvolid=5 /dev/nvme1n1p3 /mnt/btrfsroot
+```
+这样可以 live 修改
+> 修改的同时内核挂载的 `/var` 完全感知不到，已打开的文件描述符、dentry 缓存、mount 表都不受影响。内核挂载是绑定在 subvolid 上的，不是绑定在路径字符串上的。
+
+2. 临时 mv 到 `_backup_restore`
+```bash
+sudo mv /mnt/btrfsroot/@var /mnt/btrfsroot/@var_backup_restore
+```
+> 由于 snapshot 的时候嵌套 subvolume 不会自动处理，所以这里需要先 mv 一下，这样可以保留里面的嵌套 subvolume
+
+3. 执行恢复
+```bash
+sudo btrfs subvolume snapshot \
+/mnt/btrfsroot/@var_backup_restore/.snapshots/before-niri \
+/mnt/btrfsroot/@var
+```
+---
+接下来如果要恢复 home也是一样
+1. 临时 mv 到 `_backup_restore`
+```bash
+sudo mv /mnt/btrfsroot/@home/mnt/btrfsroot/@home_backup_restore
+```
+2. 执行恢复
+```bash
+sudo btrfs subvolume snapshot \
+/mnt/btrfsroot/@home_backup_restore/.snapshots/before-niri \
+/mnt/btrfsroot/@home
+```
+
+---
+### 嵌套 subvolume 的处理
+这里以 SWAP 为例：
+```bash
+# 一般已经有一个空的 Stub 了，就删掉
+sudo rmdir /mnt/btrfsroot/@var/swap
+sudo mv /mnt/btrfsroot/@var_backup_restore/swap /mnt/btrfsroot/@var/swap
+```
+
+## 收尾
+```bash
+sync
+sudo umount /mnt/btrfsroot
+reboot
+```
+
+确认没问题尽快重启
+因为重启前系统运行时对 `/var` 的所有写入都进入了旧的子卷（现在叫 `..._backup_restore`），不会出现在恢复后的 `var` 里。

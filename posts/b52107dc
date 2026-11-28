@@ -1,0 +1,141 @@
+## 定位
+- G431 / C0 / C6
+	- **L6230**
+	- **DRV8316** 8A 大电流+高集成
+- RP2354A 将考虑作为方案B
+	- 内置flash
+	- 参考设计： https://github.com/rbmakers/RP2354A-Flight-Controller
+- 无限指尖陀螺类似 https://oshwhub.com/sun1053/esp32c3-de-foc-dian-ji-xuan-niu
+- 盘式无刷电机关键词
+### 机架
+- FPV 型
+	- GEPRC MARK4 MARK5 7寸机架
+	- DJI F450
+- 非 FPV 超小涵道圈圈机
+	- 大通 diatone
+		- C3
+		- MXC3
+	- 大黄蜂BumbleBee V3
+	- Mobula7 1.6寸
+		- https://www.happymodel.cn/index.php/2022/01/20/happymodel-mobula7-1s-micro-fpv-whoop-drone/
+	- Mobula8 2寸
+	- Protek25 2寸
+	- BetaFPV
+		- Pavo Femto
+		- Meteor75 / Meteor65
+			- 三方设计： https://makerworld.com.cn/zh/models/2031332-tinywhoop-ji-jia-meteor-75-pro?from=search#profileId-2266258
+			- https://betafpv.com/products/meteor75-brushless-whoop-quadcopter-1s
+			- https://item.taobao.com/item.htm?id=875237136468&skuId=5879400859740
+			- Matrix 1S AIO
+				- 三合一版本十字架形，需要搭配 DJI O4 数字图传
+				- 四合一版本十字架形，模拟图传
+				- 五合一另一个版本胖一点
+		 ![](https://cdn.jiecs.top/img/2026/04/1775719963631-image.webp)
+		 ![440](https://img.alicdn.com/imgextra/i1/2208413422775/O1CN01wCAV401WN06saWkPS_!!2208413422775.jpg_.webp)
+		![882](https://cdn.jiecs.top/img/2026/04/1776687019342-image.webp)
+		正面，上侧
+		https://youtu.be/enWZdqV9JQQ?t=1025
+		![709](https://cdn.jiecs.top/img/2026/04/1776687042272-image.webp)背面，下侧
+		https://youtu.be/enWZdqV9JQQ?t=950
+		https://detail.tmall.com/item.htm?id=709678635849 Matrix ELRS 2.4G 版本
+			![](https://cdn.jiecs.top/img/2026/04/1775727852152-image.webp)
+### 三相无刷驱动FOC
+- 目标：
+	- 2S/3S 小涵道 1.6 寸无人机
+	- 低电压，考虑 USB 5V 开发
+	- 兼无限指尖陀螺
+	- 必须兼，兼很重要
+	- 无人机那部分不需要特别高上限，能离地即可。但也要起码能离地，力争悬停。
+		- 无人机不需要位置检测，电流环就够了
+	- 主要考虑标注 **经典** 的方案，因为别的芯片几乎都很贵很难买到
+- 驱动方案比较
+	- 高度集成
+		- DRV8316 很强，5V，8A，很贵
+			- 电流采样、Buck 都集成了
+	- 集成 FET
+		- DRV8311 小电压 5A
+			- https://oshwhub.com/will_t/drv8311h
+			- QFN侧边引脚很少
+		- DRV8313 **超级经典**，8V 起步，3A
+			- Expert电子实验室 https://oshwhub.com/expert/bu-zu-bai-yuan-de-simplefoc-wu-shua-dian-ji-qu-dong-ban
+			- https://oshwhub.com/lleo_wh/cat-foc-qu-dong-ban
+		- L6234PD013TR 7V 5A
+			- https://oshwhub.com/zdldcyy/l6234-shuang-lu-wu-shua-qu-dong_esp32-kuo-zhan-ban
+		- MP6536 国产，5V，5A
+			- https://oshwhub.com/nokia82/mini_balancecar
+	- 外挂 FET
+		- FD6288 **很经典** 5V 起步 新纶电子 0.88 一颗 1.5-1.8A
+			- https://oshwhub.com/wwwqq.com/foc-xue-xi-ban-2-0
+			- https://oshwhub.com/maxgustav/mdriver_copy
+		- DRV8301 odrive 经典，6V 起步，集成电流采样
+			- https://oshwhub.com/wu95/design-of-stm32g431-brushless-mo
+		- DRV8303 类似，6V 起步
+			- https://oshwhub.com/a1804889557/ODRIVE3.5-DRV8303
+		- DRV8305 备选 4.4V 起步，集成电流采样，大体积
+		- FD2204 驱动能力弱一点
+		- EG2133 **很经典** 4.5V 新纶电子 0.35 一颗 1.2-1.4A
+			- https://oshwhub.com/45coll/a2fff3c71f5d4de2b899c64b152d3da5
+			- DRV8300/FD6288D 兼容
+		- FD6288Q 很经典，Q 是 QFN，布不下只能用这个
+- 主控
+	- STM32G431
+		- 经典设计 https://oshwhub.com/lleo_wh/cat-foc-qu-dong-ban
+- 电流采样
+	- G431 内置 3 个 OPAMP 4 个比较器 2 个 ADC，多通道数量不知道够不够？ *不够*
+	- INA199 小体积
+	- INA240
+- BB51这种一般也有反电动势无感采样
+	- 需要UVW电压都接ADC/比较器上
+- 缓冲P
+	- SN74HC244
+- 位置
+	- AS5600
+- IMU
+	- BMI270？低功耗不会影响性能
+	- MPU6050
+	- MPU6000 or ICM20689 or BMI270
+	- ICM42688P 8kHZ
+	- 地磁仪气压计不考虑三合一，独立设计即可：SPL06+IST8310
+- Buck 基本只有 MCU 需要，电流需求不大，那就 LDO
+- 电调目标 10-20A
+- 飞控
+	- https://oshwhub.com/mooncake_g/moonpilot MoonPilot
+	- https://oshwhub.com/guanglun/gldrone_blheli_esc GLDrone
+	- https://oshwhub.com/fgdfhdr/blheli-s-dian-diao-kai-yuan-gong-cheng 四合一大佬的电调
+	- https://oshwhub.com/hljjmsr/flyingrc-at32-am32-v2-1 AM33
+	- https://oshwhub.com/temperslee_t/esc_m030 CH32
+		- 我的方案考虑：
+			- STM32F405
+			- ESP32 PICO (可以 microROS) / 8285
+- 电调
+	- Bluejay 固件 傻瓜六步PWM
+	- AM32 固件高级一些
+	- 传入DShot
+- 四合一
+	- https://oshwhub.com/fgdfhdr/si-ge-yi-pcb
+- https://item.taobao.com/item.htm?id=955641241646
+- 位置控制不要忘记
+- MOS选择：
+	- 双NMOS+适合半桥：上下分的 S1 D2 相连封装 POWER33 / POWER3333：
+		- **XRS30J03D** 已经买了
+		- 安森美
+			- FDMC7200S
+			- FDMC8200S
+		- 威世
+			- SIZ200DT
+			- SiZ350DT
+			- SiZ348DT
+			- SIZ340DT
+		- 奇特封装：
+			- CSD87330Q3D
+			- SIA517DJ
+		- 其他：
+			- BSG0811ND
+			- AONE36132
+	- 双NMOS不适合半桥：
+		- 各种 306D，是双N，但 S1 D2 距离远
+	- 1N+1P：
+		- AGM210MAP 完美，但是 P 反向，完全不能搭配常规预驱如 EG2133
+		- SIA517DJ 2x2 封装（丝印 EEW）很经典
+	- 单 NMOS 6 个管子
+		- 类 AO，DFN 封装一堆，布不下
